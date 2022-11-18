@@ -45,9 +45,6 @@ export default {
   ],
   EXAMPLE_SLIDER_TEXT: [
     'vib.io',
-    'Exactly.com',
-    'Luresome.com',
-    'Galore.com',
     'Dazzlia.com',
     'Overview.com',
     'GladAble.com',
@@ -56,12 +53,15 @@ export default {
     'upzin.com',
     'SurePawz.com',
     'CityScroll.com',
+    'Exactly.com',
+    'Luresome.com',
+    'Galore.com',
   ],
   FEEDBACK_SLIDER_TEXT: [
     {
       name: 'Lynne',
       feedback: 'Fantastic experience...so incredibly helpful. '
-                + 'I never could have come up with such a great name on my own!',
+              + 'I never could have come up with such a great name on my own!',
     },
     {
       name: 'remad24',

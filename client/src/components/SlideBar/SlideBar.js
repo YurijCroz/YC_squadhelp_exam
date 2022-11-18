@@ -33,10 +33,7 @@ const SliderBar = (props) => {
       case carouselConstants.MAIN_SLIDER: {
         return Object.keys(props.images).map((key, index) => (
           <div key={index} className={style['carousel-cell']}>
-            <img
-              src={props.images[key]}
-              alt="slide"
-            />
+            <img src={props.images[key]} alt="slide" />
           </div>
         ));
       }
@@ -46,7 +43,6 @@ const SliderBar = (props) => {
             <img src={props.images[key]} alt="slide" />
             <p>{carouselConstants.EXAMPLE_SLIDER_TEXT[index]}</p>
           </div>
-
         ));
       }
       case carouselConstants.FEEDBACK_SLIDER: {
@@ -67,8 +63,8 @@ const SliderBar = (props) => {
       options={options}
     >
       {
-                renderSlides()
-            }
+        renderSlides()
+      }
     </Flickity>
   );
 };
