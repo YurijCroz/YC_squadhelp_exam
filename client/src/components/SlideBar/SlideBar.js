@@ -32,12 +32,12 @@ const SliderBar = (props) => {
     switch (carouselType) {
       case carouselConstants.MAIN_SLIDER: {
         return Object.keys(props.images).map((key, index) => (
-          <img
-            src={props.images[key]}
-            alt="slide"
-            key={index}
-            className={style['carousel-cell']}
-          />
+          <div key={index} className={style['carousel-cell']}>
+            <img
+              src={props.images[key]}
+              alt="slide"
+            />
+          </div>
         ));
       }
       case carouselConstants.EXAMPLE_SLIDER: {
