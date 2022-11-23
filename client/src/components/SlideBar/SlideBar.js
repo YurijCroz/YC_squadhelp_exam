@@ -32,26 +32,26 @@ const SliderBar = (props) => {
     switch (carouselType) {
       case carouselConstants.MAIN_SLIDER: {
         return Object.keys(props.images).map((key, index) => (
-          <div key={index} className={style['carousel-cell']}>
+          <article key={index} className={style['carousel-cell']}>
             <img src={props.images[key]} alt="slide" />
-          </div>
+          </article>
         ));
       }
       case carouselConstants.EXAMPLE_SLIDER: {
         return Object.keys(props.images).map((key, index) => (
-          <div className={style['example-cell']} key={index}>
+          <article className={style['example-cell']} key={index}>
             <img src={props.images[key]} alt="slide" />
             <p>{carouselConstants.EXAMPLE_SLIDER_TEXT[index]}</p>
-          </div>
+          </article>
         ));
       }
       case carouselConstants.FEEDBACK_SLIDER: {
         return Object.keys(props.images).map((key, index) => (
-          <div className={style['feedback-cell']} key={index}>
+          <article className={style['feedback-cell']} key={index}>
             <img src={props.images[key]} alt="slide" />
             <p>{carouselConstants.FEEDBACK_SLIDER_TEXT[index].feedback}</p>
             <span>{carouselConstants.FEEDBACK_SLIDER_TEXT[index].name}</span>
-          </div>
+          </article>
         ));
       }
     }

@@ -41,7 +41,7 @@ class RegistrationForm extends React.Component {
         valid: styles.valid,
       };
       return (
-        <div className={styles.signUpFormContainer}>
+        <section className={styles.signUpFormContainer}>
           {error && (
           <Error
             data={error.data}
@@ -49,14 +49,14 @@ class RegistrationForm extends React.Component {
             clearError={authClear}
           />
           )}
-          <div className={styles.headerFormContainer}>
+          <section className={styles.headerFormContainer}>
             <h2>
               CREATE AN ACCOUNT
             </h2>
             <h4>
               We always keep your name and email address private.
             </h4>
-          </div>
+          </section>
           <Formik
             initialValues={{
               firstName: '',
@@ -72,7 +72,7 @@ class RegistrationForm extends React.Component {
             validationSchema={Schems.RegistrationSchem}
           >
             <Form>
-              <div className={styles.row}>
+              <section className={styles.row}>
                 <FormInput
                   name="firstName"
                   classes={formInputClasses}
@@ -85,8 +85,8 @@ class RegistrationForm extends React.Component {
                   type="text"
                   label="Last name"
                 />
-              </div>
-              <div className={styles.row}>
+              </section>
+              <section className={styles.row}>
                 <FormInput
                   name="displayName"
                   classes={formInputClasses}
@@ -99,8 +99,8 @@ class RegistrationForm extends React.Component {
                   type="text"
                   label="Email Address"
                 />
-              </div>
-              <div className={styles.row}>
+              </section>
+              <section className={styles.row}>
                 <FormInput
                   name="password"
                   classes={formInputClasses}
@@ -113,8 +113,8 @@ class RegistrationForm extends React.Component {
                   type="password"
                   label="Password confirmation"
                 />
-              </div>
-              <div className={styles.choseRoleContainer}>
+              </section>
+              <section className={styles.choseRoleContainer}>
                 <Field
                   name="role"
                   type="radio"
@@ -133,8 +133,8 @@ class RegistrationForm extends React.Component {
                   component={RoleInput}
                   id={CONSTANTS.CREATOR}
                 />
-              </div>
-              <div className={styles.termsOfService}>
+              </section>
+              <section className={styles.termsOfService}>
                 <AgreeTermOfServiceInput
                   name="agreeOfTerms"
                   classes={{
@@ -145,7 +145,7 @@ class RegistrationForm extends React.Component {
                   type="checkbox"
                 />
 
-              </div>
+              </section>
               <button
                 type="submit"
                 disabled={submitting}
@@ -155,7 +155,7 @@ class RegistrationForm extends React.Component {
               </button>
             </Form>
           </Formik>
-        </div>
+        </section>
       );
     }
 }

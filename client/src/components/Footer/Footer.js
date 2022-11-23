@@ -4,10 +4,10 @@ import CONSTANTS from '../../constants';
 
 class Footer extends Component {
     topFooterItemsRender = (item) => (
-      <div key={item.title}>
+      <nav key={item.title}>
         <h4>{item.title}</h4>
         {item.items.map((i) => <a key={i} href="https://google.com">{i}</a>)}
-      </div>
+      </nav>
     );
 
     topFooterRender() {
@@ -16,13 +16,13 @@ class Footer extends Component {
 
     render() {
       return (
-        <div className={styles.footerContainer}>
-          <div className={styles.footerTop}>
-            <div>
+        <footer className={styles.footerContainer}>
+          <section className={styles.footerTop}>
+            <section>
               {this.topFooterRender()}
-            </div>
-          </div>
-        </div>
+            </section>
+          </section>
+        </footer>
       );
     }
 }

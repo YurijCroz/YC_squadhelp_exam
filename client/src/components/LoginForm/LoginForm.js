@@ -29,7 +29,7 @@ class LoginForm extends React.Component {
       };
 
       return (
-        <div className={styles.loginForm}>
+        <section className={styles.loginForm}>
           {error && (
           <Error
             data={error.data}
@@ -72,7 +72,7 @@ class LoginForm extends React.Component {
               </button>
             </Form>
           </Formik>
-        </div>
+        </section>
       );
     }
 }

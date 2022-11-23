@@ -8,6 +8,7 @@ import {
   clearUserStore,
   headerRequest,
 } from "../../actions/actionCreator";
+import Logo from "../Logo";
 
 class Header extends React.Component {
   componentDidMount() {
@@ -30,7 +31,7 @@ class Header extends React.Component {
     if (this.props.data) {
       return (
         <>
-          <div className={styles.userInfo}>
+          <section className={styles.userInfo}>
             <img
               src={
                 this.props.data.avatar === "anon.png"
@@ -75,7 +76,7 @@ class Header extends React.Component {
                 <span onClick={this.logOut}>Logout</span>
               </li>
             </ul>
-          </div>
+          </section>
           <img
             src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`}
             className={styles.emailIcon}
@@ -101,35 +102,29 @@ class Header extends React.Component {
       return null;
     }
     return (
-      <div className={styles.headerContainer}>
-        <div className={styles.fixedHeader}>
+      <header className={styles.headerContainer}>
+        <section className={styles.fixedHeader}>
           <span className={styles.info}>
             Squadhelp recognized as one of the Most Innovative Companies by Inc
             Magazine.
           </span>
           <a href="http://www.google.com">Read Announcement</a>
-        </div>
-        <div className={styles.loginSignnUpHeaders}>
-          <div className={styles.numberContainer}>
+        </section>
+        <section className={styles.loginSignnUpHeaders}>
+          <section className={styles.numberContainer}>
             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt="phone" />
-            <span>
-              <a href={`tel:${CONSTANTS.CONTACTS.TEL}`}>
+            <a href={`tel:${CONSTANTS.CONTACTS.TEL}`}>
                 {CONSTANTS.CONTACTS.TEL}
-              </a>
-            </span>
-          </div>
-          <div className={styles.userButtonsContainer}>
+            </a>
+          </section>
+          <section className={styles.userButtonsContainer}>
             {this.renderLoginButtons()}
-          </div>
-        </div>
-        <div className={styles.navContainer}>
-          <img
-            src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
-            className={styles.logo}
-            alt="blue_logo"
-          />
-          <div className={styles.leftNav}>
-            <div className={styles.nav}>
+          </section>
+        </section>
+        <section className={styles.navContainer}>
+          <Logo />
+          <article className={styles.leftNav}>
+            <nav className={styles.nav}>
               <ul>
                 <li>
                   <span>NAME IDEAS</span>
@@ -266,18 +261,18 @@ class Header extends React.Component {
                   </ul>
                 </li>
               </ul>
-            </div>
+            </nav>
             {this.props.data && this.props.data.role !== CONSTANTS.CREATOR && (
-              <div
+              <section
                 className={styles.startContestBtn}
                 onClick={this.startContests}
               >
                 START CONTEST
-              </div>
+              </section>
             )}
-          </div>
-        </div>
-      </div>
+          </article>
+        </section>
+      </header>
     );
   }
 }

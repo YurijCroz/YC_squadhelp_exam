@@ -12,22 +12,22 @@ const RegistrationPage = (props) => {
   props.clearError();
 
   return (
-    <div className={styles.signUpPage}>
-      <div className={styles.signUpContainer}>
-        <div className={styles.headerSignUpPage}>
+    <main className={styles.signUpPage}>
+      <section className={styles.signUpContainer}>
+        <section className={styles.headerSignUpPage}>
           <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`} />
-          <div className={styles.linkLoginContainer}>
+          <section className={styles.linkLoginContainer}>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <span>Login</span>
             </Link>
-          </div>
-        </div>
+          </section>
+        </section>
         <RegistrationForm history={props.history} />
-      </div>
-      <div className={styles.footer}>
+      </section>
+      <section className={styles.footer}>
         <ArticlesRegList />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

@@ -8,24 +8,24 @@ import { clearErrorSignUpAndLogin } from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
 
 const LoginPage = (props) => (
-  <div className={styles.mainContainer}>
-    <div className={styles.loginContainer}>
-      <div className={styles.headerSignUpPage}>
+  <main className={styles.mainContainer}>
+    <section className={styles.loginContainer}>
+      <section className={styles.headerSignUpPage}>
         <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`} alt="logo" />
-        <div className={styles.linkLoginContainer}>
+        <section className={styles.linkLoginContainer}>
           <Link
             to="/registration"
             style={{ textDecoration: 'none' }}
           >
             <span>Signup</span>
           </Link>
-        </div>
-      </div>
-      <div className={styles.loginFormContainer}>
+        </section>
+      </section>
+      <section className={styles.loginFormContainer}>
         <LoginForm history={props.history} />
-      </div>
-    </div>
-  </div>
+      </section>
+    </section>
+  </main>
 );
 
 const mapDispatchToProps = (dispatch) => ({
