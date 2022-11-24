@@ -34,11 +34,19 @@
 
   &:last-child
     margin-right: 0
+  
+  @media (max-width: 720px)
+
 
   @media screen and (max-width: 768px)
+    &:last-child
+      margin-right: 30px
     max-width: 100%
-    margin: 40px
+    margin: 30px
 
   @media screen and (max-width: 414px)
+    &:last-child
+      margin-right: 15px
+    margin: 15px
     p
       margin-right: 10px
