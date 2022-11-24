@@ -10,19 +10,21 @@ import carouselConstants from "../../carouselConstants";
 import Spinner from "../../components/Spinner/Spinner";
 import SpreadCards from "../../components/SpreadCards/SpreadCards.jsx";
 import cardsContent from "./cardsContent.json";
+import FlexibleContainer from "../../components/FlexibleContainer/FlexibleContainer.jsx";
+import flexibleContent from "./flexibleContent.json";
 
 const Home = (props) => {
   const [index, setIndex] = useState(0);
-  const [styleName, setStyle] = useState(styles.headline__static);
+  const [styleName, setStyleName] = useState(styles.headline__static);
   let timeout;
 
   useEffect(() => {
     timeout = setInterval(() => {
       setIndex(index + 1);
-      setStyle(styles.headline__isloading);
+      setStyleName(styles.headline__isloading);
     }, 3000);
     return () => {
-      setStyle(styles.headline__static);
+      setStyleName(styles.headline__static);
       clearInterval(timeout);
     };
   });
@@ -65,7 +67,7 @@ const Home = (props) => {
             </section>
             <article className={styles.container__description}>
               <h2 className={styles.blueUnderline}>Why Squadhelp?</h2>
-              <SpreadCards cards={cardsContent}/>
+              <SpreadCards cards={cardsContent} />
             </article>
             <article className={styles.greyContainer}>
               <section className={styles.adv}>
@@ -116,82 +118,20 @@ const Home = (props) => {
               </section>
             </article>
             <h2>How Do Name Contest Work?</h2>
-            <section className={styles.whiteContainer}>
-              <section className={styles.stepReverse}>
-                <article>
-                  <h3>Step 1: Launch a Naming Contest</h3>
-                  <p>
-                    <i className="fas fa-check" />
-                    <span>
-                      Start your project right with our proven Naming Brief
-                      template
-                    </span>
-                  </p>
-                  <p>
-                    <i className="fas fa-check" />
-                    <span>
-                      We’ll walk you through exactly what you need to share
-                      about your project in order to get an awesome Name
-                    </span>
-                  </p>
-                </article>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/1-compressed.gif`}
-                  alt="compressed"
-                />
-              </section>
-            </section>
-            <section className={styles.greenContainer}>
-              <section className={styles.step}>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/2-compressed-new.gif`}
-                  alt="compressed"
-                />
-                <article className={styles.greenStep}>
-                  <h3>Step 2: Ideas start pouring in within minutes</h3>
-                  <p>
-                    <i className="fas fa-check" />
-                    <span>
-                      100s of naming experts start submitting name ideas
-                    </span>
-                  </p>
-                  <p>
-                    <i className="fas fa-check" />
-                    <span>
-                      Names automatically checked for URL availability
-                    </span>
-                  </p>
-                </article>
-              </section>
-            </section>
-            <section className={styles.greyContainer}>
-              <section className={styles.stepReverse}>
-                <article>
-                  <h3>Step 3: Rate Entries & Brainstorm with Creatives</h3>
-                  <p>
-                    <i className="fas fa-check" />
-                    <span>Provide instant feedback on Names</span>
-                  </p>
-                  <p>
-                    <i className="fas fa-check" />
-                    <span>
-                      Send private feedback or public messages to all creatives
-                    </span>
-                  </p>
-                  <p>
-                    <i className="fas fa-check" />
-                    <span>
-                      The more entries you rate - the submissions get better and
-                      better
-                    </span>
-                  </p>
-                </article>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/3-compressed.gif`}
-                  alt="compressed"
-                />
-              </section>
-            </section>
+            <FlexibleContainer
+              content={flexibleContent.stepOne}
+              rowReverse={true}
+            />
+            <FlexibleContainer
+              content={flexibleContent.stepTwo}
+              backgroundColor={"#28D2D0"}
+              color={"white"}
+            />
+            <FlexibleContainer
+              content={flexibleContent.stepThree}
+              backgroundColor={"#FAFAFA"}
+              rowReverse={true}
+            />
             <article className={styles.headerBar}>
               <h3>Names For Sale</h3>
               <p className={styles.blueUnderline}>
