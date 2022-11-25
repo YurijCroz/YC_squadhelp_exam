@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Header from "../../components/Header/Header";
@@ -12,28 +12,9 @@ import SpreadCards from "../../components/SpreadCards/SpreadCards.jsx";
 import cardsContent from "./cardsContent.json";
 import FlexibleContainer from "../../components/FlexibleContainer/FlexibleContainer.jsx";
 import flexibleContent from "./flexibleContent.json";
+import AnimationText from "./AnimationText";
 
-const Home = (props) => {
-  const [index, setIndex] = useState(0);
-  const [styleName, setStyleName] = useState(styles.headline__static);
-  let timeout;
-
-  useEffect(() => {
-    timeout = setInterval(() => {
-      setIndex(index + 1);
-      setStyleName(styles.headline__isloading);
-    }, 3000);
-    return () => {
-      setStyleName(styles.headline__static);
-      clearInterval(timeout);
-    };
-  });
-
-  const { isFetching } = props;
-  const text =
-    CONSTANTS.HEADER_ANIMATION_TEXT[
-      index % CONSTANTS.HEADER_ANIMATION_TEXT.length
-    ];
+const Home = ({ isFetching }) => {
   return (
     <>
       <Header />
@@ -45,7 +26,7 @@ const Home = (props) => {
             <article className={styles.headerBar}>
               <section className={styles.headline}>
                 <span>Find the Perfect Name for</span>
-                <span className={styleName}>{text}</span>
+                <AnimationText />
               </section>
               <p>
                 Launch a naming contest to engage hundreds of naming experts as
