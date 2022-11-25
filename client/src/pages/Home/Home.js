@@ -41,10 +41,12 @@ const Home = ({ isFetching }) => {
               </div>
             </article>
             <section className={styles.greyContainer}>
-              <SlideBar
-                images={carouselConstants.mainSliderImages}
-                carouselType={carouselConstants.MAIN_SLIDER}
-              />
+              <div style={{ position: "relative" }}>
+                <SlideBar
+                  images={carouselConstants.mainSliderImages}
+                  carouselType={carouselConstants.MAIN_SLIDER}
+                />
+              </div>
             </section>
             <article className={styles.container__description}>
               <h2 className={styles.blueUnderline}>Why Squadhelp?</h2>
@@ -122,10 +124,12 @@ const Home = ({ isFetching }) => {
                 Logo design
               </p>
             </article>
-            <SlideBar
-              images={carouselConstants.exampleSliderImages}
-              carouselType={carouselConstants.EXAMPLE_SLIDER}
-            />
+            <div style={{ position: "relative" }}>
+              <SlideBar
+                images={carouselConstants.exampleSliderImages}
+                carouselType={carouselConstants.EXAMPLE_SLIDER}
+              />
+            </div>
             <section className={styles.button}>
               <Link className={styles.button__link} to="/dashboard">
                 DASHBOARD
@@ -133,10 +137,12 @@ const Home = ({ isFetching }) => {
             </section>
             <article className={styles.blueContainer}>
               <h2 className={styles.whiteUnderline}>What our customers say</h2>
-              <SlideBar
-                images={carouselConstants.feedbackSliderImages}
-                carouselType={carouselConstants.FEEDBACK_SLIDER}
-              />
+              <div style={{ position: "relative" }}>
+                <SlideBar
+                  images={carouselConstants.feedbackSliderImages}
+                  carouselType={carouselConstants.FEEDBACK_SLIDER}
+                />
+              </div>
             </article>
           </main>
           <Footer />

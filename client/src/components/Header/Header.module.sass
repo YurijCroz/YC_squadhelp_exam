@@ -19,6 +19,8 @@
 
     a
       align-self: flex-end
+    
+    .logo
       @media(max-width: 920px)
         display: none
 
@@ -67,6 +69,7 @@
             align-items: center
             justify-content: flex-start
             margin-right: 30px
+            position: relative
             @media(max-width: 700px)
               width: 100%
               padding: 0 15px
@@ -80,10 +83,11 @@
                 position: absolute
                 border: 1px solid #eee
                 z-index: 1000
-                top: 130px
+                top: 35px
+                left: -15px
                 background-color: white
                 @media(max-width: 700px)
-                  top: auto
+                  top: -5px
                   left: 145px
 
             ul
@@ -105,11 +109,14 @@
                 display: flex
                 justify-content: flex-start
 
+                @media(max-width: 700px)
+                  padding: 20px 5px
+
                 &:hover
                   background: #f9fafb
 
                 a
-                  font-size: 12px
+                  font-size: 15px
                   text-decoration: none
                   color: #333
 
