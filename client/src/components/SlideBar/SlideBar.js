@@ -11,7 +11,7 @@ const SliderBar = (props) => {
     pageDots: false,
     prevNextButtons: true,
     autoPlay: true,
-    groupCells: true,
+    initialIndex: 1,
     lazyLoad: true,
   };
 
