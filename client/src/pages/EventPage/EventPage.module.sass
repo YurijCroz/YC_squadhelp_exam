@@ -1,0 +1,92 @@
+main
+  *, *:before, *:after
+    box-sizing: border-box
+
+@mixin flex-column-center
+  display: flex
+  align-items: center
+  flex-direction: column
+
+$backColorMain: #f7f7f7
+
+main
+  @include flex-column-center
+  background-color: #fdfbfb
+
+  .formContainer
+    @include flex-column-center
+    height: 300px
+    width: 800px
+    border: 2px solid #eee
+    border-radius: 5px
+    margin: 20px
+    background-color: $backColorMain
+    padding: 10px
+
+    h2
+      font-size: 30px
+
+  .eventContainer
+    height: 500px
+    width: 800px
+    border: 2px solid #eee
+    border-radius: 5px
+    margin: 20px
+    padding: 0 30px
+    background-color: $backColorMain
+
+    .headerDisplay
+      padding: 0 10px 0 10px
+      height: 60px
+      display: flex
+      justify-content: space-between
+      align-items: center
+
+      h3
+        font-size: 26px
+
+      div
+        display: flex
+        align-items: center
+
+        i
+          font-size: 30px
+          margin: 0 10px
+  
+    .eventDisplay
+      border: 2px solid #eee
+      border-radius: 5px
+      height: 400px
+      width: 100%
+      display: flex
+      flex-direction: column
+      border-radius: 5px
+      overflow: scroll
+
+//****************************************
+
+.animationBlock
+  height: 50px
+  width: 100%
+  background-color: #00c5211f
+  border-radius: 5px
+  position: relative
+  margin-bottom: 5px
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 20px 20px
+
+  p
+    position: relative
+    z-index: 1
+    font-size: 18px
+
+  .worm
+    position: absolute
+    background-color: #00c52156
+    height: 100%
+    //width: 50%
+    border-radius: 5px
+    top: 0
+    left: 0
