@@ -12,19 +12,10 @@ $backColorMain: #f7f7f7
 main
   @include flex-column-center
   background-color: #fdfbfb
+  overflow: hidden
+  @media screen and (max-width: 850px)
+    padding: 20px
 
-  .formContainer
-    @include flex-column-center
-    height: 300px
-    width: 800px
-    border: 2px solid #eee
-    border-radius: 5px
-    margin: 20px
-    background-color: $backColorMain
-    padding: 10px
-
-    h2
-      font-size: 30px
 
   .eventContainer
     height: 500px
@@ -34,6 +25,8 @@ main
     margin: 20px
     padding: 0 30px
     background-color: $backColorMain
+    @media screen and (max-width: 850px)
+      width: 100%
 
     .headerDisplay
       padding: 0 10px 0 10px
@@ -52,7 +45,9 @@ main
         i
           font-size: 30px
           margin: 0 10px
-  
+
+
+
     .eventDisplay
       border: 2px solid #eee
       border-radius: 5px
@@ -81,12 +76,18 @@ main
     position: relative
     z-index: 1
     font-size: 18px
+    white-space: nowrap
+
+  .title
+    width: 70%
+    overflow: hidden
+    text-overflow: ellipsis
 
   .worm
     position: absolute
     background-color: #00c52156
     height: 100%
-    //width: 50%
+    // width: 50%
     border-radius: 5px
     top: 0
     left: 0

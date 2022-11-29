@@ -1,17 +1,16 @@
-import React from 'react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import { Field, Form, Formik } from 'formik';
-import styles from './EventPage.module.sass';
+import React from "react";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import styles from "./EventPage.module.sass";
+import EventForm from "../../components/EventForm/EventForm.jsx";
 
 function EventPage() {
+
   return (
     <>
-      <Header/>
+      <Header />
       <main>
-        <section className={styles.formContainer}>
-          <h2>Add event:</h2>
-        </section>
+        <EventForm/>
         <section className={styles.eventContainer}>
           <section className={styles.headerDisplay}>
             <h3>Live upcomming checks</h3>
@@ -23,15 +22,17 @@ function EventPage() {
           <section className={styles.eventDisplay}>
             <div className={styles.animationBlock}>
               <div className={styles.worm}></div>
-              <p>Server uptime check on hosting provider</p>
+              <p className={styles.title}>
+                Server uptime check on hosting provider
+              </p>
               <p>6m 18s</p>
             </div>
           </section>
         </section>
       </main>
-      <Footer/>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default EventPage
+export default EventPage;
