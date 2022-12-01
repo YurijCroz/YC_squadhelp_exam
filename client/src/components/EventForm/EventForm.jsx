@@ -54,7 +54,7 @@ function EventForm({setIsFetching}) {
             <span>Date and Time Event:</span>
             <Field type="datetime-local" name="deadLine" min={dateNow()} required/>
           </label>
-          <button type="submit">Send data</button>
+          <button type="submit">Send Event</button>
         </Form>
       </Formik>
     </section>

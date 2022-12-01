@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  format,
-  getHours,
-  getSeconds,
-  addSeconds,
-  differenceInSeconds,
-} from "date-fns";
+import { format, addSeconds, differenceInSeconds } from "date-fns";
 import styles from "./EventAnimationBlock.module.sass";
 
 function EventAnimationBlock({ event, setIsFetching }) {
@@ -19,11 +13,6 @@ function EventAnimationBlock({ event, setIsFetching }) {
   const regFormatDis = "yyyy MM dd HH mm ss";
 
   const reset = () => {
-    const local = JSON.parse(localStorage.getItem("event"));
-    const newLocal = local.filter(
-      (event) => differenceInSeconds(new Date(event.deadLine), nowDate) >= 1
-    );
-    localStorage.setItem("event", JSON.stringify(newLocal));
     setIsFetching(true);
     setIsRun(false);
   };
@@ -37,13 +26,13 @@ function EventAnimationBlock({ event, setIsFetching }) {
   };
 
   useEffect(() => {
-    let id;
+    let interval;
     if (isRun) {
-      id = setInterval(() => {
+      interval = setInterval(() => {
         setNowDate(addSeconds(nowDate, 1));
       }, 1000);
     }
-    return () => clearInterval(id);
+    return () => clearInterval(interval);
   });
 
   useEffect(() => {

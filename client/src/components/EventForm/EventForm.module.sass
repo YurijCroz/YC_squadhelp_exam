@@ -3,7 +3,7 @@
   align-items: center
   flex-direction: column
 
-$backColorMain: #f7f7f7
+$backColorMain: #fdfdfd
 
 .formContainer
   @include flex-column-center
@@ -14,24 +14,33 @@ $backColorMain: #f7f7f7
   margin: 20px
   background-color: $backColorMain
   padding: 10px
+
   @media screen and (max-width: 850px)
     width: 100%
+  @media screen and (max-width: 480px)
+    margin: 10px 5px
+    height: 250px
 
   .formEvent
     @include flex-column-center
     height: 100%
     justify-content: space-evenly
 
-
     label
       @include flex-column-center
 
       input
         height: 50px
-        width: 280px
+        max-width: 280px
         font-size: 18px
         border-radius: 5px
         padding: 10px
 
+        @media screen and (max-width: 480px)
+          height: 35px
+          padding: 5px
+
   h2
     font-size: 30px
+    @media screen and (max-width: 480px)
+      font-size: 24px
