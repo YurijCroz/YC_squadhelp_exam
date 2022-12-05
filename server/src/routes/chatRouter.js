@@ -67,3 +67,5 @@ chatRouter.post(
   checkToken.checkToken,
   chatController.getCatalogs
 );
+
+module.exports = chatRouter;

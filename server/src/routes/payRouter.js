@@ -23,3 +23,6 @@ payRouter.post(
   basicMiddlewares.onlyForCreative,
   userController.cashout
 );
+
+
+module.exports =  payRouter;

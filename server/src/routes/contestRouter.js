@@ -38,3 +38,6 @@ contestRouter.post(
   upload.updateContestFile,
   contestController.updateContest
 );
+
+
+module.exports = contestRouter;

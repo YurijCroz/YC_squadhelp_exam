@@ -46,3 +46,5 @@ usersRouter.post(
   upload.uploadAvatar,
   userController.updateUser
 );
+
+module.exports = usersRouter;
