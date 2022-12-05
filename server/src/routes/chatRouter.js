@@ -11,8 +11,8 @@ chatRouter.post(
 );
 
 chatRouter.post("/getChat",
-    checkToken.checkToken,
-    chatController.getChat
+  checkToken.checkToken,
+  chatController.getChat
 );
 
 chatRouter.post(
