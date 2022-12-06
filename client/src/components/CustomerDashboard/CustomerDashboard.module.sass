@@ -1,14 +1,15 @@
 .mainContainer
   width: 1200px
-  margin: 0 auto
-  margin-top: 50px
+  margin: 50px auto
   display: flex
   flex-direction: row
   justify-content: flex-start
   @media(max-width: 1400px)
-    width: auto
+    width: 100%
   @media(max-width: 1000px)
     flex-direction: column
+  @media(max-width: 700px)
+    margin: 0 auto
 
   .errorContainer
     margin: 0 auto
@@ -43,12 +44,16 @@
     align-items: flex-start
     background-color: white
     margin-bottom: 15px
+    @media(max-width: 1400px)
+      margin-right: 25px
     @media(max-width: 1000px)
       padding-top: 10px
       flex-direction: row
       margin-right: 0
       justify-content: center
-      height: 80px
+      height: 60px
+    @media(max-width: 700px)
+
 
     .filter
       margin-top: 15px
@@ -58,8 +63,9 @@
       font-size: 18px
       border-radius: 10px
       padding: 10px
+      cursor: pointer
       @media(max-width: 1000px)
-        height: 20px
+        height: fit-content
         margin: 0 5px
 
       &:hover
@@ -75,6 +81,7 @@
       padding: 10px
       background-color: #4e618d
       color: white
+      user-select: none
       @media(max-width: 1000px)
-        height: 20px
+        height: fit-content
         margin: 0 5px

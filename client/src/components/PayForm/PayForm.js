@@ -142,9 +142,9 @@ const PayForm = (props) => {
         </button>
         {isPayForOrder
                 && (
-                <div onClick={() => props.back()} className={styles.backButton}>
+                <button onClick={() => props.back()} className={styles.backButton}>
                   <span>Back</span>
-                </div>
+                </button>
                 )}
       </div>
     </div>
