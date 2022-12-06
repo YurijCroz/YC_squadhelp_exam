@@ -8,7 +8,7 @@ mongoose.connect(
   `mongodb://${ config.host }:${ config.port }/${ config.database }`,
   { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) {
-      console.log(err);
+      console.log('ERoRR=>',err);
       process.exit(1);
     }
 

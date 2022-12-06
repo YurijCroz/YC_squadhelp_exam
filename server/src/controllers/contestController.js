@@ -1,4 +1,12 @@
-const db = require('../models');
+const {
+  Sequelize,
+  sequelize ,
+  Select,
+  Contest,
+  Offer,
+  User,
+  Rating
+} = require('../models');
 const ServerError =require('../errors/ServerError');
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
@@ -13,10 +21,10 @@ module.exports.dataForContest = async (req, res, next) => {
     console.log(req.body, characteristic1, characteristic2);
     const types = [characteristic1, characteristic2, 'industry'].filter(Boolean);
 
-    const characteristics = await db.Selects.findAll({
+    const characteristics = await Select.findAll({
       where: {
         type: {
-          [ db.Sequelize.Op.or ]: types,
+          [ Sequelize.Op.or ]: types,
         },
       },
     });
@@ -38,14 +46,14 @@ module.exports.dataForContest = async (req, res, next) => {
 
 module.exports.getContestById = async (req, res, next) => {
   try {
-    let contestInfo = await db.Contests.findOne({
+    let contestInfo = await Contest.findOne({
       where: { id: req.headers.contestid },
       order: [
-        [db.Offers, 'id', 'asc'],
+        [Offer, 'id', 'asc'],
       ],
       include: [
         {
-          model: db.Users,
+          model: User,
           required: true,
           attributes: {
             exclude: [
@@ -57,7 +65,7 @@ module.exports.getContestById = async (req, res, next) => {
           },
         },
         {
-          model: db.Offers,
+          model: Offer,
           required: false,
           where: req.tokenData.role === CONSTANTS.CREATOR
             ? { userId: req.tokenData.userId }
@@ -65,7 +73,7 @@ module.exports.getContestById = async (req, res, next) => {
           attributes: { exclude: ['userId', 'contestId'] },
           include: [
             {
-              model: db.Users,
+              model: User,
               required: true,
               attributes: {
                 exclude: [
@@ -77,7 +85,7 @@ module.exports.getContestById = async (req, res, next) => {
               },
             },
             {
-              model: db.Ratings,
+              model: Rating,
               required: false,
               where: { userId: req.tokenData.userId },
               attributes: { exclude: ['userId', 'offerId'] },
@@ -156,7 +164,7 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
 const resolveOffer = async (
   contestId, creatorId, orderId, offerId, priority, transaction) => {
   const finishedContest = await contestQueries.updateContestStatus({
-    status: db.sequelize.literal(`   CASE
+    status: sequelize.literal(`   CASE
             WHEN "id"=${ contestId }  AND "orderId"='${ orderId }' THEN '${ CONSTANTS.CONTEST_STATUS_FINISHED }'
             WHEN "orderId"='${ orderId }' AND "priority"=${ priority +
     1 }  THEN '${ CONSTANTS.CONTEST_STATUS_ACTIVE }'
@@ -165,10 +173,10 @@ const resolveOffer = async (
     `),
   }, { orderId }, transaction);
   await userQueries.updateUser(
-    { balance: db.sequelize.literal('balance + ' + finishedContest.prize) },
+    { balance: sequelize.literal('balance + ' + finishedContest.prize) },
     creatorId, transaction);
   const updatedOffers = await contestQueries.updateOfferStatus({
-    status: db.sequelize.literal(` CASE
+    status: sequelize.literal(` CASE
             WHEN "id"=${ offerId } THEN '${ CONSTANTS.OFFER_STATUS_WON }'
             ELSE '${ CONSTANTS.OFFER_STATUS_REJECTED }'
             END
@@ -203,7 +211,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
     }
   } else if (req.body.command === 'resolve') {
     try {
-      transaction = await db.sequelize.transaction();
+      transaction = await sequelize.transaction();
       const winningOffer = await resolveOffer(req.body.contestId,
         req.body.creatorId, req.body.orderId, req.body.offerId,
         req.body.priority, transaction);
@@ -216,14 +224,14 @@ module.exports.setOfferStatus = async (req, res, next) => {
 };
 
 module.exports.getCustomersContests = (req, res, next) => {
-  db.Contests.findAll({
+  Contest.findAll({
     where: { status: req.headers.status, userId: req.tokenData.userId },
     limit: req.body.limit,
     offset: req.body.offset ? req.body.offset : 0,
     order: [['id', 'DESC']],
     include: [
       {
-        model: db.Offers,
+        model: Offer,
         required: false,
         attributes: ['id'],
       },
@@ -244,14 +252,14 @@ module.exports.getCustomersContests = (req, res, next) => {
 module.exports.getContests = (req, res, next) => {
   const predicates = UtilFunctions.createWhereForAllContests(req.body.typeIndex,
     req.body.contestId, req.body.industry, req.body.awardSort);
-  db.Contests.findAll({
+  Contest.findAll({
     where: predicates.where,
     order: predicates.order,
     limit: req.body.limit,
     offset: req.body.offset ? req.body.offset : 0,
     include: [
       {
-        model: db.Offers,
+        model: Offer,
         required: req.body.ownEntries,
         where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
         attributes: ['id'],
