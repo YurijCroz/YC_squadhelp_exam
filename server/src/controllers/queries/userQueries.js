@@ -25,6 +25,7 @@ module.exports.findUser = async (predicate, transaction) => {
 };
 
 module.exports.userCreation = async (data) => {
+  data.balance = 0;
   const newUser = await User.create(data);
   if (!newUser) {
     throw new ServerError("server error on user creation");

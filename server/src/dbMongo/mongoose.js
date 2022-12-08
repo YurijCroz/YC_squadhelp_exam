@@ -8,12 +8,12 @@ mongoose.connect(
   `mongodb://${ config.host }:${ config.port }/${ config.database }`,
   { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) {
-      console.log('ERoRR=>',err);
+      console.log(err);
       process.exit(1);
+    } else {
+      console.log("Connection with mongo db is success!!! ");
     }
-
   });
-
 mongoose.set('debug', env === 'development');
 
-module.exports = mongoose;
+module.exports = mongoose.connection;
