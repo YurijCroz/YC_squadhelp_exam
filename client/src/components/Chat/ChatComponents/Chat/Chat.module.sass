@@ -21,27 +21,30 @@
     margin-bottom: 10px
 
     .button
+      user-select: none
       cursor: pointer
       border-top-left-radius: 6px
       border-top-right-radius: 6px
       flex: 1
       background-color: #d6d1d1
+      border: 0.5px solid #d6d1d1
       display: flex
       align-items: center
       justify-content: center
       height: 25px
+      box-sizing: border-box
+      font-size: 14px
 
       &:hover
-        box-sizing: border-box
-        border: 0.5px solid #d6d1d1
         background-color: #f3f3f3
 
     .activeButton
-      transition: margin 0.1s
-      margin: 0 -5px
+      transition: 0.1s
       color: white
-      z-index: 500
+      z-index: 400
       background-color: #4e618d
+      border: 0.5px solid #4e618d
+      cursor: unset
 
       &:hover
         background-color: #4e618d
@@ -50,13 +53,14 @@
         margin-right: 0
 
   .chatHeader
-    height: 50px
+    height: 55px
     background-color: #4e618d
     display: flex
     align-items: center
     justify-content: center
     border-bottom: 1px solid #f3f3f3
     z-index: 600
+    box-sizing: border-box
 
     img
       width: 120px
@@ -64,18 +68,20 @@
   .toggleChat
     cursor: pointer
     position: absolute
-    top: 28px
+    top: 31px
     right: -62px
     -webkit-transform: rotate(90deg)
     transform: rotate(90deg)
-    background-color: #8aca6b
+    background-color: #8bca6bc0
     padding: 6px
     box-sizing: border-box
     border-top-right-radius: 8px
     width: 90px
     border-top-left-radius: 8px
-    color: white
+    color: #ffffffb7
     text-align: center
+    &:hover
+      background-color: #8aca6b
 
 .showChat
   left: 0

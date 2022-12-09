@@ -65,7 +65,11 @@ const DialogList = (props) => {
         arrayList.push(dialogNode);
       }
     });
-    return arrayList.length ? arrayList : <span className={styles.notFound}>Not found</span>;
+    return arrayList.length ? arrayList : <span className={styles.notFound}>{
+      chatMode === CONSTANTS.FAVORITE_PREVIEW_CHAT_MODE 
+        ?"You don't have any favorites" 
+        :"You don't have people on the blacklist"
+      }</span>;
   };
 
   const renderChatPreview = () => {

@@ -30,8 +30,8 @@ const ChatHeader = (props) => {
   const { backToDialogList, chatData, userId } = props;
   return (
     <div className={styles.chatHeader}>
-      <div className={styles.buttonContainer} onClick={() => backToDialogList()}>
-        <img src={`${CONSTANTS.STATIC_IMAGES_PATH}arrow-left-thick.png`} alt="back" />
+      <div className={styles.buttonContainer}>
+      <i className="fas fa-long-arrow-alt-left" onClick={() => backToDialogList()}/>
       </div>
       <div className={styles.infoContainer}>
         <div>

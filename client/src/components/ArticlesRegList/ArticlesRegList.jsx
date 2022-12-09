@@ -1,6 +1,6 @@
 import articles from './articles.json';
 import React from 'react';
-import styles from "./RegistrationPage.module.sass";
+import styles from "./ArticlesRegList.module.sass";
 import CONSTANTS from '../../constants';
 
 function ArticlesRegList() {

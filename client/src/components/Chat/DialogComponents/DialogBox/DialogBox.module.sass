@@ -15,10 +15,8 @@
     justify-content: space-between
     flex: 1
     align-items: flex-start
-    padding: 0 15px
-    padding-right: 10px
+    padding: 0 0 0 10px
     overflow: hidden
-    padding-bottom: 5px
 
     .buttonsContainer
       align-self: center
@@ -27,15 +25,24 @@
       align-items: center
 
       .time
+        font-size: 14px
+        font-weight: 300
         margin-right: 10px
+        max-width: 50px
+        overflow: hidden
+        text-overflow: ellipsis
+
 
       i
+        width: 20px
         margin-right: 5px
         font-size: 16px
         transition: font-size 0.2s ease
+        box-sizing: border-box
+        text-align: center
 
         &:hover
-          font-size: 20px
+          font-size: 17px
           color: red
           transition: font-size 0.2s ease
 
@@ -54,17 +61,19 @@
         white-space: nowrap
         text-overflow: ellipsis
         color: grey
-        font-size: 15px
-        width: 65px
+        font-size: 14px
+        font-weight: 300
+        max-width: 70px
+        margin-top: 2px
 
       .interlocutorName
         overflow: hidden
         white-space: nowrap
         text-overflow: ellipsis
         color: #6b8ab1
-        width: 65px
+        max-width: 70px
         font-weight: 500
-        font-size: 16px
+        font-size: 14px
 
   img
     border-radius: 50%

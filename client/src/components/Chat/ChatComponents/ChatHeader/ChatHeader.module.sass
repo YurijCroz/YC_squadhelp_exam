@@ -1,5 +1,5 @@
 .chatHeader
-  height: 50px
+  height: 55px
   background-color: #4e618d
   display: flex
   justify-content: flex-start
@@ -7,7 +7,7 @@
   border-bottom: 1px solid #f3f3f3
   box-sizing: border-box
   z-index: 600
-  padding-left: 15px
+  padding-left: 10px
 
   .buttonContainer
     display: flex
@@ -15,12 +15,23 @@
     align-items: center
     cursor: pointer
 
+    i
+      cursor: pointer
+      width: 24px
+      font-size: 24px
+      color: white
+      transition: font-size 0.2s
+
+      &:hover
+        transition: font-size 0.2s
+        font-size: 26px
+
   .infoContainer
     flex: 1
     display: flex
     justify-content: space-between
     align-items: center
-    margin-left: 15px
+    margin-left: 5px
 
     div
       display: flex
@@ -29,15 +40,17 @@
       align-items: center
 
       &:last-child
-        margin-right: 15px
+        margin-right: 5px
 
       i
+        width: 18px
         margin-right: 10px
         font-size: 18px
         transition: font-size 0.2s ease
+        cursor: pointer
 
         &:hover
-          font-size: 22px
+          font-size: 20px
           color: red
           transition: font-size 0.2s ease
 
@@ -54,7 +67,8 @@
         width: 100px
         color: white
         font-size: 18px
-        font-weight: 500
-        margin-left: 12px
+        font-weight: 400
+        margin-left: 5px
+        cursor: default
 
 

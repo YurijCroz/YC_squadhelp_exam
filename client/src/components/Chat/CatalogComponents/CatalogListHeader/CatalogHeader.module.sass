@@ -1,5 +1,5 @@
 .headerContainer
-  height: 50px
+  height: 55px
   background-color: #4e618d
   display: flex
   align-items: center
@@ -7,6 +7,7 @@
   padding-left: 15px
   border-bottom: 1px solid #f3f3f3
   z-index: 600
+  box-sizing: border-box
 
   button
     border: none
@@ -17,13 +18,14 @@
 
   i
     cursor: pointer
+    width: 24px
     font-size: 24px
     color: white
     transition: font-size 0.2s
 
     &:hover
       transition: font-size 0.2s
-      font-size: 28px
+      font-size: 26px
 
   .infoContainer
     margin-left: 25px
@@ -33,9 +35,10 @@
     span
       font-size: 18px
       color: white
+      user-select: none
 
     i
-      font-size: 12px
+      font-size: 13px
       transition: font-size 0.2s
       margin-left: 5px
 
