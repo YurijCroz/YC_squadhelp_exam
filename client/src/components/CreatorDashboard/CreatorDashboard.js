@@ -200,11 +200,11 @@ class CreatorDashboard extends React.Component {
     const { error, haveMore, creatorFilter } = this.props;
     const { isFetching } = this.props.dataForContest;
     return (
-      <div className={styles.mainContainer}>
-        <div className={styles.filterContainer}>
+      <main className={styles.mainContainer}>
+        <aside className={styles.filterContainer}>
           <span className={styles.headerFilter}>Filter Results</span>
-          <div className={styles.inputsContainer}>
-            <div
+          <section className={styles.inputsContainer}>
+            <section
               onClick={() =>
                 this.changePredicate({
                   name: "ownEntries",
@@ -216,12 +216,12 @@ class CreatorDashboard extends React.Component {
               })}
             >
               My Entries
-            </div>
-            <div className={styles.inputContainer}>
+            </section>
+            <section className={styles.inputContainer}>
               <span>By contest type</span>
               {this.renderSelectType()}
-            </div>
-            <div className={styles.inputContainer}>
+            </section>
+            <section className={styles.inputContainer}>
               <span>By contest ID</span>
               <input
                 type="text"
@@ -235,14 +235,14 @@ class CreatorDashboard extends React.Component {
                 value={creatorFilter.contestId}
                 className={styles.inputText}
               />
-            </div>
+            </section>
             {!isFetching && (
-              <div className={styles.inputContainer}>
+              <section className={styles.inputContainer}>
                 <span>By industry</span>
                 {this.renderIndustryType()}
-              </div>
+              </section>
             )}
-            <div className={styles.inputContainer}>
+            <section className={styles.inputContainer}>
               <span>By amount award</span>
               <select
                 onChange={({ target }) =>
@@ -257,13 +257,13 @@ class CreatorDashboard extends React.Component {
                 <option value="desc">Descending</option>
                 <option value="asc">Ascending</option>
               </select>
-            </div>
-          </div>
-        </div>
+            </section>
+          </section>
+        </aside>
         {error ? (
-          <div className={styles.messageContainer}>
+          <section className={styles.messageContainer}>
             <TryAgain getData={this.tryLoadAgain} />
-          </div>
+          </section>
         ) : (
           <ContestsContainer
             isFetching={this.props.isFetching}
@@ -274,7 +274,7 @@ class CreatorDashboard extends React.Component {
             {this.setContestList()}
           </ContestsContainer>
         )}
-      </div>
+      </main>
     );
   }
 }

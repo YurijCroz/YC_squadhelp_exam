@@ -33,44 +33,44 @@ const UserProfile = (props) => {
     clearPaymentStore,
   } = props;
   return (
-    <div>
+    <>
       <Header />
-      <div className={styles.mainContainer}>
-        <div className={styles.aside}>
+      <main className={styles.mainContainer}>
+        <aside className={styles.aside}>
           <span className={styles.headerAside}>Select Option</span>
-          <div className={styles.optionsContainer}>
-            <div
-              className={classNames(styles.optionContainer, {
+          <section className={styles.optionsContainer}>
+            <button
+              className={classNames(styles.optionButton, {
                 [styles.currentOption]:
                   profileModeView === CONSTANTS.USER_INFO_MODE,
               })}
               onClick={() => changeProfileModeView(CONSTANTS.USER_INFO_MODE)}
             >
               UserInfo
-            </div>
+            </button>
             {role === CONSTANTS.CREATOR && (
-              <div
-                className={classNames(styles.optionContainer, {
+              <button
+                className={classNames(styles.optionButton, {
                   [styles.currentOption]:
                     profileModeView === CONSTANTS.CASHOUT_MODE,
                 })}
                 onClick={() => changeProfileModeView(CONSTANTS.CASHOUT_MODE)}
               >
                 Cashout
-              </div>
+              </button>
             )}
-          </div>
-        </div>
+          </section>
+        </aside>
         {profileModeView === CONSTANTS.USER_INFO_MODE ? (
           <UserInfo />
         ) : (
-          <div className={styles.container}>
+          <section className={styles.container}>
             {parseInt(balance) === 0 ? (
               <span className={styles.notMoney}>
                 There is no money on your balance
               </span>
             ) : (
-              <div>
+              <section>
                 {error && (
                   <Error
                     data={error.data}
@@ -79,12 +79,12 @@ const UserProfile = (props) => {
                   />
                 )}
                 <PayForm sendRequest={pay} />
-              </div>
+              </section>
             )}
-          </div>
+          </section>
         )}
-      </div>
-    </div>
+      </main>
+    </>
   );
 };
 

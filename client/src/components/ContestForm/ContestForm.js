@@ -65,7 +65,7 @@ class ContestForm extends React.Component {
       }
       return (
         <>
-          <div className={styles.formContainer}>
+          <section className={styles.formContainer}>
             <Formik
               initialValues={{
                 title: '',
@@ -82,7 +82,7 @@ class ContestForm extends React.Component {
               enableReinitialize
             >
               <Form>
-                <div className={styles.inputContainer}>
+                <section className={styles.inputContainer}>
                   <span className={styles.inputHeader}>Title of contest</span>
                   <FormInput
                     name="title"
@@ -94,8 +94,8 @@ class ContestForm extends React.Component {
                       warning: styles.warning,
                     }}
                   />
-                </div>
-                <div className={styles.inputContainer}>
+                </section>
+                <section className={styles.inputContainer}>
                   <SelectInput
                     name="industry"
                     classes={{
@@ -107,8 +107,8 @@ class ContestForm extends React.Component {
                     header="Describe industry associated with your venture"
                     optionsArray={this.props.dataForContest.data.industry}
                   />
-                </div>
-                <div className={styles.inputContainer}>
+                </section>
+                <section className={styles.inputContainer}>
                   <span className={styles.inputHeader}>
                     What does your company / business do?
                   </span>
@@ -122,8 +122,8 @@ class ContestForm extends React.Component {
                       warning: styles.warning,
                     }}
                   />
-                </div>
-                <div className={styles.inputContainer}>
+                </section>
+                <section className={styles.inputContainer}>
                   <span className={styles.inputHeader}>
                     Tell us about your customers
                   </span>
@@ -137,7 +137,7 @@ class ContestForm extends React.Component {
                       warning: styles.warning,
                     }}
                   />
-                </div>
+                </section>
                 <OptionalSelects {...this.props} />
                 <FieldFileInput
                   name="file"
@@ -154,7 +154,7 @@ class ContestForm extends React.Component {
                   ? <button type="submit" className={styles.changeData}>Set Data</button> : null}
               </Form>
             </Formik>
-          </div>
+          </section>
         </>
       );
     }

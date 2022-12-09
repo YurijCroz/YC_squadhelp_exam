@@ -42,30 +42,30 @@ const Payment = (props) => {
     props.history.replace('startContest');
   }
   return (
-    <div>
-      <div className={styles.header}>
+    <>
+      <header className={styles.header}>
         <Logo/>
-      </div>
-      <div className={styles.mainContainer}>
-        <div className={styles.paymentContainer}>
+      </header>
+      <main className={styles.mainContainer}>
+        <section className={styles.paymentContainer}>
           <span className={styles.headerLabel}>Checkout</span>
           {error && <Error data={error.data} status={error.status} clearError={clearPaymentStore} />}
           <PayForm sendRequest={pay} back={goBack} isPayForOrder />
-        </div>
-        <div className={styles.orderInfoContainer}>
+        </section>
+        <section className={styles.orderInfoContainer}>
           <span className={styles.orderHeader}>Order Summary</span>
-          <div className={styles.packageInfoContainer}>
+          <article className={styles.packageInfoContainer}>
             <span className={styles.packageName}>Package Name: Standard</span>
             <span className={styles.packagePrice}>$100 USD</span>
-          </div>
-          <div className={styles.resultPriceContainer}>
+          </article>
+          <article className={styles.resultPriceContainer}>
             <span>Total:</span>
             <span>$100.00 USD</span>
-          </div>
+          </article>
           <a href="http://www.google.com">Have a promo code?</a>
-        </div>
-      </div>
-    </div>
+        </section>
+      </main>
+    </>
   );
 };
 

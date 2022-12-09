@@ -22,10 +22,10 @@ const Error = (props) => {
 
   const { clearError } = props;
   return (
-    <div className={styles.errorContainer}>
+    <section className={styles.errorContainer}>
       <span>{getMessage()}</span>
       <i className="far fa-times-circle" onClick={() => clearError()} />
-    </div>
+    </section>
   );
 };
 

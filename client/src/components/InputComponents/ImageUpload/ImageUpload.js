@@ -21,8 +21,8 @@ const ImageUpload = (props) => {
     }
   };
   return (
-    <div className={uploadContainer}>
-      <div className={inputContainer}>
+    <section className={uploadContainer}>
+      <section className={inputContainer}>
         <span>Support only images (*.png, *.gif, *.jpeg)</span>
         <input
           {...field}
@@ -32,9 +32,9 @@ const ImageUpload = (props) => {
           onChange={onChange}
         />
         <label htmlFor="fileInput">Chose file</label>
-      </div>
+      </section>
       <img id="imagePreview" className={classNames({ [imgStyle]: !!field.value })} alt="user" />
-    </div>
+    </section>
   );
 };
 

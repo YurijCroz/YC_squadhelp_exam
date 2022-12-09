@@ -6,15 +6,15 @@ const LogoContestSpecialInfo = (props) => {
   return (
     <>
       {nameVenture && (
-      <div className={styles.dataContainer}>
+      <section className={styles.dataContainer}>
         <span className={styles.label}>Name ventrure</span>
         <span className={styles.data}>{nameVenture}</span>
-      </div>
+      </section>
       )}
-      <div className={styles.dataContainer}>
+      <section className={styles.dataContainer}>
         <span className={styles.label}>Brand Style</span>
         <span className={styles.data}>{brandStyle}</span>
-      </div>
+      </section>
     </>
   );
 };

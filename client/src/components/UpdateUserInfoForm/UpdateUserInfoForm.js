@@ -16,7 +16,7 @@ const UpdateUserInfoForm = (props) => {
     <Formik onSubmit={onSubmit} initialValues={props.initialValues} validationSchema={Schems.UpdateUserSchema}>
       <Form className={styles.updateContainer}>
         {error && <Error data={error.data} status={error.status} clearError={clearUserError} />}
-        <div className={styles.container}>
+        <section className={styles.container}>
           <span className={styles.label}>First Name</span>
           <FormInput
             name="firstName"
@@ -29,8 +29,8 @@ const UpdateUserInfoForm = (props) => {
               notValid: styles.notValid,
             }}
           />
-        </div>
-        <div className={styles.container}>
+        </section>
+        <section className={styles.container}>
           <span className={styles.label}>Last Name</span>
           <FormInput
             name="lastName"
@@ -43,8 +43,8 @@ const UpdateUserInfoForm = (props) => {
               notValid: styles.notValid,
             }}
           />
-        </div>
-        <div className={styles.container}>
+        </section>
+        <section className={styles.container}>
           <span className={styles.label}>Display Name</span>
           <FormInput
             name="displayName"
@@ -57,7 +57,7 @@ const UpdateUserInfoForm = (props) => {
               notValid: styles.notValid,
             }}
           />
-        </div>
+        </section>
         <ImageUpload
           name="file"
           classes={{

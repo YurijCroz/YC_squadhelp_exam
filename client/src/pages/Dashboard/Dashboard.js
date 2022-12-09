@@ -9,7 +9,7 @@ import Footer from "../../components/Footer/Footer";
 const Dashboard = (props) => {
   const { role, history } = props;
   return (
-    <div>
+    <>
       <Header />
       {role === CONSTANTS.CUSTOMER ? (
         <CustomerDashboard history={history} match={props.match} />
@@ -17,7 +17,7 @@ const Dashboard = (props) => {
         <CreatorDashboard history={history} match={props.match} />
       )}
       <Footer/>
-    </div>
+    </>
   );
 };
 

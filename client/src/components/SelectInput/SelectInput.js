@@ -39,12 +39,12 @@ const SelectInput = ({
   }, []);
 
   return (
-    <div className={classes.inputContainer}>
+    <section className={classes.inputContainer}>
       <span className={classes.inputHeader}>{header}</span>
       <select {...field} className={classes.selectInput}>
         {getOptionsArray()}
       </select>
-    </div>
+    </section>
   );
 };
 

@@ -5,9 +5,9 @@ const NextButton = (props) => {
   const { submit } = props;
 
   return (
-    <div onClick={submit} className={styles.buttonContainer}>
+    <button onClick={submit} className={styles.buttonContainer}>
       <span>Next</span>
-    </div>
+    </button>
   );
 };
 

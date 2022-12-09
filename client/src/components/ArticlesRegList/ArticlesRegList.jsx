@@ -7,7 +7,7 @@ function ArticlesRegList() {
   const getAdditionalArticle = index => {
     if(index === 1) {
       return (
-        <articles>
+        <article>
           <h3 className={styles.headerArticle}>
             I have other questions! How can I get in touch with Squadhelp?
           </h3>
@@ -21,19 +21,19 @@ function ArticlesRegList() {
               </a>
             } or schedule a <span className={styles.orangeSpan}>Branding Consultation</span>
           </p>
-        </articles>
+        </article>
       )
     }
   }
   return (
     <section className={styles.articlesMainContainer}>
       {articles.map((column, index) => (
-        <section className={styles.ColumnContainer} key={index}>
-          {column.map(article => (
-            <articles>
+        <section className={styles.columnContainer} key={index}>
+          {column.map((article, index) => (
+            <article key={index}>
               <h3 className={styles.headerArticle}>{article.title}</h3>
               <p className={styles.article}>{article.text}</p>
-            </articles>
+            </article>
           ))}
           {getAdditionalArticle(index)}
         </section>

@@ -80,9 +80,9 @@ const DialogList = (props) => {
   };
 
   return (
-    <div className={styles.previewContainer}>
+    <section className={styles.previewContainer}>
       {renderChatPreview()}
-    </div>
+    </section>
   );
 };
 

@@ -8,9 +8,9 @@ const BackButton = (props) => {
   }
 
   return (
-    <div onClick={clickHandler} className={styles.buttonContainer}>
+    <button onClick={clickHandler} className={styles.buttonContainer}>
       <span>Back</span>
-    </div>
+    </button>
   );
 };
 

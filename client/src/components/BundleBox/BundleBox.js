@@ -36,7 +36,7 @@ const BundleBox = (props) => {
 
   const { setBundle, header, describe } = props;
   return (
-    <div
+    <section
       onMouseOver={mouseOverHandler}
       onMouseOut={mouseOutHandler}
       onClick={() => setBundle(header)}
@@ -46,12 +46,12 @@ const BundleBox = (props) => {
       <div>
         {renderImage()}
       </div>
-      <div className={styles.infoContainer}>
+      <article className={styles.infoContainer}>
         <span className={styles.bundleName}>{header}</span>
         <hr />
         <span className={styles.infoBundle}>{describe}</span>
-      </div>
-    </div>
+      </article>
+    </section>
   );
 };
 

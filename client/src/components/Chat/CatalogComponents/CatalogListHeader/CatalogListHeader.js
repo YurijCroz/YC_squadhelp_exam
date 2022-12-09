@@ -15,16 +15,16 @@ const CatalogListHeader = (props) => {
     catalogName, changeShowModeCatalog, changeRenameCatalogMode, isRenameCatalog,
   } = props;
   return (
-    <div className={styles.headerContainer}>
+    <section className={styles.headerContainer}>
       <i className="fas fa-long-arrow-alt-left" onClick={() => changeShowModeCatalog()} />
       {!isRenameCatalog && (
-      <div className={styles.infoContainer}>
+      <section className={styles.infoContainer}>
         <span>{catalogName}</span>
         <i className="fas fa-edit" onClick={() => changeRenameCatalogMode()} />
-      </div>
+      </section>
       )}
       {isRenameCatalog && (
-      <div className={styles.changeContainer}>
+      <section className={styles.changeContainer}>
         <Formik
           onSubmit={changeCatalogName}
           initialValues={props.initialValues}
@@ -45,9 +45,9 @@ const CatalogListHeader = (props) => {
             <button type="submit">Change</button>
           </Form>
         </Formik>
-      </div>
+      </section>
       )}
-    </div>
+    </section>
   );
 };
 

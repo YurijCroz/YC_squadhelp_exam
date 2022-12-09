@@ -16,7 +16,7 @@
     position: absolute
     left: calc(100% - 35px)
     top: -15px
-    font-size: 54px
+    font-size: 48px
 
   .reject
     color: red
@@ -32,26 +32,23 @@
     align-items: center
     justify-content: space-between
 
-    .resolveBtn
+    button
+      border: 0 solid
       width: 100px
       cursor: pointer
       text-align: center
       padding: 10px
       border-radius: 8px
-      background-color: #8aca6b
       color: white
+
+    .resolveBtn
+      background-color: #8aca6b
 
       &:hover
         background-color: rgba(138, 202, 107, 0.7)
 
     .rejectBtn
-      text-align: center
-      cursor: pointer
-      width: 100px
-      padding: 10px
-      border-radius: 8px
       background-color: #CD5C5C
-      color: white
       margin: 0 25px
 
       &:hover
@@ -75,7 +72,7 @@
       position: absolute
       align-self: flex-start
       font-size: 26px
-      transition: font-size 0.2s
+      transition: 0.2s
       color: #4e618d
       @media(max-width: 450px)
         top: 30px
@@ -87,7 +84,7 @@
 
       &:hover
         font-size: 34px
-        transition: font-size 0.2s
+        transform: translate(-10%, -15%)
 
     .responseConainer
       width: 70%

@@ -41,7 +41,7 @@ const OptionalSelects = (props) => {
     case CONSTANTS.LOGO_CONTEST: {
       return (
         <>
-          <div className={styles.inputContainer}>
+          <section className={styles.inputContainer}>
             <span className={styles.inputHeader}>
               What name of your venture?
             </span>
@@ -55,7 +55,7 @@ const OptionalSelects = (props) => {
                 warning: styles.warning,
               }}
             />
-          </div>
+          </section>
           <SelectInput
             name="brandStyle"
             classes={{
@@ -73,7 +73,7 @@ const OptionalSelects = (props) => {
     case CONSTANTS.TAGLINE_CONTEST: {
       return (
         <>
-          <div className={styles.inputContainer}>
+          <section className={styles.inputContainer}>
             <span className={styles.inputHeader}>
               What name of your venture?
             </span>
@@ -87,7 +87,7 @@ const OptionalSelects = (props) => {
                 warning: styles.warning,
               }}
             />
-          </div>
+          </section>
           <SelectInput
             name="typeOfTagline"
             classes={{

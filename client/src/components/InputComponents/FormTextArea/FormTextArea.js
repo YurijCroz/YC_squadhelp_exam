@@ -12,7 +12,7 @@ const FormTextArea = ({
         container, inputStyle, notValid, warning,
       } = classes;
       return (
-        <div className={container}>
+        <section className={container}>
           <textarea
             {...field}
             placeholder={label}
@@ -21,7 +21,7 @@ const FormTextArea = ({
             })}
           />
           <ErrorMessage name={field.name} component="span" className={warning} />
-        </div>
+        </section>
       );
     }}
   </Field>

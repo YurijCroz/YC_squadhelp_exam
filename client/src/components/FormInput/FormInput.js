@@ -17,10 +17,10 @@ const FormInput = ({
         [classes.valid]: touched && !error,
       });
       return (
-        <div className={classes.container}>
+        <section className={classes.container}>
           <input type="text" {...field} placeholder={label} className={inputClassName} {...rest} />
           <ErrorMessage name={name} component="span" className={classes.warning} />
-        </div>
+        </section>
       );
     }}
   </Field>

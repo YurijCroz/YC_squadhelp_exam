@@ -21,7 +21,7 @@ const DialogBox = (props) => {
   const isFavorite = favoriteList[participants.indexOf(userId)];
   const isBlocked = blackList[participants.indexOf(userId)];
   return (
-    <div
+    <article
       className={styles.previewChatBox}
       onClick={() => goToExpandedDialog({
         interlocutor,
@@ -37,12 +37,12 @@ const DialogBox = (props) => {
         src={interlocutor.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${interlocutor.avatar}`}
         alt="user"
       />
-      <div className={styles.infoContainer}>
-        <div className={styles.interlocutorInfo}>
+      <section className={styles.infoContainer}>
+        <section className={styles.interlocutorInfo}>
           <span className={styles.interlocutorName}>{interlocutor.firstName}</span>
           <span className={styles.interlocutorMessage}>{text}</span>
-        </div>
-        <div className={styles.buttonsContainer}>
+        </section>
+        <section className={styles.buttonsContainer}>
           <span className={styles.time}>{getTimeStr(createAt)}</span>
           <i
             onClick={(event) => changeFavorite({
@@ -65,9 +65,9 @@ const DialogBox = (props) => {
               'fas fa-minus-circle': chatMode === CONSTANTS.CATALOG_PREVIEW_CHAT_MODE,
             })}
           />
-        </div>
-      </div>
-    </div>
+        </section>
+      </section>
+    </article>
   );
 };
 

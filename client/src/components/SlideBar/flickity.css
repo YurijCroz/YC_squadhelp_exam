@@ -10,7 +10,7 @@
 }
 
 .flickity-viewport {
-
+    overflow: hidden
 }
 
 .previous {

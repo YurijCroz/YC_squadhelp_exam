@@ -12,8 +12,8 @@ const AgreeTermOfServiceInput = ({
       } = props;
 
       return (
-        <div>
-          <div className={classes.container}>
+        <>
+          <section className={classes.container}>
             <input {...field} placeholder={label} id={id} type={type} />
             <label htmlFor={id}>
               By clicking this checkbox, you agree to our
@@ -22,11 +22,11 @@ const AgreeTermOfServiceInput = ({
                 Terms of Service.
               </a>
             </label>
-          </div>
+          </section>
           {touched && error && (
           <span className={classes.warning}>{error}</span>
           )}
-        </div>
+        </>
       );
     }}
   </Field>

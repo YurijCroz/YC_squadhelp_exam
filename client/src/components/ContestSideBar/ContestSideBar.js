@@ -19,51 +19,51 @@ const ContestSideBar = (props) => {
     const { totalEntries } = props;
     const { User, prize } = props.contestData;
     return (
-      <div className={styles.contestSideBarInfo}>
-        <div className={styles.contestInfo}>
-          <div className={styles.awardAndTimeContainer}>
-            <div className={styles.prizeContainer}>
+      <aside className={styles.contestSideBarInfo}>
+        <article className={styles.contestInfo}>
+          <section className={styles.awardAndTimeContainer}>
+            <section className={styles.prizeContainer}>
               <img src={`${CONSTANTS.STATIC_IMAGES_PATH}big-diamond.png`} alt="diamond" />
               <span>{`$ ${prize}`}</span>
-            </div>
-            <div className={styles.timeContainer}>
-              <div className={styles.timeDesc}>
+            </section>
+            <section className={styles.timeContainer}>
+              <section className={styles.timeDesc}>
                 <img src={`${CONSTANTS.STATIC_IMAGES_PATH}clock.png`} alt="clock" />
                 <span>Going</span>
-              </div>
+              </section>
               <span className={styles.time}>{getTimeStr()}</span>
-            </div>
-            <div className={styles.guaranteedPrize}>
+            </section>
+            <section className={styles.guaranteedPrize}>
               <div>
                 <img src={`${CONSTANTS.STATIC_IMAGES_PATH}smallCheck.png`} alt="check" />
               </div>
               <span>Guaranteed prize</span>
-            </div>
-          </div>
-          <div className={styles.contestStats}>
+            </section>
+          </section>
+          <article className={styles.contestStats}>
             <span>Contest Stats</span>
-            <div className={styles.totalEntrie}>
+            <section className={styles.totalEntries}>
               <span className={styles.totalEntriesLabel}>Total Entries</span>
               <span>{totalEntries}</span>
-            </div>
-          </div>
-        </div>
+            </section>
+          </article>
+        </article>
         {props.data.id !== User.id && (
-        <div className={styles.infoCustomerContainer}>
+        <article className={styles.infoCustomerContainer}>
           <span className={styles.labelCustomerInfo}>About Contest Holder</span>
-          <div className={styles.customerInfo}>
+          <section className={styles.customerInfo}>
             <img
               src={User.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${User.avatar}`}
               alt="user"
             />
-            <div className={styles.customerNameContainer}>
+            <section className={styles.customerNameContainer}>
               <span>{`${User.firstName} ${User.lastName}`}</span>
               <span>{User.displayName}</span>
-            </div>
-          </div>
-        </div>
+            </section>
+          </section>
+        </article>
         )}
-      </div>
+      </aside>
     );
   };
 

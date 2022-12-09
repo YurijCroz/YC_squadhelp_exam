@@ -6,15 +6,15 @@ const TaglineContestSpecialInfo = (props) => {
   return (
     <>
       {nameVenture && (
-      <div className={styles.dataContainer}>
+      <section className={styles.dataContainer}>
         <span className={styles.label}>Name ventrure</span>
         <span className={styles.data}>{nameVenture}</span>
-      </div>
+      </section>
       )}
-      <div className={styles.dataContainer}>
+      <section className={styles.dataContainer}>
         <span className={styles.label}>Type of Taglinee</span>
         <span className={styles.data}>{typeOfTagline}</span>
-      </div>
+      </section>
     </>
   );
 };

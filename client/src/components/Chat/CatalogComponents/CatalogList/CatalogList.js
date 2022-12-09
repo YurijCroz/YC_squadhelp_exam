@@ -30,9 +30,9 @@ const CatalogList = (props) => {
   };
 
   return (
-    <div className={styles.listContainer}>
+    <section className={styles.listContainer}>
       {getListCatalog()}
-    </div>
+    </section>
   );
 };
 

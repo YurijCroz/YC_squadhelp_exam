@@ -21,7 +21,7 @@ const FieldFileInput = ({ classes, ...rest }) => {
         };
 
         return (
-          <div className={fileUploadContainer}>
+          <section className={fileUploadContainer}>
             <label htmlFor="fileInput" className={labelClass}>
               Choose file
             </label>
@@ -34,7 +34,7 @@ const FieldFileInput = ({ classes, ...rest }) => {
               id="fileInput"
               type="file"
             />
-          </div>
+          </section>
         );
       }}
     </Field>
