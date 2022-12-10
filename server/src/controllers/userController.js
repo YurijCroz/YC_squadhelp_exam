@@ -8,7 +8,7 @@ const {
   Rating
 } = require('../models');
 const NotUniqueEmail = require('../errors/NotUniqueEmail');
-const moment = require('moment');
+// const moment = require('moment');
 const { v4: uuid } = require('uuid');
 const controller = require('../socketInit');
 const userQueries = require('./queries/userQueries');
@@ -142,7 +142,7 @@ module.exports.payment = async (req, res, next) => {
         userId: req.tokenData.userId,
         priority: index + 1,
         orderId,
-        createdAt: moment().format('YYYY-MM-DD HH:mm'),
+        // createdAt: moment().format('YYYY-MM-DD HH:mm'),
         prize,
       });
     });
