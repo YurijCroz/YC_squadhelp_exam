@@ -6,24 +6,27 @@ import EventForm from "../../components/EventForm/EventForm.jsx";
 import { differenceInSeconds } from "date-fns";
 import EventAnimationBlock from "../../components/EventAnimationBlock/EventAnimationBlock.jsx";
 import EventHappenedBlock from "../../components/EventHappenedBlock/EventHappenedBlock.jsx";
+import CONSTANTS from "../../constants.js";
 
 function EventPage() {
   const [frustratedEvents, setFrustratedEvents] = useState(null);
   const [happenedEvents, setHappenedEvents] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
+  const getItemLocal = () => localStorage.getItem(CONSTANTS.EVENT_KEY);
+
+  const getDiffInSec = (dateA, dateB = new Date()) => differenceInSeconds(new Date(dateA), dateB);
+
   useEffect(() => {
-    if (isFetching && localStorage.getItem("event")) {
+    if (isFetching && getItemLocal()) {
       setFrustratedEvents(
-        JSON.parse(localStorage.getItem("event")).filter(
-          (event) =>
-            differenceInSeconds(new Date(event.deadLine), new Date()) >= 1
+        JSON.parse(getItemLocal()).filter(
+          (event) => getDiffInSec(event.deadLine) >= 1
         )
       );
       setHappenedEvents(
-        JSON.parse(localStorage.getItem("event")).filter(
-          (event) =>
-            differenceInSeconds(new Date(event.deadLine), new Date()) <= 1
+        JSON.parse(getItemLocal()).filter(
+          (event) => getDiffInSec(event.deadLine) <= 1
         )
       );
       setIsFetching(false);
@@ -36,7 +39,11 @@ function EventPage() {
     <>
       <Header />
       <main>
-        <EventForm setIsFetching={setIsFetching} />
+        <EventForm
+          setIsFetching={setIsFetching}
+          getItemLocal={getItemLocal}
+          getDiffInSec={getDiffInSec}
+        />
         <section className={styles.eventContainer}>
           <section className={styles.headerDisplay}>
             <h3>Live upcomming checks</h3>
@@ -56,6 +63,7 @@ function EventPage() {
                   event={event}
                   key={event.startDate}
                   setIsFetching={setIsFetching}
+                  getDiffInSec={getDiffInSec}
                 />
               ))}
           </section>
