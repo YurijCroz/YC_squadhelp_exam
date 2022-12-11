@@ -37,11 +37,11 @@ class App extends Component {
         />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/event" component={EventPage} />
           <Route exact path="/login" component={OnlyNotAuthorizedUserHoc(LoginPage)} />
           <Route exact path="/registration" component={OnlyNotAuthorizedUserHoc(RegistrationPage)} />
           <Route exact path="/payment" component={PrivateHoc(Payment)} />
           <Route exact path="/startContest" component={PrivateHoc(StartContestPage)} />
+          <Route exact path="/events" component={PrivateHoc(EventPage)} />
           <Route
             exact
             path="/startContest/nameContest"

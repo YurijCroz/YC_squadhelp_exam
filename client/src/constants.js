@@ -2,7 +2,7 @@ const env = process.env.NODE_ENV || 'development';
 const serverIP = 'localhost';
 const serverPort = 3000;
 export default {
-  EVENT_KEY: 'event',
+  EVENT_KEY: 'events',
   CONTACTS: {
     TEL: '(877) 355-3585'
   },

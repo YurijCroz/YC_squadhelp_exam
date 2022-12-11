@@ -3,6 +3,14 @@
   align-items: center
   flex-direction: column
 
+@mixin forms
+  height: 50px
+  min-width: 280px
+  font-size: 18px
+  border-radius: 5px
+  @media screen and (max-width: 480px)
+    height: 35px
+
 $backColorMain: #fdfdfd
 
 .formContainer
@@ -30,15 +38,24 @@ $backColorMain: #fdfdfd
       @include flex-column-center
 
       input
-        height: 50px
-        max-width: 280px
-        font-size: 18px
-        border-radius: 5px
-        padding: 10px
+        @include forms
+        border: 1px solid #eee
+        padding: 0 10px
 
         @media screen and (max-width: 480px)
-          height: 35px
-          padding: 5px
+          padding: 0 5px
+      
+      .dateForm
+        color: #989898
+        cursor: pointer
+
+    button
+      @include forms
+      margin-top: 15px
+      background-color: #28d2d0
+      border: 0
+      color: white
+
 
   h2
     font-size: 30px

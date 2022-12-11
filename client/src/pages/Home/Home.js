@@ -124,12 +124,12 @@ const Home = ({ isFetching }) => {
                 Logo design
               </p>
             </article>
-            <div style={{ position: "relative" }}>
+            <section style={{ position: "relative" }}>
               <SlideBar
                 images={carouselConstants.exampleSliderImages}
                 carouselType={carouselConstants.EXAMPLE_SLIDER}
               />
-            </div>
+            </section>
             <section className={styles.button}>
               <Link className={styles.button__link} to="/dashboard">
                 DASHBOARD

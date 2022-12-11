@@ -10,11 +10,11 @@
 }
 
 .flickity-viewport {
-    overflow: hidden
+    overflow: hidden;
 }
 
 .previous {
-    left: -40px
+    left: -40px;
 
 }
 
@@ -24,6 +24,6 @@
 
 @media(max-width: 600px){
     .flickity-prev-next-button {
-        display: none
+        display: none;
     }
 }

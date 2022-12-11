@@ -18,7 +18,7 @@ class Header extends React.Component {
   }
 
   logOut = () => {
-    localStorage.clear();
+    localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
     this.props.clearUserStore();
     this.props.history.replace("/login");
   };
@@ -47,28 +47,29 @@ class Header extends React.Component {
             />
             <ul>
               <li>
-                <Link to="/dashboard" style={{ textDecoration: "none" }}>
+                <Link to="/dashboard">
                   <span>View Dashboard</span>
                 </Link>
               </li>
               <li>
-                <Link to="/account" style={{ textDecoration: "none" }}>
+                <Link to="/account">
                   <span>My Account</span>
                 </Link>
               </li>
+              {this.props.data && this.props.data.role !== CONSTANTS.CREATOR && 
+                (<li>
+                    <Link to="/events">
+                      <span>Events</span>
+                    </Link>
+                  </li>
+                )}
               <li>
-                <Link
-                  to="http:/www.google.com"
-                  style={{ textDecoration: "none" }}
-                >
+                <Link to="http:/www.google.com">
                   <span>Messages</span>
                 </Link>
               </li>
               <li>
-                <Link
-                  to="http:/www.google.com"
-                  style={{ textDecoration: "none" }}
-                >
+                <Link to="http:/www.google.com">
                   <span>Affiliate Dashboard</span>
                 </Link>
               </li>
@@ -87,10 +88,10 @@ class Header extends React.Component {
     }
     return (
       <>
-        <Link to="/login" style={{ textDecoration: "none" }}>
+        <Link to="/login" >
           <span className={styles.btn}>LOGIN</span>
         </Link>
-        <Link to="/registration" style={{ textDecoration: "none" }}>
+        <Link to="/registration" >
           <span className={styles.btn}>SIGN UP</span>
         </Link>
       </>

@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Redirect } from 'react-router-dom';
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./EventPage.module.sass";
-import EventForm from "../../components/EventForm/EventForm.jsx";
+import EventForm from "../../components/Event/EventForm/EventForm.jsx";
 import { differenceInSeconds } from "date-fns";
-import EventAnimationBlock from "../../components/EventAnimationBlock/EventAnimationBlock.jsx";
-import EventHappenedBlock from "../../components/EventHappenedBlock/EventHappenedBlock.jsx";
+import EventAnimationBlock from "../../components/Event/EventAnimationBlock/EventAnimationBlock.jsx";
+import EventHappenedBlock from "../../components/Event/EventHappenedBlock/EventHappenedBlock.jsx";
 import CONSTANTS from "../../constants.js";
 
-function EventPage() {
+function EventPage({role}) {
   const [frustratedEvents, setFrustratedEvents] = useState(null);
   const [happenedEvents, setHappenedEvents] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-
+  
   const getItemLocal = () => localStorage.getItem(CONSTANTS.EVENT_KEY);
-
+  
   const getDiffInSec = (dateA, dateB = new Date()) => differenceInSeconds(new Date(dateA), dateB);
+  
+  useEffect(() => {
+    if(role !== CONSTANTS.CUSTOMER) return <Redirect to="/" />
+  },[]);
 
   useEffect(() => {
     if (isFetching && getItemLocal()) {
@@ -33,12 +39,12 @@ function EventPage() {
     } else {
       setIsFetching(false);
     }
-  });
+  },[isFetching]);
 
   return (
     <>
       <Header />
-      <main>
+      <main className={styles.eventMain}>
         <EventForm
           setIsFetching={setIsFetching}
           getItemLocal={getItemLocal}
@@ -74,4 +80,6 @@ function EventPage() {
   );
 }
 
-export default EventPage;
+const mapStateToProps = (state) => state.userStore.data;
+
+export default connect(mapStateToProps)(EventPage);

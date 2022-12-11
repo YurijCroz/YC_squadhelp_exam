@@ -21,7 +21,7 @@ const PrivateHoc = (Component, props) => {
     render() {
       return (
         <>
-          {this.props.isFetching ? <Spinner />
+          {this.props.isFetching ? (<Spinner/>,<Redirect to="/login" />)
             : <Component history={this.props.history} match={this.props.match} {...props} />}
         </>
       );
