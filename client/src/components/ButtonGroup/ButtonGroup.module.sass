@@ -1,0 +1,66 @@
+.container
+  padding-top: 15px
+  min-height: 134px
+  display: flex
+  flex-direction: row
+  justify-content: center
+  font-family: "Poppins",Helvetica,Arial,sans-serif
+  font-size: 12px
+  line-height: 1.5
+
+  @media screen and (max-width: 990px)
+    flex-direction: column
+
+  *, *::before, *::after
+    box-sizing: border-box
+
+  .card
+    position: relative
+    border: 2px solid gray
+    cursor: pointer
+    padding: 1rem
+    word-wrap: break-word
+    margin: 0 0.9375rem 2rem
+    display: flex
+    flex-direction: column
+    align-items: center
+    border: 1px solid #e5e7eb
+    border-radius: 0.3125rem
+    flex: 1 1 auto
+    transition: 0.3s
+    z-index: 5
+
+    &:hover
+      border-color: #2cb9b750
+
+    .badge
+      padding: 7px 15px
+      color: #fff
+      background-color: #77838f
+      border-radius: 10rem
+      margin-bottom: 1rem
+      min-width: 50px
+      text-align: center
+      line-height: 1
+
+    h5
+      color: #77838f
+      font-weight: 400
+
+    @media screen and (max-width: 768px)
+      flex-direction: row
+      .badge
+        margin: 0 20px 0 0
+
+  .active
+    border: 3px solid #2cb9b7a6
+    cursor: default
+
+    &:hover
+      border-color: #2cb9b7a6
+
+    .badge
+      background-color: #2cb9b7
+
+    h5
+      color: #555c6b
