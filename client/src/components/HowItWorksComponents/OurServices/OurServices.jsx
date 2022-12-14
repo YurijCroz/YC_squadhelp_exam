@@ -14,7 +14,7 @@ function OurServices() {
       </article>
       <section className={styles.cardsContainer} >
         {cards.map(card => 
-          <ServicesCard card={card}  />
+          <ServicesCard card={card} key={card.title} />
         )}
       </section>
     </section>

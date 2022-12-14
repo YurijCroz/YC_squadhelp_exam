@@ -1,14 +1,31 @@
+@mixin mainWidth
+  margin: 0 auto
+  max-width: 100%
+  @media (min-width: 992px)
+    max-width: 960px
+  @media screen and (min-width: 1200px)
+    max-width: 1200px
+  @media screen and (min-width: 1536px)
+    max-width: 1280px
+
 .mainContainer
   font-family: "Poppins",Helvetica,Arial,sans-serif
-  margin: 0 auto
-  max-width: 1280px
-  @media screen and (max-width: 1535px)
-    max-width: 1200px
-  @media screen and (max-width: 1200px)
-    max-width: 960px
-
+  
   *, *:before, *:after
     box-sizing: border-box
 
   .heroBanner
     margin-top: 60px
+    @include mainWidth
+
+  .ourServices
+    @include mainWidth
+
+  .stepsContest
+    @include mainWidth
+
+  hr
+    margin-bottom: 0
+    border-top: 1px solid #e7eaf3
+    height: 0
+    overflow: visible
