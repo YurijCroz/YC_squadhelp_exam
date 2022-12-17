@@ -6,9 +6,10 @@ import CONSTANTS from "../../constants";
 import HeroBanner from "../../components/HowItWorksComponents/HeroBanner/HeroBanner";
 import OurServices from "../../components/HowItWorksComponents/OurServices/OurServices";
 import StepsContest from "../../components/HowItWorksComponents/StepsContest/StepsContest";
+import FaqContest from "../../components/HowItWorksComponents/FaqContest/FaqContest";
+
 
 function HowItWorks() {
-
   return (
     <>
       <Header />
@@ -24,6 +25,9 @@ function HowItWorks() {
           <StepsContest />
         </section>
         <hr/>
+        <section className={styles.faqContest} >
+          <FaqContest />
+        </section>
       </main>
       <Footer />
     </>

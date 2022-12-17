@@ -1,7 +1,7 @@
 @mixin mainWidth
   margin: 0 auto
   max-width: 100%
-  @media (min-width: 992px)
+  @media (min-width: 1024px)
     max-width: 960px
   @media screen and (min-width: 1200px)
     max-width: 1200px
@@ -23,6 +23,10 @@
 
   .stepsContest
     @include mainWidth
+
+  .faqContest
+    @include mainWidth
+    padding: 4rem 15px
 
   hr
     margin-bottom: 0
