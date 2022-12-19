@@ -5,10 +5,11 @@ import styles from "./Home.module.sass";
 function AnimationText() {
   const [index, setIndex] = useState(0);
   const [styleName, setStyleName] = useState(styles.headline__static);
+  const [text, setText] = useState(CONSTANTS.HEADER_ANIMATION_TEXT[0])
 
   useEffect(() => {
     const timeout = setInterval(() => {
-      setIndex(index + 1);
+      setIndex(prev => prev + 1);
       setStyleName(styles.headline__isLoading);
     }, 3000);
     return () => {
@@ -17,10 +18,12 @@ function AnimationText() {
     };
   });
 
-  const text =
-    CONSTANTS.HEADER_ANIMATION_TEXT[
+  useEffect(() => {
+    setText(prev => prev = CONSTANTS.HEADER_ANIMATION_TEXT[
       index % CONSTANTS.HEADER_ANIMATION_TEXT.length
-    ];
+    ])
+  },[index])
+
   return <span className={styleName}>{text}</span>;
 }
 

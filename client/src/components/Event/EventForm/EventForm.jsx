@@ -4,28 +4,24 @@ import { format } from "date-fns";
 import styles from "./EventForm.module.sass";
 import CONSTANTS from "../../../constants.js";
 
+const dateNow = format(new Date(), "yyyy-MM-dd HH:mm").replace(/\s/, "T");
+
 function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
+  
   const initialValues = {
     title: "",
-    deadLine: "",
+    deadLine: dateNow,
   };
 
-  const dateNow = () =>
-    format(new Date(), "yyyy-MM-dd HH:mm").replace(/\s/, "T");
-
-  const sendLocalStorage = (values, local) => {
-    local.push(values);
-    localStorage.setItem(CONSTANTS.EVENT_KEY, JSON.stringify(local));
+  const sendLocalStorage = (newLocal) => {
+    localStorage.setItem(CONSTANTS.EVENT_KEY, JSON.stringify(newLocal));
   };
 
-  const sortLocalByDate = () => {
-    const local = JSON.parse(getItemLocal());
-    const sortLocal = local.sort((eventA, eventB) => {
-      return getDiffInSec(eventA.deadLine) - getDiffInSec(eventB.deadLine);
-    });
-    localStorage.setItem(CONSTANTS.EVENT_KEY, JSON.stringify(sortLocal));
-    setIsFetching(true);
-  };
+  const sortLocalByDate = (local) =>
+    local.sort(
+      (eventA, eventB) =>
+        getDiffInSec(eventA.deadLine) - getDiffInSec(eventB.deadLine)
+    );
 
   const handleSubmit = (values, formikBag) => {
     values.deadLine = new Date(values.deadLine);
@@ -33,13 +29,12 @@ function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
     formikBag.resetForm();
     if (getItemLocal()) {
       const local = JSON.parse(getItemLocal());
-      sendLocalStorage(values, local);
-      sortLocalByDate();
+      const sortLocal = sortLocalByDate([...local, values]);
+      sendLocalStorage(sortLocal);
     } else {
-      const local = [];
-      sendLocalStorage(values, local);
-      setIsFetching(true);
+      sendLocalStorage([values]);
     }
+    setIsFetching(true);
   };
 
   return (
@@ -52,8 +47,8 @@ function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
             <Field
               type="text"
               name="title"
-              minlength="4"
-              maxlength="70"
+              minLength="4"
+              maxLength="70"
               placeholder="Entry title event"
             />
           </label>
@@ -62,7 +57,7 @@ function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
             <Field
               type="datetime-local"
               name="deadLine"
-              min={dateNow()}
+              min={dateNow}
               className={styles.dateForm}
               required
             />

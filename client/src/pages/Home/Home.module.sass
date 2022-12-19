@@ -193,13 +193,14 @@
     @media screen and (max-width: 414px)
       margin-bottom: 15px
       padding: 0 5px
-      font-size: 16px  //?
+      font-size: 16px
 
 
 .headline
   margin: 20px 0
   text-align: center
   font-family: Raleway, sans-serif
+  transition: width .3s -0.1s
 
   @media screen and (max-width: 700px)
     display: flex
@@ -227,8 +228,6 @@
       font-size: 25px
       padding: 0 0 5px
 
-  //transition: width .3s -0.1s
-
   &__static
     position: relative
 
@@ -242,8 +241,8 @@
       background: #28d2d0
       animation: cd-pulse 3s infinite
   
-  // &__isLoading
-  //   display: none
+  &__isLoading
+    display: none
 
 @keyframes cd-pulse
   0%
