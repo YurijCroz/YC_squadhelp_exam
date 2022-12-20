@@ -7,6 +7,8 @@ import HeroBanner from "../../components/HowItWorksComponents/HeroBanner/HeroBan
 import OurServices from "../../components/HowItWorksComponents/OurServices/OurServices";
 import StepsContest from "../../components/HowItWorksComponents/StepsContest/StepsContest";
 import FaqContest from "../../components/HowItWorksComponents/FaqContest/FaqContest";
+import StatsSection from "../../components/HowItWorksComponents/StatsSection/StatsSection.jsx";
+import classnames from "classnames";
 
 function HowItWorks() {
   return (
@@ -26,6 +28,28 @@ function HowItWorks() {
         <hr />
         <section className={styles.faqContest}>
           <FaqContest />
+        </section>
+        <section className={styles.ctaSection}>
+          <article className={styles.ctaContainer}>
+            <h3>Ready to get started?</h3>
+            <p>Fill out your contest brief and begin receiving custom name suggestions within minutes.</p>
+            <a href="#">Start A Contest</a>
+          </article>
+          <div className={classnames(styles.svgImg, styles.svgFirst)}>
+            <img
+              src={`${CONSTANTS.STATIC_IMAGES_PATH}svgCTA-first.svg`}
+              alt="first"
+            />
+          </div>
+          <div className={classnames(styles.svgImg, styles.svgSecond)}>
+            <img
+              src={`${CONSTANTS.STATIC_IMAGES_PATH}svgCTA-second.svg`}
+              alt="second"
+            />
+          </div>
+        </section>
+        <section className={styles.stats} >
+          <StatsSection />
         </section>
       </main>
       <Footer />
