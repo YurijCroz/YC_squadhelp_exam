@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./FaqContest.module.sass";
 import faqContest from "./faqContest.json";
-import "./styleID.sass";
 import GetFaqBlock from "./GetFaqBlock.jsx";
 
 const getNavBlock = (card) => {
@@ -13,7 +12,6 @@ const getNavBlock = (card) => {
 };
 
 function FaqContest() {
-  
   return (
     <section className={styles.container}>
       <section className={styles.row}>

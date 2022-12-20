@@ -127,15 +127,26 @@ $primary-color: #377dff
                 font-family: "Poppins",Helvetica,Arial,sans-serif
                 margin-right: 1rem
 
-              span
-                display: inline-block
-                color: $primary-color
-                white-space: inherit
-                line-height: 1.5
-                font-weight: 900
-                font-size: 14px
+              &__arrows
                 transition: 0.3s ease-in-out
                 transform: rotate(-90deg)
+                
+                &_collapse
+                  transform: rotate(0deg)
+                
+                span
+                  display: inline-block
+                  color: $primary-color
+                  white-space: inherit
+                  line-height: 1.5
+                  font-weight: 900
+                  font-size: 14px
+
+
+          .collapse
+            position: relative
+            overflow: hidden
+            transition: height 0.35s ease
 
           &__body
             max-width: 100%
@@ -144,7 +155,6 @@ $primary-color: #377dff
             font-size: 1rem
             font-weight: 400
             line-height: 1.5
-            // display: none
 
           &__text
             color: #1e2022

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./FaqContest.module.sass";
 import faqContest from "./faqContest.json";
 import GetFaqSlider from "./GetFaqSlider";
+import "./styleID.sass";
 
 function GetFaqBlock({ blockFaq, index }) {
+  const [isAllCollapsed, setIsAllCollapsed] = useState(false);
+
   return (
     <>
       <section id={blockFaq.anchor} className={styles.faqSection}>
@@ -15,8 +18,9 @@ function GetFaqBlock({ blockFaq, index }) {
             <GetFaqSlider
               card={card}
               key={index}
-              anchor={blockFaq.anchor}
               index={index}
+              isAllCollapsed={isAllCollapsed}
+              setIsAllCollapsed={setIsAllCollapsed}
             />
           ))}
         </section>

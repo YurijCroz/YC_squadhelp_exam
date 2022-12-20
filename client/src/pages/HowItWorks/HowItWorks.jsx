@@ -8,7 +8,6 @@ import OurServices from "../../components/HowItWorksComponents/OurServices/OurSe
 import StepsContest from "../../components/HowItWorksComponents/StepsContest/StepsContest";
 import FaqContest from "../../components/HowItWorksComponents/FaqContest/FaqContest";
 
-
 function HowItWorks() {
   return (
     <>
@@ -17,15 +16,15 @@ function HowItWorks() {
         <section className={styles.heroBanner}>
           <HeroBanner />
         </section>
-        <section className={styles.ourServices} >
+        <section className={styles.ourServices}>
           <OurServices />
         </section>
-        <hr/>
-        <section className={styles.stepsContest} >
+        <hr />
+        <section className={styles.stepsContest}>
           <StepsContest />
         </section>
-        <hr/>
-        <section className={styles.faqContest} >
+        <hr />
+        <section className={styles.faqContest}>
           <FaqContest />
         </section>
       </main>
