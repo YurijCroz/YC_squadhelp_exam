@@ -1,0 +1,154 @@
+$primary-color: #377dff
+
+
+.container
+  padding: 2rem 15px
+  width: 100%
+  margin-bottom: 5rem
+  display: flex
+  flex-wrap: wrap
+  @media (min-width: 992px)
+    align-items: center
+
+  
+  .firstContainer
+    box-shadow: 0 10px 40px 10px rgba(140,152,164,.175)
+    border-radius: 0.3125rem
+    position: relative
+    width: 100%
+    @media (min-width: 992px)
+      flex: 0 0 58.33333%
+      max-width: 58.33333%
+
+  .infoBlock
+    padding: 4rem 2rem
+    @media (min-width: 576px)
+      padding: 4rem
+
+    .listUnstyled
+      padding-left: 0
+      list-style: none
+      margin-bottom: 1rem
+
+      .border
+        padding: 1rem 0
+        border-top: 1px solid #e7eaf3
+
+      .media
+        padding-bottom: 1rem
+        display: flex
+        align-items: flex-start
+
+        .btnIcon
+          cursor: default
+          font-size: .8175rem
+          width: 2rem
+          height: 2rem
+          color: $primary-color
+          position: relative
+          line-height: 0
+          background: rgba(55,125,255,.1)
+          border-color: transparent
+          margin-right: 1rem
+          border-radius: 50%
+          display: inline-block
+          font-weight: 500
+          text-align: center
+          vertical-align: middle
+          user-select: none
+
+          span
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translate(-50%,-50%)
+
+        &__body
+          flex: 1
+          display: flex
+          flex-direction: column
+          align-items: flex-start
+
+          h5
+            font-weight: 400
+            margin-bottom: 0.25rem
+            line-height: 1.5
+            font-size: 1.25rem
+
+          h4
+            font-weight: 400
+            margin-bottom: 0.25rem
+            line-height: 1.5
+            font-size: 1.5rem
+
+          p
+            font-size: 14px
+            font-weight: 400
+            line-height: 1.7
+            margin-bottom: 1rem
+
+            a
+              color: $primary-color
+              text-decoration: none
+              background-color: transparent
+              font-size: 14px
+              font-weight: 400
+              white-space: nowrap
+
+
+  .secondContainer
+    background-color: $primary-color
+    color: #ffffff
+    width: 100%
+    @media (min-width: 992px)
+      flex: 0 0 41.66667%
+      max-width: 41.66667%
+
+    h3
+      margin-bottom: 0.25rem
+      font-size: 2rem
+      font-weight: 400
+      line-height: 1.5
+
+    .whiteText
+      color: #ffffff
+
+    .whiteBtn
+      font-family: "Poppins", Helvetica, Arial, sans-serif
+      background-color: #ffffff
+      border-color: #ffffff
+      transition: all 0.2s ease-in-out
+      border-radius: 6.1875rem
+      min-width: 9.6875rem
+      display: inline-block
+      font-weight: 400
+      text-align: center
+      vertical-align: middle
+      user-select: none
+      border: 1px solid transparent
+      padding: 0.75rem 1rem
+      font-size: 1rem
+      line-height: 1.5
+      color: $primary-color
+      cursor: default
+      min-width: 9.6875rem
+      box-shadow: 0 3px 6px 0 rgba(140,152,164,.25)
+      @media screen and (max-width: 480px)
+        width: 100%
+
+      &:hover
+        transform: translateY(-3px)
+
+    a
+      color: #fff
+      font-size: 14px
+      font-weight: 400
+      margin-top: 1.8rem
+
+      img
+        margin-right: 10px
+
+    span
+      margin-top: 0.7rem
+      font-size: 14px
+      font-weight: 400

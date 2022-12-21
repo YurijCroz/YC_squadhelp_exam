@@ -104,3 +104,93 @@
 
   .stats
     @include mainWidth
+
+  .pricing
+    @include mainWidth
+
+  .satisfactionGaurenteedModal
+    width: 500px
+    display: none
+
+  .clients
+    @include mainWidth
+    padding: 0 15px
+
+    &__container
+      margin-bottom: 1.5rem
+      display: flex
+      flex-wrap: wrap
+      margin-right: -15px
+      margin-left: -15px
+
+      .title
+        position: relative
+        width: 100%
+        padding-right: 15px
+        padding-left: 15px
+        @media (min-width: 768px)
+          flex: 0 0 41.66667%
+          max-width: 41.66667%
+        @media (min-width: 992px)
+          flex: 0 0 33.33333%
+          max-width: 33.33333%
+
+        &__block
+          display: block
+
+          h6
+            padding-top: 2rem
+            font-size: 1.75rem
+            margin-bottom: 0.5rem
+            font-weight: 300
+            line-height: 1.5
+
+    &__section
+      margin-bottom: 2rem
+      position: relative
+      width: 100%
+      padding: 0 15px
+      @media (min-width: 768px)
+        margin-bottom: 0
+        flex: 0 0 58.33333%
+        max-width: 58.33333%
+      @media (min-width: 992px)
+        flex: 0 0 66.66667%
+        max-width: 66.66667%
+
+
+    &__body
+      padding-top: 2rem
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      margin-right: -15px
+      margin-left: -15px
+      border-top: 1px solid #e7eaf3
+
+      .client
+        margin-bottom: 1.5rem
+        flex: 0 0 33.33333%
+        max-width: 33.33333%
+        position: relative
+        width: 100%
+        padding-right: 15px
+        padding-left: 15px
+        @media (min-width: 992px)
+          margin-bottom: 0
+          flex: 0 0 25%
+          max-width: 25%
+
+        &__logo
+          margin: 0 0.5rem
+
+          a
+            background-color: transparent
+
+            img
+              height: auto
+              width: 100%
+              max-width: 6rem
+              vertical-align: middle
+              border-style: none
+              margin: 0 auto
