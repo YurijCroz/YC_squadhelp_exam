@@ -9,6 +9,7 @@ import {
   headerRequest,
 } from "../../actions/actionCreator";
 import Logo from "../Logo";
+import EventVerification from "../Event/EventVerification/EventVerification";
 
 class Header extends React.Component {
   componentDidMount() {
@@ -32,6 +33,7 @@ class Header extends React.Component {
       return (
         <>
           <section className={styles.userInfo}>
+            <EventVerification />
             <img
               src={
                 this.props.data.avatar === "anon.png"
@@ -56,8 +58,9 @@ class Header extends React.Component {
                   <span>My Account</span>
                 </Link>
               </li>
-              {this.props.data && this.props.data.role !== CONSTANTS.CREATOR && 
-                (<li>
+              {this.props.data &&
+                this.props.data.role !== CONSTANTS.CREATOR && (
+                  <li>
                     <Link to="/events">
                       <span>Events</span>
                     </Link>
@@ -88,10 +91,10 @@ class Header extends React.Component {
     }
     return (
       <>
-        <Link to="/login" >
+        <Link to="/login">
           <span className={styles.btn}>LOGIN</span>
         </Link>
-        <Link to="/registration" >
+        <Link to="/registration">
           <span className={styles.btn}>SIGN UP</span>
         </Link>
       </>

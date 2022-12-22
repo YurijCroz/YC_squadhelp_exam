@@ -4,13 +4,13 @@ import { format } from "date-fns";
 import styles from "./EventForm.module.sass";
 import CONSTANTS from "../../../constants.js";
 
-const dateNow = format(new Date(), "yyyy-MM-dd HH:mm").replace(/\s/, "T");
+const dateNow = () => format(new Date(), "yyyy-MM-dd HH:mm").replace(/\s/, "T");
 
 function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
   
   const initialValues = {
     title: "",
-    deadLine: dateNow,
+    deadLine: dateNow(),
   };
 
   const sendLocalStorage = (newLocal) => {
@@ -57,7 +57,7 @@ function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
             <Field
               type="datetime-local"
               name="deadLine"
-              min={dateNow}
+              min={dateNow()}
               className={styles.dateForm}
               required
             />

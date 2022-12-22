@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./EventPage.module.sass";
@@ -10,18 +10,19 @@ import EventAnimationBlock from "../../components/Event/EventAnimationBlock/Even
 import EventHappenedBlock from "../../components/Event/EventHappenedBlock/EventHappenedBlock.jsx";
 import CONSTANTS from "../../constants.js";
 
-function EventPage({role}) {
+const getItemLocal = () => localStorage.getItem(CONSTANTS.EVENT_KEY);
+
+const getDiffInSec = (dateA, dateB = new Date()) =>
+  differenceInSeconds(new Date(dateA), dateB);
+
+function EventPage({ role }) {
   const [frustratedEvents, setFrustratedEvents] = useState(null);
   const [happenedEvents, setHappenedEvents] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  
-  const getItemLocal = () => localStorage.getItem(CONSTANTS.EVENT_KEY);
-  
-  const getDiffInSec = (dateA, dateB = new Date()) => differenceInSeconds(new Date(dateA), dateB);
-  
+
   useEffect(() => {
-    if(role !== CONSTANTS.CUSTOMER) return <Redirect to="/" />
-  },[]);
+    if (role !== CONSTANTS.CUSTOMER) return <Redirect to="/" />;
+  }, []);
 
   useEffect(() => {
     if (isFetching && getItemLocal()) {
@@ -35,11 +36,9 @@ function EventPage({role}) {
           (event) => getDiffInSec(event.deadLine) <= 1
         )
       );
-      setIsFetching(false);
-    } else {
-      setIsFetching(false);
     }
-  },[isFetching]);
+    setIsFetching(false);
+  }, [isFetching]);
 
   return (
     <>
