@@ -4,7 +4,7 @@ const bankCard = [
     name: "SquadHelp",
     expiry: "11/22",
     cvc: "453",
-    balance: 0
+    balance: 2000
   },
   {
     cardNumber: "4111111111111112",

@@ -59,7 +59,7 @@ class Header extends React.Component {
                 </Link>
               </li>
               {this.props.data &&
-                this.props.data.role !== CONSTANTS.CREATOR && (
+                this.props.data.role === CONSTANTS.CUSTOMER && (
                   <li>
                     <Link to="/events">
                       <span>Events</span>
@@ -268,7 +268,7 @@ class Header extends React.Component {
                 </li>
               </ul>
             </nav>
-            {this.props.data && this.props.data.role !== CONSTANTS.CREATOR && (
+            {this.props.data && this.props.data.role === CONSTANTS.CUSTOMER && (
               <section
                 className={styles.startContestBtn}
                 onClick={this.startContests}

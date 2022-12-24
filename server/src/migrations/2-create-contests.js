@@ -66,11 +66,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DECIMAL,
       },
-      createdAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
       priority: {
         allowNull: false,
         type: Sequelize.INTEGER,
