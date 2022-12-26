@@ -8,7 +8,7 @@ import styles from './ContestForm.module.sass';
 import Spinner from '../Spinner/Spinner';
 import FormInput from '../FormInput/FormInput';
 import SelectInput from '../SelectInput/SelectInput';
-import FieldFileInput from '../InputComponents/FieldFileInput/FieldFileInput';
+import FileUpload from '../InputComponents/FileUpload/FileUpload';
 import FormTextArea from '../InputComponents/FormTextArea/FormTextArea';
 import TryAgain from '../TryAgain/TryAgain';
 import Schems from '../../validators/validationSchems';
@@ -139,7 +139,7 @@ class ContestForm extends React.Component {
                   />
                 </section>
                 <OptionalSelects {...this.props} />
-                <FieldFileInput
+                <FileUpload
                   name="file"
                   classes={{
                     fileUploadContainer: styles.fileUploadContainer,
@@ -148,7 +148,6 @@ class ContestForm extends React.Component {
                     fileInput: styles.fileInput,
                     warning: styles.warning,
                   }}
-                  type="file"
                 />
                 {this.props.isEditContest
                   ? <button type="submit" className={styles.changeData}>Set Data</button> : null}

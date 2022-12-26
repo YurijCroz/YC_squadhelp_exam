@@ -1,21 +1,29 @@
-import React from 'react';
-import { Form, Formik } from 'formik';
-import { connect } from 'react-redux';
-import { clearUserError } from '../../actions/actionCreator';
-import styles from './UpdateUserInfoForm.module.sass';
-import ImageUpload from '../InputComponents/ImageUpload/ImageUpload';
-import FormInput from '../FormInput/FormInput';
-import Schems from '../../validators/validationSchems';
-import Error from '../Error/Error';
+import React from "react";
+import { Form, Formik } from "formik";
+import { connect } from "react-redux";
+import { clearUserError } from "../../actions/actionCreator";
+import styles from "./UpdateUserInfoForm.module.sass";
+import ImageUpload from "../InputComponents/ImageUpload/ImageUpload";
+import FormInput from "../FormInput/FormInput";
+import Schems from "../../validators/validationSchems";
+import Error from "../Error/Error";
 
 const UpdateUserInfoForm = (props) => {
-  const {
-    onSubmit, submitting, error, clearUserError,
-  } = props;
+  const { onSubmit, submitting, error, clearUserError } = props;
   return (
-    <Formik onSubmit={onSubmit} initialValues={props.initialValues} validationSchema={Schems.UpdateUserSchema}>
+    <Formik
+      onSubmit={onSubmit}
+      initialValues={props.initialValues}
+      validationSchema={Schems.UpdateUserSchema}
+    >
       <Form className={styles.updateContainer}>
-        {error && <Error data={error.data} status={error.status} clearError={clearUserError} />}
+        {error && (
+          <Error
+            data={error.data}
+            status={error.status}
+            clearError={clearUserError}
+          />
+        )}
         <section className={styles.container}>
           <span className={styles.label}>First Name</span>
           <FormInput

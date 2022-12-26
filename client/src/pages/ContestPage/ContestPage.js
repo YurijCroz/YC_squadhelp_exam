@@ -135,7 +135,6 @@ class ContestPage extends React.Component {
     } = contestByIdStore;
     return (
       <>
-        {/* <Chat/> */}
         {isShowOnFull && (
           <LightBox
             mainSrc={`${CONSTANTS.publicURL}${imagePath}`}
@@ -197,7 +196,9 @@ class ContestPage extends React.Component {
                       clearError={clearSetOfferStatusError}
                     />
                   )}
-                  <section className={styles.offers}>{this.setOffersList()}</section>
+                  <section className={styles.offers}>
+                    {this.setOffersList()}
+                  </section>
                 </section>
               )}
             </section>
