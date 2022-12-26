@@ -1,0 +1,69 @@
+.section
+  padding: 2rem 15px
+  width: 100%
+  display: flex
+  flex-direction: column
+  @media (min-width: 768px)
+    flex-direction: row
+    padding: 2rem 0
+  @media (min-width: 992px)
+    padding: 4rem 0
+
+  .verticalIndicator
+    position: relative
+    &::after
+      @media (min-width: 768px)
+        position: absolute
+        right: 0
+        top: 50%
+        height: 4rem
+        border-left: 1px solid rgba(30,32,34,.2)
+        content: ""
+        margin-top: -2rem
+        transform: rotate(15deg)
+
+  .card
+    margin-bottom: 3rem
+    width: 100%
+    padding-right: 15px
+    padding-left: 15px
+    @media (min-width: 768px)
+      flex: 0 0 33.33333%
+      max-width: 33.33333%  
+
+    &__stats
+      position: relative
+      text-align: center
+      @media (min-width: 768px)
+        padding: 0 1rem
+      @media (min-width: 992px)
+        padding: 0 3rem
+
+    &__images
+      max-width: 4.5rem
+      width: 100%
+      margin: auto
+      margin-bottom: 1rem
+
+      img
+        height: auto
+        width: 100%
+
+    &__images_people
+      max-width: 5rem
+
+    &__text
+      color: #77838f
+      line-height: 1.7
+      font-size: 1rem
+
+      span
+        font-weight: 600
+        color: #1e2022
+        white-space: nowrap
+
+  .lastCard
+    margin-bottom: 0
+
+    p
+      margin-bottom: 1rem

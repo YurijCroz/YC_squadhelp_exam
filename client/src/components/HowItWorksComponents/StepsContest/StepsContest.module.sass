@@ -1,0 +1,120 @@
+$primary-color: #377dff
+
+@mixin block
+  position: relative
+  width: 100%
+  padding: 0 15px
+  @media (min-width: 992px)
+    flex: 0 0 50%
+    max-width: 50%
+
+@mixin before-after
+  position: absolute
+  top: 0
+  bottom: 0
+  right: 0 
+  margin: auto auto auto 0
+  content: ""
+
+
+.container
+  padding: 4rem 15px
+  @media (min-width: 768px)
+    padding: 8rem 15px
+
+  .article
+    text-align: center
+    margin-bottom: 4rem
+    @media (min-width: 768px)
+      width: 80%
+      margin: 0 auto 4rem
+    @media (min-width: 992px)
+      width: 50%
+
+    .images
+      height: 72px
+      width: 72px
+      margin: 0 auto 1rem
+    
+    h2
+      font-weight: 400
+      font-size: 2rem
+      margin-bottom: 0.5rem
+      line-height: 1.5
+      color: #1e2022
+      @media (max-width: 420px)
+        font-size: 1.55rem
+
+  .stepWrapper
+    display: flex
+    flex-wrap: wrap
+    margin-right: -15px
+    margin-left: -15px
+    @media (min-width: 992px)
+      align-items: center
+
+    .images
+      @include block
+      @media (min-width: 992px)
+        order: 1
+        img
+          padding-right: 3rem
+
+    .stepsContainer
+      @include block
+      margin-bottom: 3rem
+      @media (min-width: 992px)
+        order: 2
+        margin-bottom: 0
+
+      .listUnstyled
+        margin-bottom: 1rem
+
+        li
+          position: relative
+          padding: 1rem 0 1rem 2.5rem
+          display: list-item
+          &::before
+            @include before-after
+            border-top: 1px solid #e7eaf3
+            left: -0.25rem
+            width: 2rem
+            height: 0.0625rem
+          &::after
+            @include before-after
+            border-right: 1px solid #e7eaf3
+            left: -0.3125rem
+            width: 0.0625rem
+            height: 100%
+          &:first-child::after
+            height: 50%
+            top: auto
+          &:last-child::after
+            height: 50%
+            bottom: auto
+
+          .media
+            padding: 2rem
+            display: flex
+            align-items: center
+            border: 1px solid #e7eaf3
+            border-radius: 0.3125rem
+
+
+            .indicatorStep
+              min-width: 3rem
+              margin-right: 1rem
+              display: flex
+
+              span
+                font-weight: 500
+                color: $primary-color
+                font-size: 3.5rem
+                line-height: 1.2
+
+            p
+              color: #77838f
+              line-height: 1.7
+              font-size: 1rem
+              font-weight: 400
+
