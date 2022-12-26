@@ -1,17 +1,21 @@
 const bankCard = [
   {
-    cardNumber: "4564654564564565",
+    cardNumber: "4564654564564564",
     name: "SquadHelp",
-    expiry: "11/22",
+    expiry: "11/23",
     cvc: "453",
-    balance: 0
+    balance: 2000,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
-    cardNumber: "4111111111111112",
+    cardNumber: "4111111111111111",
     name: "yriy",
     expiry: "09/23",
     cvc: "505",
-    balance: 5000
+    balance: 5000,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
 ];
 

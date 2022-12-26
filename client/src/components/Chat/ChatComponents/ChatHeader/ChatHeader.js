@@ -1,9 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import { backToDialogList, changeChatFavorite, changeChatBlock } from '../../../../actions/actionCreator';
-import styles from './ChatHeader.module.sass';
-import CONSTANTS from '../../../../constants';
+import React from "react";
+import { connect } from "react-redux";
+import classNames from "classnames";
+import {
+  backToDialogList,
+  changeChatFavorite,
+  changeChatBlock,
+} from "../../../../actions/actionCreator";
+import styles from "./ChatHeader.module.sass";
+import CONSTANTS from "../../../../constants";
 
 const ChatHeader = (props) => {
   const changeFavorite = (data, event) => {
@@ -29,45 +33,61 @@ const ChatHeader = (props) => {
   const { avatar, firstName } = props.interlocutor;
   const { backToDialogList, chatData, userId } = props;
   return (
-    <div className={styles.chatHeader}>
+    <section className={styles.chatHeader}>
       <div className={styles.buttonContainer}>
-      <i className="fas fa-long-arrow-alt-left" onClick={() => backToDialogList()}/>
+        <i
+          className="fas fa-long-arrow-alt-left"
+          onClick={() => backToDialogList()}
+        />
       </div>
-      <div className={styles.infoContainer}>
-        <div>
+      <section className={styles.infoContainer}>
+        <section>
           <img
-            src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`}
+            src={
+              avatar === "anon.png"
+                ? CONSTANTS.ANONYM_IMAGE_PATH
+                : `${CONSTANTS.publicURL}images_avatar/${avatar}`
+            }
             alt="user"
           />
           <span>{firstName}</span>
-        </div>
-        {chatData
-                && (
-                <div>
-                  <i
-                    onClick={(event) => changeFavorite({
-                      participants: chatData.participants,
-                      favoriteFlag: !isFavorite(chatData, userId),
-                    }, event)}
-                    className={classNames({
-                      'far fa-heart': !isFavorite(chatData, userId),
-                      'fas fa-heart': isFavorite(chatData, userId),
-                    })}
-                  />
-                  <i
-                    onClick={(event) => changeBlackList({
-                      participants: chatData.participants,
-                      blackListFlag: !isBlocked(chatData, userId),
-                    }, event)}
-                    className={classNames({
-                      'fas fa-user-lock': !isBlocked(chatData, userId),
-                      'fas fa-unlock': isBlocked(chatData, userId),
-                    })}
-                  />
-                </div>
-                )}
-      </div>
-    </div>
+        </section>
+        {chatData && (
+          <section>
+            <i
+              onClick={(event) =>
+                changeFavorite(
+                  {
+                    participants: chatData.participants,
+                    favoriteFlag: !isFavorite(chatData, userId),
+                  },
+                  event
+                )
+              }
+              className={classNames({
+                "far fa-heart": !isFavorite(chatData, userId),
+                "fas fa-heart": isFavorite(chatData, userId),
+              })}
+            />
+            <i
+              onClick={(event) =>
+                changeBlackList(
+                  {
+                    participants: chatData.participants,
+                    blackListFlag: !isBlocked(chatData, userId),
+                  },
+                  event
+                )
+              }
+              className={classNames({
+                "fas fa-user-lock": !isBlocked(chatData, userId),
+                "fas fa-unlock": isBlocked(chatData, userId),
+              })}
+            />
+          </section>
+        )}
+      </section>
+    </section>
   );
 };
 

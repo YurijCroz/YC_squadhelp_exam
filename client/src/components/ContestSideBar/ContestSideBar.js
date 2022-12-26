@@ -1,17 +1,19 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import moment from 'moment';
-import styles from './ContestSideBar.module.sass';
-import CONSTANTS from '../../constants';
+import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import moment from "moment";
+import styles from "./ContestSideBar.module.sass";
+import CONSTANTS from "../../constants";
 
 const ContestSideBar = (props) => {
   const getTimeStr = () => {
-    const diff = (moment.duration(moment().diff(moment(props.contestData.createdAt))));
-    let str = '';
+    const diff = moment.duration(
+      moment().diff(moment(props.contestData.createdAt))
+    );
+    let str = "";
     if (diff._data.days !== 0) str = `${diff._data.days} days `;
     if (diff._data.hours !== 0) str += `${diff._data.hours} hours`;
-    if (str.length === 0) str = 'less than one hour';
+    if (str.length === 0) str = "less than one hour";
     return str;
   };
 
@@ -23,19 +25,28 @@ const ContestSideBar = (props) => {
         <article className={styles.contestInfo}>
           <section className={styles.awardAndTimeContainer}>
             <section className={styles.prizeContainer}>
-              <img src={`${CONSTANTS.STATIC_IMAGES_PATH}big-diamond.png`} alt="diamond" />
+              <img
+                src={`${CONSTANTS.STATIC_IMAGES_PATH}big-diamond.png`}
+                alt="diamond"
+              />
               <span>{`$ ${prize}`}</span>
             </section>
             <section className={styles.timeContainer}>
               <section className={styles.timeDesc}>
-                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}clock.png`} alt="clock" />
+                <img
+                  src={`${CONSTANTS.STATIC_IMAGES_PATH}clock.png`}
+                  alt="clock"
+                />
                 <span>Going</span>
               </section>
               <span className={styles.time}>{getTimeStr()}</span>
             </section>
             <section className={styles.guaranteedPrize}>
               <div>
-                <img src={`${CONSTANTS.STATIC_IMAGES_PATH}smallCheck.png`} alt="check" />
+                <img
+                  src={`${CONSTANTS.STATIC_IMAGES_PATH}smallCheck.png`}
+                  alt="check"
+                />
               </div>
               <span>Guaranteed prize</span>
             </section>
@@ -49,19 +60,25 @@ const ContestSideBar = (props) => {
           </article>
         </article>
         {props.data.id !== User.id && (
-        <article className={styles.infoCustomerContainer}>
-          <span className={styles.labelCustomerInfo}>About Contest Holder</span>
-          <section className={styles.customerInfo}>
-            <img
-              src={User.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${User.avatar}`}
-              alt="user"
-            />
-            <section className={styles.customerNameContainer}>
-              <span>{`${User.firstName} ${User.lastName}`}</span>
-              <span>{User.displayName}</span>
+          <article className={styles.infoCustomerContainer}>
+            <span className={styles.labelCustomerInfo}>
+              About Contest Holder
+            </span>
+            <section className={styles.customerInfo}>
+              <img
+                src={
+                  User.avatar === "anon.png"
+                    ? CONSTANTS.ANONYM_IMAGE_PATH
+                    : `${CONSTANTS.publicURL}images_avatar/${User.avatar}`
+                }
+                alt="user"
+              />
+              <section className={styles.customerNameContainer}>
+                <span>{`${User.firstName} ${User.lastName}`}</span>
+                <span>{User.displayName}</span>
+              </section>
             </section>
-          </section>
-        </article>
+          </article>
         )}
       </aside>
     );
