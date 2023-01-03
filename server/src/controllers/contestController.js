@@ -269,6 +269,10 @@ module.exports.getCustomersContests = async (req, res, next) => {
         model: Offer,
         required: false,
         attributes: ["id"],
+        where: {
+          passedModeration: true,
+          banned: false,
+        },
       },
     ],
   })
@@ -307,7 +311,14 @@ module.exports.getContests = async (req, res, next) => {
       {
         model: Offer,
         required: req.body.ownEntries,
-        where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
+        where: req.body.ownEntries
+          ? {
+              userId: req.tokenData.userId,
+            }
+          : {
+              passedModeration: true,
+              banned: false,
+            },
         attributes: ["id"],
       },
     ],

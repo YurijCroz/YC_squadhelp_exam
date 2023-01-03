@@ -40,3 +40,6 @@ export const getContestById = (data) => http.get('/api/contests/getContestById',
     contestId: data.contestId,
   },
 });
+
+export const getModeratorContests = (data) => http.post('/api/moderation/get-contests', data);
+export const getModeratorOffers = (data) => http.post('/api/moderation/get-offers', data);

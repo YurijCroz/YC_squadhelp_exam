@@ -6,28 +6,33 @@ const upload = require("../utils/fileUpload");
 
 const moderatorRouter = Router()
 
-moderatorRouter.get(
-  "/get_contests",
+moderatorRouter.post(
+  "/get-contests",
+  checkToken.checkToken,
   moderatorController.getContests
 );
 
-moderatorRouter.get(
-  "/get_contestId",
+moderatorRouter.post(
+  "/get-contestId",
+  checkToken.checkToken,
   moderatorController.getContestById
 );
 
-moderatorRouter.patch(
-  "/update_contestId",
+moderatorRouter.post(
+  "/update-contestId",
+  checkToken.checkToken,
   moderatorController.updateContestById
 );
 
-moderatorRouter.get(
-  "/get_offers",
+moderatorRouter.post(
+  "/get-offers",
+  checkToken.checkToken,
   moderatorController.getOffers
 );
 
-moderatorRouter.patch(
-  "/update_offerId",
+moderatorRouter.post(
+  "/update-offerId",
+  checkToken.checkToken,
   moderatorController.updateOfferById
 );
 

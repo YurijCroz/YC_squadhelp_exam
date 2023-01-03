@@ -292,3 +292,22 @@ export const changeModalShow = (data) => ({
   type: ACTION.CHANGE_SHOW_MODAL,
   data,
 });
+
+export const getContestsForModerator = (data) => ({
+  type: ACTION.GET_CONTESTS_FOR_MODERATOR,
+  data,
+});
+
+export const getOffersForModerator = (data) => ({
+  type: ACTION.GET_OFFERS_FOR_MODERATOR,
+  data,
+});
+
+export const clearModerationList = () => ({
+  type: ACTION.CLEAR_MODERATION_LIST,
+});
+
+export const setNewModerationFilter = (filter) => ({
+  type: ACTION.SET_NEW_MODERATION_FILTER,
+  filter,
+});

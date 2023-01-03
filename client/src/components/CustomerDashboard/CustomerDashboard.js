@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import classNames from "classnames";
+import classnames from "classnames";
 import {
   getContestsForCustomer,
   clearContestList,
@@ -76,7 +76,7 @@ class CustomerDashboard extends React.Component {
             onClick={() =>
               this.props.newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)
             }
-            className={classNames({
+            className={classnames(styles.btn, {
               [styles.activeFilter]:
                 CONSTANTS.CONTEST_STATUS_ACTIVE === customerFilter,
               [styles.filter]:
@@ -89,7 +89,7 @@ class CustomerDashboard extends React.Component {
             onClick={() =>
               this.props.newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)
             }
-            className={classNames({
+            className={classnames(styles.btn, {
               [styles.activeFilter]:
                 CONSTANTS.CONTEST_STATUS_FINISHED === customerFilter,
               [styles.filter]:
@@ -102,7 +102,7 @@ class CustomerDashboard extends React.Component {
             onClick={() =>
               this.props.newFilter(CONSTANTS.CONTEST_STATUS_PENDING)
             }
-            className={classNames({
+            className={classnames(styles.btn, {
               [styles.activeFilter]:
                 CONSTANTS.CONTEST_STATUS_PENDING === customerFilter,
               [styles.filter]:
