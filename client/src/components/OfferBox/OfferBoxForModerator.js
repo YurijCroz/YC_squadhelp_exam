@@ -88,7 +88,7 @@ const OfferBoxForModerator = (props) => {
       </article>
       <section className={styles.btnsContainer}>
         <button onClick={resolveOffer} className={styles.resolveBtn}>
-          Resolve
+          Accept
         </button>
         <button onClick={rejectOffer} className={styles.rejectBtn}>
           Reject

@@ -12,8 +12,8 @@ moderatorRouter.post(
   moderatorController.getContests
 );
 
-moderatorRouter.post(
-  "/get-contestId",
+moderatorRouter.get(
+  "/getContestByIdForModerator",
   checkToken.checkToken,
   moderatorController.getContestById
 );

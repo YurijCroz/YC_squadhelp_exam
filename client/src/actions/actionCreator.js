@@ -311,3 +311,12 @@ export const setNewModerationFilter = (filter) => ({
   type: ACTION.SET_NEW_MODERATION_FILTER,
   filter,
 });
+
+export const getContestByIdForModerator = (data) => ({
+  type: ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ACTION,
+  data,
+});
+
+export const clearContestByIdForModerator = () => ({
+  type: ACTION.CLEAR_CONTEST_BY_ID_FOR_MODERATOR,
+});

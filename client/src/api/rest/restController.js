@@ -43,3 +43,8 @@ export const getContestById = (data) => http.get('/api/contests/getContestById',
 
 export const getModeratorContests = (data) => http.post('/api/moderation/get-contests', data);
 export const getModeratorOffers = (data) => http.post('/api/moderation/get-offers', data);
+export const getContestByIdForModerator = (data) => http.get('/api/moderation/getContestByIdForModerator', {
+  headers: {
+    contestId: data.contestId,
+  },
+});

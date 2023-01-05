@@ -42,32 +42,27 @@ module.exports.getContests = async (req, res, next) => {
 module.exports.getContestById = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.MODER) {
-      const moderData = await Contest.findOne({
-        where: { id: 22 },
+      const contestInfo = await Contest.findOne({
+        where: { id: req.headers.contestid },
         attributes: {
           exclude: [
             "orderId",
             "userId",
             "createdAt",
+            "updatedAt",
             "status",
-            "prize",
             "priority",
           ],
         },
         order: [["updatedAt", "ASC"]],
         include: {
           model: User,
-          attributes: [
-            "id",
-            "firstName",
-            "lastName",
-            "displayName",
-            "email",
-            "avatar",
-          ],
+          attributes: {
+            exclude: ["password", "role", "balance", "accessToken"]
+          }
         },
       });
-      res.status(200).send({ moderData });
+      res.status(200).send( contestInfo );
     }
   } catch (error) {
     next(error);
