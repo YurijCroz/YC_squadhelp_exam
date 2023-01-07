@@ -145,7 +145,6 @@ export const goToExpandedDialog = (data) => ({
 });
 
 export const getDialogMessages = (data) => ({
-
   type: ACTION.GET_DIALOG_MESSAGES_ASYNC,
   data,
 });
@@ -320,3 +319,12 @@ export const getContestByIdForModerator = (data) => ({
 export const clearContestByIdForModerator = () => ({
   type: ACTION.CLEAR_CONTEST_BY_ID_FOR_MODERATOR,
 });
+
+export const moderationContest = (data) => ({
+  type: ACTION.MODERATION_CONTEST_ACTION,
+  data,
+});
+
+export const backToModerationList = () => ({
+  type: ACTION.BACK_TO_MODERATION_LIST,
+})

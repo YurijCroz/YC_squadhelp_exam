@@ -34,6 +34,7 @@ import {
   moderatorContestsSaga,
   moderatorOffersSaga,
   getContestByIdForModeratorSaga,
+  moderationContestSaga,
 } from "./moderatorSaga";
 
 function* rootSaga() {
@@ -68,6 +69,7 @@ function* rootSaga() {
   yield takeLeading(ACTION.GET_CONTESTS_FOR_MODERATOR, moderatorContestsSaga);
   yield takeLeading(ACTION.GET_OFFERS_FOR_MODERATOR, moderatorOffersSaga);
   yield takeLatest(ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ACTION, getContestByIdForModeratorSaga);
+  yield takeLatest(ACTION.MODERATION_CONTEST_ACTION, moderationContestSaga);
 }
 
 export default rootSaga;

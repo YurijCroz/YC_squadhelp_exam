@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { confirmAlert } from "react-confirm-alert";
 import classnames from "classnames";
 import {
   getContestByIdForModerator,
   clearContestByIdForModerator,
-  changeEditContest,
+  moderationContest,
+  backToModerationList,
 } from "../../actions/actionCreator";
 import Header from "../../components/Header/Header";
 import ContestSideBar from "../../components/ContestSideBar/ContestSideBar";
@@ -14,12 +16,12 @@ import CONSTANTS from "../../constants";
 import Brief from "../../components/Brief/Brief";
 import Spinner from "../../components/Spinner/Spinner";
 import TryAgain from "../../components/TryAgain/TryAgain";
-import "react-image-lightbox/style.css";
+import "../../components/OfferBox/confirmStyle.css";
 
 function ContestPageForModerator(props) {
   const { role } = props.userStore.data;
-  const { contestByIdStore, getData, history } = props;
-  const { error, isFetching, contestData } = contestByIdStore;
+  const { getData, history, moderationContest, backPageAction } = props;
+  const { error, isFetching, contestData, backPage } = props.contestByIdStore;
 
   const getDataHandler = () => {
     const { params } = props.match;
@@ -32,7 +34,60 @@ function ContestPageForModerator(props) {
     return () => props.clearData();
   }, []);
 
-  const clickBackHandler = () => history.goBack();
+  useEffect(() => {
+    if (backPage) history.goBack();
+  }, [backPage]);
+
+  const moderationHelper = () => {
+    const data = {
+      contestId: contestData.id,
+      passedModeration: true,
+    };
+    return data;
+  };
+
+  const moderationAcceptHandler = () => {
+    const data = moderationHelper();
+    moderationContest(data);
+  };
+
+  const moderationRejectHandler = () => {
+    const data = moderationHelper();
+    data.banned = true;
+    moderationContest(data);
+  };
+
+  const acceptContest = () => {
+    confirmAlert({
+      title: "confirm",
+      message: "Are you sure you want to accept?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => moderationAcceptHandler()
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
+
+  const rejectContest = () => {
+    confirmAlert({
+      title: "confirm",
+      message: "Are you sure you want to reject?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => moderationRejectHandler()
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
 
   return (
     <>
@@ -55,13 +110,19 @@ function ContestPageForModerator(props) {
             </section>
             <Brief contestData={contestData} role={role} />
             <section className={styles.btnsContainer}>
-              <button onClick={clickBackHandler} className={styles.backBtn}>
+              <button onClick={backPageAction} className={styles.backBtn}>
                 Back
               </button>
-              <button onClick={() => {}} className={styles.acceptBtn}>
+              <button
+                onClick={acceptContest}
+                className={styles.acceptBtn}
+              >
                 Accept
               </button>
-              <button onClick={() => {}} className={styles.rejectBtn}>
+              <button
+                onClick={rejectContest}
+                className={styles.rejectBtn}
+              >
                 Reject
               </button>
             </section>
@@ -81,6 +142,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   getData: (data) => dispatch(getContestByIdForModerator(data)),
   clearData: () => dispatch(clearContestByIdForModerator()),
+  moderationContest: (data) => dispatch(moderationContest(data)),
+  backPageAction: () => dispatch(backToModerationList()),
 });
 
 export default connect(

@@ -87,7 +87,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/moderation-contest/:id"
+            path="/dashboard/moderation-contest/:id"
             component={PrivateHoc(ContestPageForModerator)}
           />
           <Route exact path="/account" component={PrivateHoc(UserProfile)} />

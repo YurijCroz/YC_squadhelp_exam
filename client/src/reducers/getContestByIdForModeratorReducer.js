@@ -1,3 +1,4 @@
+import { tr } from 'date-fns/locale';
 import ACTION from '../actions/actionTypes';
 import CONTANTS from '../constants';
 
@@ -5,6 +6,7 @@ const initialState = {
   isFetching: true,
   contestData: null,
   error: null,
+  backPage: false,
 };
 
 export default function (state = initialState, action) {
@@ -38,6 +40,34 @@ export default function (state = initialState, action) {
         error: null,
         contestData: null,
         isFetching: true,
+        backPage: false,
+      }
+    }
+    case ACTION.MODERATION_CONTEST_REQUEST: {
+      return {
+        ...state,
+        isFetching: true,
+      }
+    }
+    case ACTION.MODERATION_CONTEST_SUCCESS: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        backPage: true,
+      }
+    }
+    case ACTION.MODERATION_CONTEST_ERROR: {
+      return {
+        ...state,
+        isFetching: false,
+        error: action.error,
+      }
+    }
+    case ACTION.BACK_TO_MODERATION_LIST: {
+      return {
+        ...state,
+        backPage: true,
       }
     }
     default:

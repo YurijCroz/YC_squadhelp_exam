@@ -47,8 +47,6 @@ function ModeratorDashboard(props) {
           <OfferBoxForModerator
             data={moderData[i]}
             key={moderData[i].id}
-            // contestType={props.contestByIdStore.contestData.contestType}
-            // date={new Date()}
           />
         );
       }
@@ -77,7 +75,7 @@ function ModeratorDashboard(props) {
   };
 
   const goToExtended = (contest_id) => {
-    props.history.push(`/moderation-contest/${contest_id}`);
+    props.history.push(`/dashboard/moderation-contest/${contest_id}`);
   };
 
   useEffect(() => {

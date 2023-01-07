@@ -58,31 +58,33 @@ module.exports.getContestById = async (req, res, next) => {
         include: {
           model: User,
           attributes: {
-            exclude: ["password", "role", "balance", "accessToken"]
-          }
+            exclude: ["password", "role", "balance", "accessToken"],
+          },
         },
       });
-      res.status(200).send( contestInfo );
+      res.status(200).send(contestInfo);
     }
   } catch (error) {
     next(error);
   }
 };
 
-module.exports.updateContestById = async (req, res, next) => {
+module.exports.moderationContestById = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.MODER) {
-      const newState = await Contest.update(
-        {
-          passedModeration: true,
+      const data = {
+        passedModeration: req.body.passedModeration,
+        banned: false
+      };
+      if (req.body.banned) {
+        data.banned = req.body.banned;
+      }
+      const newState = await Contest.update(data, {
+        where: {
+          id: req.body.contestId,
         },
-        {
-          where: {
-            id: 16,
-          },
-          returning: true,
-        }
-      );
+        returning: true,
+      });
       res.status(200).send(newState);
     }
   } catch (error) {
@@ -110,10 +112,6 @@ module.exports.getOffers = async (req, res, next) => {
         },
         limit: req.body.limit,
         offset: req.body.offset,
-        // ! Пагинация
-        // offset:((1)*3),
-        // limit : 3,
-        // subQuery:false
       });
       let haveMore = true;
       if (moderData.length === 0) {
@@ -126,7 +124,7 @@ module.exports.getOffers = async (req, res, next) => {
   }
 };
 
-module.exports.updateOfferById = async (req, res, next) => {
+module.exports.moderationOfferById = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.MODER) {
       const newState = await Offer.update(

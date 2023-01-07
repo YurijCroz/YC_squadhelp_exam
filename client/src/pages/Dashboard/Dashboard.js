@@ -30,7 +30,7 @@ const Dashboard = ({ role, history, match }) => {
     <>
       <Header />
       {renderDashboard()}
-      <Footer />
+      {role !== CONSTANTS.MODER && <Footer />}
     </>
   );
 };

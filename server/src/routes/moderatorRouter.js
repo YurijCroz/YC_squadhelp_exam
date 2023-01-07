@@ -19,9 +19,9 @@ moderatorRouter.get(
 );
 
 moderatorRouter.post(
-  "/update-contestId",
+  "/moderation-contestId",
   checkToken.checkToken,
-  moderatorController.updateContestById
+  moderatorController.moderationContestById
 );
 
 moderatorRouter.post(
@@ -33,7 +33,7 @@ moderatorRouter.post(
 moderatorRouter.post(
   "/update-offerId",
   checkToken.checkToken,
-  moderatorController.updateOfferById
+  moderatorController.moderationOfferById
 );
 
 module.exports = moderatorRouter

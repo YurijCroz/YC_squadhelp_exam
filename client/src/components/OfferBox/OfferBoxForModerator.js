@@ -18,7 +18,6 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import "./confirmStyle.css";
 
 const OfferBoxForModerator = (props) => {
-
   const resolveOffer = () => {
     confirmAlert({
       title: "confirm",
@@ -61,9 +60,9 @@ const OfferBoxForModerator = (props) => {
         <section className={styles.userInfo}>
           <section className={styles.creativeInfoContainer}>
             <section className={styles.nameAndEmail}>
-              <span
-                className={styles.margin}
-              >{`${firstName} ${lastName}`}</span>
+              <span className={styles.margin}>
+                {`${firstName} ${lastName}`}
+              </span>
               <span className={styles.margin}>{email}</span>
             </section>
           </section>
@@ -99,9 +98,6 @@ const OfferBoxForModerator = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeMark: (data) => dispatch(changeMark(data)),
-  clearError: () => dispatch(clearChangeMarkError()),
-  goToExpandedDialog: (data) => dispatch(goToExpandedDialog(data)),
   changeShowImage: (data) => dispatch(changeShowImage(data)),
 });
 

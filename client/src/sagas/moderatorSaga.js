@@ -31,3 +31,13 @@ export function* getContestByIdForModeratorSaga(action) {
     yield put({ type: ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ERROR, error: e.response });
   }
 }
+
+export function* moderationContestSaga(action) {
+  yield put({ type: ACTION.MODERATION_CONTEST_REQUEST });
+  try {
+    const { data } = yield restController.moderationContest(action.data);
+    yield put({ type: ACTION.MODERATION_CONTEST_SUCCESS, data });
+  } catch (e) {
+    yield put({ type: ACTION.MODERATION_CONTEST_ERROR, error: e.response });
+  }
+}
