@@ -1,4 +1,3 @@
-import { eachHourOfIntervalWithOptions } from 'date-fns/fp';
 import http from '../interceptor';
 
 export const registerRequest = (data) => http.post('/api/auth/registration', data);
@@ -50,3 +49,4 @@ export const getContestByIdForModerator = (data) => http.get('/api/moderation/ge
   },
 });
 export const moderationContest = (data) => http.post('/api/moderation/moderation-contestId', data);
+export const moderationOffer = (data) => http.post('/api/moderation/moderation-offerId', data);

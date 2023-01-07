@@ -1,8 +1,6 @@
 const { Router } = require("express");
-const basicMiddlewares = require("../middlewares/basicMiddlewares");
 const moderatorController = require("../controllers/moderatorController");
 const checkToken = require("../middlewares/checkToken");
-const upload = require("../utils/fileUpload");
 
 const moderatorRouter = Router()
 
@@ -31,7 +29,7 @@ moderatorRouter.post(
 );
 
 moderatorRouter.post(
-  "/update-offerId",
+  "/moderation-offerId",
   checkToken.checkToken,
   moderatorController.moderationOfferById
 );

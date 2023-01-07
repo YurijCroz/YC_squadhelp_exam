@@ -1,17 +1,4 @@
-const {
-  Sequelize,
-  sequelize,
-  Select,
-  Contest,
-  Offer,
-  User,
-  Rating,
-} = require("../models");
-const ServerError = require("../errors/ServerError");
-const contestQueries = require("./queries/contestQueries");
-const userQueries = require("./queries/userQueries");
-const controller = require("../socketInit");
-const UtilFunctions = require("../utils/functions");
+const { Contest, Offer, User } = require("../models");
 const CONSTANTS = require("../constants");
 
 module.exports.getContests = async (req, res, next) => {
@@ -74,7 +61,7 @@ module.exports.moderationContestById = async (req, res, next) => {
     if (req.tokenData.role === CONSTANTS.MODER) {
       const data = {
         passedModeration: req.body.passedModeration,
-        banned: false
+        banned: false,
       };
       if (req.body.banned) {
         data.banned = req.body.banned;
@@ -127,17 +114,19 @@ module.exports.getOffers = async (req, res, next) => {
 module.exports.moderationOfferById = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.MODER) {
-      const newState = await Offer.update(
-        {
-          passedModeration: true,
+      const data = {
+        passedModeration: req.body.passedModeration,
+        banned: false,
+      };
+      if (req.body.banned) {
+        data.banned = req.body.banned;
+      }
+      const newState = await Offer.update(data, {
+        where: {
+          id: req.body.offerId,
         },
-        {
-          where: {
-            id: 22,
-          },
-          returning: true,
-        }
-      );
+        returning: true,
+      });
       res.status(200).send(newState);
     }
   } catch (error) {

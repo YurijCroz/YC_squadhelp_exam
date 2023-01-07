@@ -58,6 +58,14 @@ export default function (state = initialState, action) {
         imagePath: action.data.imagePath,
       };
     }
+    case ACTION.MODERATION_OFFER_ERROR: {
+      return {
+        ...state,
+        isFetching: false,
+        error: action.error,
+        moderData: [],
+      }
+    }
     default:
       return state;
   }

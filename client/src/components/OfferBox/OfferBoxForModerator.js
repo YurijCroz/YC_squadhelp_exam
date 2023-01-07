@@ -1,32 +1,44 @@
 import React from "react";
 import { connect } from "react-redux";
-import Rating from "react-rating";
 import { withRouter } from "react-router-dom";
-import isEqual from "lodash/isEqual";
-import classnames from "classnames";
 import { confirmAlert } from "react-confirm-alert";
-import {
-  changeMark,
-  clearChangeMarkError,
-  goToExpandedDialog,
-  changeShowImage,
-  changeModalShow,
-} from "../../actions/actionCreator";
+import { changeShowImage, moderationOffer } from "../../actions/actionCreator";
 import CONSTANTS from "../../constants";
 import styles from "./OfferBox.module.sass";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./confirmStyle.css";
 
 const OfferBoxForModerator = (props) => {
-  const resolveOffer = () => {
+  const { data, moderationOffer } = props;
+  const { firstName, lastName, email } = props.data.User;
+
+  const moderationHelper = () => {
+    const data = {
+      offerId: props.data.id,
+      passedModeration: true,
+    };
+    return data;
+  };
+
+  const moderationAcceptHandler = () => {
+    const data = moderationHelper();
+    moderationOffer(data);
+  };
+
+  const moderationRejectHandler = () => {
+    const data = moderationHelper();
+    data.banned = true;
+    moderationOffer(data);
+  };
+
+  const acceptOffer = () => {
     confirmAlert({
       title: "confirm",
-      message: "Are u sure?",
+      message: "Are you sure you want to accept?",
       buttons: [
         {
           label: "Yes",
-          onClick: () =>
-            props.setOfferStatus(props.data.User.id, props.data.id, "resolve"),
+          onClick: () => moderationAcceptHandler(),
         },
         {
           label: "No",
@@ -38,12 +50,11 @@ const OfferBoxForModerator = (props) => {
   const rejectOffer = () => {
     confirmAlert({
       title: "confirm",
-      message: "Are u sure?",
+      message: "Are you sure you want to reject?",
       buttons: [
         {
           label: "Yes",
-          onClick: () =>
-            props.setOfferStatus(props.data.User.id, props.data.id, "reject"),
+          onClick: () => moderationRejectHandler(),
         },
         {
           label: "No",
@@ -52,8 +63,6 @@ const OfferBoxForModerator = (props) => {
     });
   };
 
-  const { data, role, id, contestType } = props;
-  const { firstName, lastName, email } = props.data.User;
   return (
     <section className={styles.offerContainer}>
       <article className={styles.mainInfoContainer}>
@@ -66,6 +75,9 @@ const OfferBoxForModerator = (props) => {
               <span className={styles.margin}>{email}</span>
             </section>
           </section>
+        </section>
+        <section className={styles.idOffer}>
+          <span>{`(#${data.id})`}</span>
         </section>
         <section className={styles.responseConainer}>
           {data.fileName ? (
@@ -86,7 +98,7 @@ const OfferBoxForModerator = (props) => {
         </section>
       </article>
       <section className={styles.btnsContainer}>
-        <button onClick={resolveOffer} className={styles.resolveBtn}>
+        <button onClick={acceptOffer} className={styles.resolveBtn}>
           Accept
         </button>
         <button onClick={rejectOffer} className={styles.rejectBtn}>
@@ -99,20 +111,10 @@ const OfferBoxForModerator = (props) => {
 
 const mapDispatchToProps = (dispatch) => ({
   changeShowImage: (data) => dispatch(changeShowImage(data)),
+  moderationOffer: (data) => dispatch(moderationOffer(data)),
 });
 
-const mapStateToProps = (state) => {
-  const { changeMarkError, isShowModal } = state.contestByIdStore;
-  const { id, role } = state.userStore.data;
-  const { messagesPreview } = state.chatStore;
-  return {
-    changeMarkError,
-    id,
-    role,
-    messagesPreview,
-    isShowModal,
-  };
-};
+const mapStateToProps = (state) => state.moderatorList;
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(OfferBoxForModerator)

@@ -327,4 +327,9 @@ export const moderationContest = (data) => ({
 
 export const backToModerationList = () => ({
   type: ACTION.BACK_TO_MODERATION_LIST,
-})
+});
+
+export const moderationOffer = (data) => ({
+  type: ACTION.MODERATION_OFFER_ACTION,
+  data,
+});

@@ -64,7 +64,7 @@ function ContestPageForModerator(props) {
       buttons: [
         {
           label: "Yes",
-          onClick: () => moderationAcceptHandler()
+          onClick: () => moderationAcceptHandler(),
         },
         {
           label: "No",
@@ -80,7 +80,7 @@ function ContestPageForModerator(props) {
       buttons: [
         {
           label: "Yes",
-          onClick: () => moderationRejectHandler()
+          onClick: () => moderationRejectHandler(),
         },
         {
           label: "No",
@@ -113,16 +113,10 @@ function ContestPageForModerator(props) {
               <button onClick={backPageAction} className={styles.backBtn}>
                 Back
               </button>
-              <button
-                onClick={acceptContest}
-                className={styles.acceptBtn}
-              >
+              <button onClick={acceptContest} className={styles.acceptBtn}>
                 Accept
               </button>
-              <button
-                onClick={rejectContest}
-                className={styles.rejectBtn}
-              >
+              <button onClick={rejectContest} className={styles.rejectBtn}>
                 Reject
               </button>
             </section>

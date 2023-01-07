@@ -1,4 +1,4 @@
-import { put, select } from "redux-saga/effects";
+import { put } from "redux-saga/effects";
 import ACTION from "../actions/actionTypes";
 import * as restController from "../api/rest/restController";
 
@@ -39,5 +39,15 @@ export function* moderationContestSaga(action) {
     yield put({ type: ACTION.MODERATION_CONTEST_SUCCESS, data });
   } catch (e) {
     yield put({ type: ACTION.MODERATION_CONTEST_ERROR, error: e.response });
+  }
+}
+
+export function* moderationOfferSaga(action) {
+  try {
+    yield restController.moderationOffer(action.data);
+    yield put({ type: ACTION.CLEAR_MODERATION_LIST });
+    yield put({ type: ACTION.GET_OFFERS_FOR_MODERATOR });
+  } catch (e) {
+    yield put({ type: ACTION.MODERATION_OFFER_ERROR, error: e.response });
   }
 }
