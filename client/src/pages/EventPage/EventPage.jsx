@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./EventPage.module.sass";
@@ -15,13 +14,13 @@ const getItemLocal = () => localStorage.getItem(CONSTANTS.EVENT_KEY);
 const getDiffInSec = (dateA, dateB = new Date()) =>
   differenceInSeconds(new Date(dateA), dateB);
 
-function EventPage({ role }) {
+function EventPage({ role, history }) {
   const [frustratedEvents, setFrustratedEvents] = useState(null);
   const [happenedEvents, setHappenedEvents] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    if (role !== CONSTANTS.CUSTOMER) return <Redirect to="/" />;
+    if (role !== CONSTANTS.CUSTOMER) history.push("/");
   }, []);
 
   useEffect(() => {

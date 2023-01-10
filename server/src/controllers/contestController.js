@@ -300,7 +300,7 @@ module.exports.getContests = async (req, res, next) => {
   await Contest.findAll({
     where: {
       ...predicates.where,
-      status: "active",
+      // status: "active",
       passedModeration: true,
       banned: false,
     },

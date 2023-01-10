@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
 import { changeShowImage, moderationOffer } from "../../actions/actionCreator";
 import CONSTANTS from "../../constants";
+import classnames from "classnames";
 import styles from "./OfferBox.module.sass";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./confirmStyle.css";
@@ -22,6 +23,7 @@ const OfferBoxForModerator = (props) => {
 
   const moderationAcceptHandler = () => {
     const data = moderationHelper();
+    data.banned = false;
     moderationOffer(data);
   };
 
@@ -63,8 +65,36 @@ const OfferBoxForModerator = (props) => {
     });
   };
 
+  const offerStatus = () => {
+    if (data.passedModeration === false && data.banned === false) {
+      return (
+        <span
+          className={classnames(styles.statusOffer, styles.statusInspection)}
+        >
+          inspection
+        </span>
+      );
+    }
+    if (data.passedModeration === true && data.banned === false) {
+      return (
+        <span className={classnames(styles.statusOffer, styles.statusPassed)}>
+          passed
+        </span>
+      );
+    }
+    if (data.passedModeration === true && data.banned === true) {
+      return (
+        <span className={classnames(styles.statusOffer, styles.statusBanned)}>
+          banned
+        </span>
+      );
+    }
+    return null;
+  };
+
   return (
     <section className={styles.offerContainer}>
+      {offerStatus()}
       <article className={styles.mainInfoContainer}>
         <section className={styles.userInfo}>
           <section className={styles.creativeInfoContainer}>
@@ -79,7 +109,7 @@ const OfferBoxForModerator = (props) => {
         <section className={styles.idOffer}>
           <span>{`(#${data.id})`}</span>
         </section>
-        <section className={styles.responseConainer}>
+        <section className={styles.responseContainer}>
           {data.fileName ? (
             <img
               onClick={() =>
@@ -98,12 +128,28 @@ const OfferBoxForModerator = (props) => {
         </section>
       </article>
       <section className={styles.btnsContainer}>
-        <button onClick={acceptOffer} className={styles.resolveBtn}>
-          Accept
-        </button>
-        <button onClick={rejectOffer} className={styles.rejectBtn}>
-          Reject
-        </button>
+        {!data.passedModeration || data.banned ? (
+          <button onClick={acceptOffer} className={styles.resolveBtn}>
+            Accept
+          </button>
+        ) : (
+          <button
+            className={classnames(styles.acceptBtn, styles.deactivateAcceptBtn)}
+          >
+            Accept
+          </button>
+        )}
+        {!data.banned ? (
+          <button onClick={rejectOffer} className={styles.rejectBtn}>
+            Reject
+          </button>
+        ) : (
+          <button
+            className={classnames(styles.rejectBtn, styles.deactivateRejectBtn)}
+          >
+            Reject
+          </button>
+        )}
       </section>
     </section>
   );

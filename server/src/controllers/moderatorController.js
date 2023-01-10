@@ -1,11 +1,13 @@
 const { Contest, Offer, User } = require("../models");
 const CONSTANTS = require("../constants");
+const utilFunctions = require("../utils/functions");
 
 module.exports.getContests = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.MODER) {
+      const where = utilFunctions.whereHelper(req.body.filter)
       const moderData = await Contest.findAll({
-        where: { passedModeration: false },
+        where: { ...where },
         attributes: ["id", "title", "updatedAt", "contestType"],
         order: [["updatedAt", "ASC"]],
         include: {
@@ -59,14 +61,10 @@ module.exports.getContestById = async (req, res, next) => {
 module.exports.moderationContestById = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.MODER) {
-      const data = {
+      const newState = await Contest.update({
         passedModeration: req.body.passedModeration,
-        banned: false,
-      };
-      if (req.body.banned) {
-        data.banned = req.body.banned;
-      }
-      const newState = await Contest.update(data, {
+        banned: req.body.banned,
+      }, {
         where: {
           id: req.body.contestId,
         },
@@ -82,8 +80,9 @@ module.exports.moderationContestById = async (req, res, next) => {
 module.exports.getOffers = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.MODER) {
+      const where = utilFunctions.whereHelper(req.body.filter)
       const moderData = await Offer.findAll({
-        where: { passedModeration: false },
+        where: { ...where },
         attributes: [
           "id",
           "text",
@@ -114,14 +113,10 @@ module.exports.getOffers = async (req, res, next) => {
 module.exports.moderationOfferById = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.MODER) {
-      const data = {
+      const newState = await Offer.update({
         passedModeration: req.body.passedModeration,
-        banned: false,
-      };
-      if (req.body.banned) {
-        data.banned = req.body.banned;
-      }
-      const newState = await Offer.update(data, {
+        banned: req.body.banned,
+      }, {
         where: {
           id: req.body.offerId,
         },

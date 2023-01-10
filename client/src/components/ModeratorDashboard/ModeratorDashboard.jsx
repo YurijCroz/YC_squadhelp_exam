@@ -8,6 +8,7 @@ import {
   clearModerationList,
   setNewModerationFilter,
   changeShowImage,
+  setStatusModerationFilter,
 } from "../../actions/actionCreator";
 import styles from "./ModeratorDashboard.module.sass";
 import TryAgain from "../TryAgain/TryAgain";
@@ -18,15 +19,9 @@ import ContestBoxForModerator from "../ContestBox/ContestBoxForModerator";
 import OfferBoxForModerator from "../OfferBox/OfferBoxForModerator";
 
 function ModeratorDashboard(props) {
-  const {
-    moderatorFilter,
-    error,
-    haveMore,
-    clearModerationList,
-    isShowOnFull,
-    imagePath,
-    changeShowImage,
-  } = props;
+  const { moderatorFilter, error, haveMore, clearModerationList } = props,
+    { isShowOnFull, imagePath, changeShowImage } = props,
+    { refresh, filterStatus, setFilterStatus } = props;
 
   const setModerationList = () => {
     const array = [];
@@ -44,28 +39,29 @@ function ModeratorDashboard(props) {
     } else if (moderatorFilter === CONSTANTS.MODER_STATUS_OFFERS) {
       for (let i = 0; i < moderData.length; i++) {
         array.push(
-          <OfferBoxForModerator
-            data={moderData[i]}
-            key={moderData[i].id}
-          />
+          <OfferBoxForModerator data={moderData[i]} key={moderData[i].id} />
         );
       }
     }
     return array;
   };
 
+  const filterStatusHandler = () => {
+    const state = window.document.getElementById("select");
+    setFilterStatus(state.value);
+  };
+
   const getModerationList = (startFrom = 0) => {
+    const data = {
+      limit: 8,
+      offset: startFrom,
+      filter: filterStatus,
+    };
     if (moderatorFilter === CONSTANTS.MODER_STATUS_CONTESTS) {
-      props.getContests({
-        limit: 8,
-        offset: startFrom,
-      });
+      props.getContests({ ...data });
     }
     if (moderatorFilter === CONSTANTS.MODER_STATUS_OFFERS) {
-      props.getOffers({
-        limit: 8,
-        offset: startFrom,
-      });
+      props.getOffers({ ...data });
     }
   };
 
@@ -79,34 +75,55 @@ function ModeratorDashboard(props) {
   };
 
   useEffect(() => {
+    if (refresh) {
+      getModerationList();
+    }
+  }, [refresh]);
+
+  useEffect(() => {
     getModerationList();
     return () => clearModerationList();
-  }, [moderatorFilter]);
+  }, [moderatorFilter, filterStatus]);
 
   return (
     <main className={styles.mainContainer}>
       <aside className={styles.filterContainer}>
-        <section
-          onClick={() => props.newFilter(CONSTANTS.MODER_STATUS_CONTESTS)}
-          className={classnames(styles.btn, {
-            [styles.activeFilter]:
-              CONSTANTS.MODER_STATUS_CONTESTS === moderatorFilter,
-            [styles.filter]:
-              CONSTANTS.MODER_STATUS_CONTESTS !== moderatorFilter,
-          })}
-        >
-          <h4>Contests</h4>
+        <section className={styles.btnContainer}>
+          <section
+            onClick={() => props.newFilter(CONSTANTS.MODER_STATUS_CONTESTS)}
+            className={classnames(styles.btn, {
+              [styles.activeFilter]:
+                CONSTANTS.MODER_STATUS_CONTESTS === moderatorFilter,
+              [styles.filter]:
+                CONSTANTS.MODER_STATUS_CONTESTS !== moderatorFilter,
+            })}
+          >
+            <h4>Contests</h4>
+          </section>
+          <section
+            onClick={() => props.newFilter(CONSTANTS.MODER_STATUS_OFFERS)}
+            className={classnames(styles.btn, {
+              [styles.activeFilter]:
+                CONSTANTS.MODER_STATUS_OFFERS === moderatorFilter,
+              [styles.filter]:
+                CONSTANTS.MODER_STATUS_OFFERS !== moderatorFilter,
+            })}
+          >
+            <h4>Offers</h4>
+          </section>
         </section>
-        <section
-          onClick={() => props.newFilter(CONSTANTS.MODER_STATUS_OFFERS)}
-          className={classnames(styles.btn, {
-            [styles.activeFilter]:
-              CONSTANTS.MODER_STATUS_OFFERS === moderatorFilter,
-            [styles.filter]: CONSTANTS.MODER_STATUS_OFFERS !== moderatorFilter,
-          })}
+        <select
+          id="select"
+          name="stateList"
+          value={filterStatus}
+          className={styles.select}
+          onChange={filterStatusHandler}
         >
-          <h4>Offers</h4>
-        </section>
+          <option value="inspection">inspection</option>
+          <option value="passed">passed</option>
+          <option value="banned">banned</option>
+          <option value="all">all</option>
+        </select>
       </aside>
       <section className={styles.contestsContainer}>
         {isShowOnFull && (
@@ -141,6 +158,7 @@ const mapDispatchToProps = (dispatch) => ({
   getOffers: (data) => dispatch(getOffersForModerator(data)),
   clearModerationList: () => dispatch(clearModerationList()),
   newFilter: (filter) => dispatch(setNewModerationFilter(filter)),
+  setFilterStatus: (filter) => dispatch(setStatusModerationFilter(filter)),
   changeShowImage: (data) => dispatch(changeShowImage(data)),
 });
 

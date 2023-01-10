@@ -2,7 +2,7 @@ import { put } from "redux-saga/effects";
 import ACTION from "../actions/actionTypes";
 import * as restController from "../api/rest/restController";
 
-export function* moderatorContestsSaga(action) {
+export function* moderatorGetContestsSaga(action) {
   yield put({ type: ACTION.GET_MODERATION_ACTION_REQUEST });
   try {
     const { data } = yield restController.getModeratorContests(action.data);
@@ -12,7 +12,7 @@ export function* moderatorContestsSaga(action) {
   }
 }
 
-export function* moderatorOffersSaga(action) {
+export function* moderatorGetOffersSaga(action) {
   yield put({ type: ACTION.GET_MODERATION_ACTION_REQUEST });
   try {
     const { data } = yield restController.getModeratorOffers(action.data);
@@ -46,7 +46,7 @@ export function* moderationOfferSaga(action) {
   try {
     yield restController.moderationOffer(action.data);
     yield put({ type: ACTION.CLEAR_MODERATION_LIST });
-    yield put({ type: ACTION.GET_OFFERS_FOR_MODERATOR });
+    yield put({ type: ACTION.MODERATION_LIST_REFRESH });
   } catch (e) {
     yield put({ type: ACTION.MODERATION_OFFER_ERROR, error: e.response });
   }

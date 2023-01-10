@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Rating from "react-rating";
 import { withRouter } from "react-router-dom";
 import isEqual from "lodash/isEqual";
-import classNames from "classnames";
+import classnames from "classnames";
 import { confirmAlert } from "react-confirm-alert";
 import {
   changeMark,
@@ -18,6 +18,9 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import "./confirmStyle.css";
 
 const OfferBox = (props) => {
+  const { data, role, id, contestType } = props,
+    { avatar, firstName, lastName, email, rating } = props.data.User;
+
   const findConversationInfo = () => {
     const { messagesPreview, id } = props;
     const participants = [id, props.data.User.id];
@@ -86,15 +89,50 @@ const OfferBox = (props) => {
     if (status === CONSTANTS.OFFER_STATUS_REJECTED) {
       return (
         <i
-          className={classNames("fas fa-times-circle reject", styles.reject)}
+          className={classnames("fas fa-times-circle reject", styles.reject)}
         />
       );
     }
     if (status === CONSTANTS.OFFER_STATUS_WON) {
       return (
         <i
-          className={classNames("fas fa-check-circle resolve", styles.resolve)}
+          className={classnames("fas fa-check-circle resolve", styles.resolve)}
         />
+      );
+    }
+    if (
+      data.User.id === id &&
+      data.passedModeration === false &&
+      data.banned === false
+    ) {
+      return (
+        <span
+          className={classnames(styles.statusOffer, styles.statusInspection)}
+        >
+          inspection
+        </span>
+      );
+    }
+    if (
+      data.User.id === id &&
+      data.passedModeration === true &&
+      data.banned === false
+    ) {
+      return (
+        <span className={classnames(styles.statusOffer, styles.statusPassed)}>
+          passed
+        </span>
+      );
+    }
+    if (
+      data.User.id === id &&
+      data.passedModeration === true &&
+      data.banned === true
+    ) {
+      return (
+        <span className={classnames(styles.statusOffer, styles.statusBanned)}>
+          banned
+        </span>
       );
     }
     return null;
@@ -107,8 +145,6 @@ const OfferBox = (props) => {
     });
   };
 
-  const { data, role, id, contestType } = props;
-  const { avatar, firstName, lastName, email, rating } = props.data.User;
   return (
     <section className={styles.offerContainer}>
       {offerStatus()}
@@ -155,7 +191,7 @@ const OfferBox = (props) => {
             />
           </section>
         </section>
-        <section className={styles.responseConainer}>
+        <section className={styles.responseContainer}>
           {contestType === CONSTANTS.LOGO_CONTEST ? (
             <img
               onClick={() =>

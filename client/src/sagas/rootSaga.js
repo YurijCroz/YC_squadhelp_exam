@@ -31,8 +31,8 @@ import {
   changeCatalogName,
 } from "./chatSagas";
 import {
-  moderatorContestsSaga,
-  moderatorOffersSaga,
+  moderatorGetContestsSaga,
+  moderatorGetOffersSaga,
   getContestByIdForModeratorSaga,
   moderationContestSaga,
   moderationOfferSaga,
@@ -67,8 +67,8 @@ function* rootSaga() {
   yield takeLatest(ACTION.DELETE_CATALOG_REQUEST, deleteCatalog);
   yield takeLatest(ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST, removeChatFromCatalogSaga);
   yield takeLatest(ACTION.CHANGE_CATALOG_NAME_REQUEST, changeCatalogName);
-  yield takeLeading(ACTION.GET_CONTESTS_FOR_MODERATOR, moderatorContestsSaga);
-  yield takeLeading(ACTION.GET_OFFERS_FOR_MODERATOR, moderatorOffersSaga);
+  yield takeLeading(ACTION.GET_CONTESTS_FOR_MODERATOR, moderatorGetContestsSaga);
+  yield takeLeading(ACTION.GET_OFFERS_FOR_MODERATOR, moderatorGetOffersSaga);
   yield takeLatest(ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ACTION, getContestByIdForModeratorSaga);
   yield takeLatest(ACTION.MODERATION_CONTEST_ACTION, moderationContestSaga);
   yield takeLatest(ACTION.MODERATION_OFFER_ACTION, moderationOfferSaga);

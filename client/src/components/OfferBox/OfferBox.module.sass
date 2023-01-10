@@ -12,6 +12,22 @@
   @media(max-width: 450px)
     padding: 10px 0
 
+  .statusOffer
+    position: absolute
+    right: 10px
+    top: 10px
+    @media(max-width: 450px)
+      top: 0
+
+  .statusInspection
+    color: #ff9900
+
+  .statusPassed
+    color: green
+
+  .statusBanned
+    color: red
+
   i
     position: absolute
     left: calc(100% - 35px)
@@ -41,7 +57,7 @@
       border-radius: 8px
       color: white
 
-    .resolveBtn
+    .resolveBtn, .acceptBtn
       background-color: #8aca6b
       margin: 0 12px
 
@@ -54,6 +70,16 @@
 
       &:hover
         background-color: rgba(205, 92, 92, 0.7)
+
+    .deactivateAcceptBtn
+      cursor: not-allowed
+      &:hover
+        background-color: #8aca6b
+
+    .deactivateRejectBtn
+      cursor: not-allowed
+      &:hover
+        background-color: #CD5C5C
 
   .mainInfoContainer
     align-self: stretch
@@ -93,7 +119,7 @@
         font-size: 34px
         transform: translate(-10%, -15%)
 
-    .responseConainer
+    .responseContainer
       width: 70%
       align-self: center
       display: flex

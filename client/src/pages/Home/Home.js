@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Header from "../../components/Header/Header";
@@ -14,7 +14,13 @@ import FlexibleContainer from "../../components/FlexibleContainer/FlexibleContai
 import flexibleContent from "./flexibleContent.json";
 import AnimationText from "./AnimationText";
 
-const Home = ({ isFetching }) => {
+const Home = (props) => {
+  const { isFetching, data, history } = props;
+
+  useEffect(() => {
+    if (data && data.role === CONSTANTS.MODER) history.push("/dashboard");
+  }, [data]);
+
   return (
     <>
       <Header />
@@ -153,8 +159,8 @@ const Home = ({ isFetching }) => {
 };
 
 const mapStateToProps = (state) => {
-  const { isFetching } = state.userStore;
-  return { isFetching };
+  const { isFetching, data } = state.userStore;
+  return { isFetching, data };
 };
 
 export default connect(mapStateToProps, null)(Home);

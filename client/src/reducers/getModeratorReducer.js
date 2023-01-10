@@ -7,8 +7,10 @@ const initialState = {
   moderData: [],
   haveMore: true,
   moderatorFilter: CONSTANTS.MODER_STATUS_CONTESTS,
+  filterStatus: "inspection",
   isShowOnFull: false,
   imagePath: null,
+  refresh: false,
 };
 
 export default function (state = initialState, action) {
@@ -18,6 +20,7 @@ export default function (state = initialState, action) {
         ...state,
         isFetching: true,
         error: null,
+        refresh: false,
       };
     }
     case ACTION.GET_MODERATION_ACTION_SUCCESS: {
@@ -49,6 +52,13 @@ export default function (state = initialState, action) {
         ...initialState,
         isFetching: false,
         moderatorFilter: action.filter,
+        filterStatus: state.filterStatus,
+      };
+    }
+    case ACTION.SET_STATUS_MODERATION_FILTER: {
+      return {
+        ...state,
+        filterStatus: action.filter,
       };
     }
     case ACTION.CHANGE_SHOW_IMAGE: {
@@ -64,6 +74,12 @@ export default function (state = initialState, action) {
         isFetching: false,
         error: action.error,
         moderData: [],
+      }
+    }
+    case ACTION.MODERATION_LIST_REFRESH: {
+      return {
+        ...state,
+        refresh: true,
       }
     }
     default:

@@ -29,7 +29,6 @@ function ContestPageForModerator(props) {
   };
 
   useEffect(() => {
-    if (role !== CONSTANTS.MODER) return <Redirect to="/" />;
     getDataHandler();
     return () => props.clearData();
   }, []);
@@ -48,6 +47,7 @@ function ContestPageForModerator(props) {
 
   const moderationAcceptHandler = () => {
     const data = moderationHelper();
+    data.banned = false;
     moderationContest(data);
   };
 
@@ -89,6 +89,35 @@ function ContestPageForModerator(props) {
     });
   };
 
+  const getButton = () => {
+    return (
+      <>
+        {!contestData.passedModeration || contestData.banned ? (
+          <button onClick={acceptContest} className={styles.acceptBtn}>
+            Accept
+          </button>
+        ) : (
+          <button
+            className={classnames(styles.acceptBtn, styles.deactivateAcceptBtn)}
+          >
+            Accept
+          </button>
+        )}
+        {!contestData.banned ? (
+          <button onClick={rejectContest} className={styles.rejectBtn}>
+            Reject
+          </button>
+        ) : (
+          <button
+            className={classnames(styles.rejectBtn, styles.deactivateRejectBtn)}
+          >
+            Reject
+          </button>
+        )}
+      </>
+    );
+  };
+
   return (
     <>
       <Header />
@@ -113,12 +142,7 @@ function ContestPageForModerator(props) {
               <button onClick={backPageAction} className={styles.backBtn}>
                 Back
               </button>
-              <button onClick={acceptContest} className={styles.acceptBtn}>
-                Accept
-              </button>
-              <button onClick={rejectContest} className={styles.rejectBtn}>
-                Reject
-              </button>
+              {getButton()}
             </section>
           </section>
           <ContestSideBar contestData={contestData} totalEntries={0} />
