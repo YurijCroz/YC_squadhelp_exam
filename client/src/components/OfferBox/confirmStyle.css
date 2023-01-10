@@ -5,4 +5,13 @@
 
 .react-confirm-alert-body {
     width: auto;
+    text-align: center;
+}
+
+.react-confirm-alert-button-group {
+    justify-content: space-around;
+}
+
+.react-confirm-alert-button-group button{
+    margin: 0 5px;
 }

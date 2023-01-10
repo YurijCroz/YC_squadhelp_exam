@@ -42,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         defaultValue: "pending",
       },
+      passedModeration: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      banned: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,

@@ -59,7 +59,7 @@ class Header extends React.Component {
                 </Link>
               </li>
               {this.props.data &&
-                this.props.data.role !== CONSTANTS.CREATOR && (
+                this.props.data.role === CONSTANTS.CUSTOMER && (
                   <li>
                     <Link to="/events">
                       <span>Events</span>
@@ -125,159 +125,164 @@ class Header extends React.Component {
             {this.renderLoginButtons()}
           </section>
         </section>
-        <section className={styles.navContainer}>
-          <div className={styles.logo}>
-            <Logo />
-          </div>
-          <article className={styles.leftNav}>
-            <nav className={styles.nav}>
-              <ul>
-                <li>
-                  <span>Name Ideas</span>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                    alt="menu"
-                  />
-                  <ul>
-                    <li>
-                      <a href="http://www.google.com">Beauty</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Consulting</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">E-Commerce</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Fashion & Clothing</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Finance</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Real Estate</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Tech</a>
-                    </li>
-                    <li className={styles.last}>
-                      <a href="http://www.google.com">More Categories</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <span>Contests</span>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                    alt="menu"
-                  />
-                  <ul>
-                    <li>
-                      <Link to="/how-it-works" >How It Works</Link>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Pricing</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Agency Service</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Active Contests</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Winners</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Leader Board</a>
-                    </li>
-                    <li className={styles.last}>
-                      <a href="http://www.google.com">Become A Creative</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <span>Our Work</span>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                    alt="menu"
-                  />
-                  <ul>
-                    <li>
-                      <a href="http://www.google.com">Names</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Taglines</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Logos</a>
-                    </li>
-                    <li className={styles.last}>
-                      <a href="http://www.google.com">Testimonials</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <span>Names For Sale</span>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                    alt="menu"
-                  />
-                  <ul>
-                    <li>
-                      <a href="http://www.google.com">Popular Names</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Short Names</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Intriguing Names</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Names By Category</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Visual Names Search</a>
-                    </li>
-                    <li className={styles.last}>
-                      <a href="http://www.google.com">Sell Your Domains</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <span>Blog</span>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                    alt="menu"
-                  />
-                  <ul>
-                    <li>
-                      <a href="http://www.google.com">Ultimate Naming Guide</a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">
-                        Poetic Devices In Business Naming
-                      </a>
-                    </li>
-                    <li>
-                      <a href="http://www.google.com">Crowded Bar Theory</a>
-                    </li>
-                    <li className={styles.last}>
-                      <a href="http://www.google.com">All Articles</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </nav>
-            {this.props.data && this.props.data.role !== CONSTANTS.CREATOR && (
-              <section
-                className={styles.startContestBtn}
-                onClick={this.startContests}
-              >
-                Start Contest
-              </section>
-            )}
-          </article>
-        </section>
+        {this.props.data && this.props.data.role === CONSTANTS.MODER ? null : (
+          <section className={styles.navContainer}>
+            <div className={styles.logo}>
+              <Logo />
+            </div>
+            <article className={styles.leftNav}>
+              <nav className={styles.nav}>
+                <ul>
+                  <li>
+                    <span>Name Ideas</span>
+                    <img
+                      src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
+                      alt="menu"
+                    />
+                    <ul>
+                      <li>
+                        <a href="http://www.google.com">Beauty</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Consulting</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">E-Commerce</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Fashion & Clothing</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Finance</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Real Estate</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Tech</a>
+                      </li>
+                      <li className={styles.last}>
+                        <a href="http://www.google.com">More Categories</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <span>Contests</span>
+                    <img
+                      src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
+                      alt="menu"
+                    />
+                    <ul>
+                      <li>
+                        <Link to="/how-it-works" >How It Works</Link>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Pricing</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Agency Service</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Active Contests</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Winners</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Leader Board</a>
+                      </li>
+                      <li className={styles.last}>
+                        <a href="http://www.google.com">Become A Creative</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <span>Our Work</span>
+                    <img
+                      src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
+                      alt="menu"
+                    />
+                    <ul>
+                      <li>
+                        <a href="http://www.google.com">Names</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Taglines</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Logos</a>
+                      </li>
+                      <li className={styles.last}>
+                        <a href="http://www.google.com">Testimonials</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <span>Names For Sale</span>
+                    <img
+                      src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
+                      alt="menu"
+                    />
+                    <ul>
+                      <li>
+                        <a href="http://www.google.com">Popular Names</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Short Names</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Intriguing Names</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Names By Category</a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Visual Names Search</a>
+                      </li>
+                      <li className={styles.last}>
+                        <a href="http://www.google.com">Sell Your Domains</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <span>Blog</span>
+                    <img
+                      src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
+                      alt="menu"
+                    />
+                    <ul>
+                      <li>
+                        <a href="http://www.google.com">
+                          Ultimate Naming Guide
+                        </a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">
+                          Poetic Devices In Business Naming
+                        </a>
+                      </li>
+                      <li>
+                        <a href="http://www.google.com">Crowded Bar Theory</a>
+                      </li>
+                      <li className={styles.last}>
+                        <a href="http://www.google.com">All Articles</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </nav>
+              {this.props.data &&
+                this.props.data.role === CONSTANTS.CUSTOMER && (
+                  <section
+                    className={styles.startContestBtn}
+                    onClick={this.startContests}
+                  >
+                    Start Contest
+                  </section>
+                )}
+            </article>
+          </section>
+        )}
       </header>
     );
   }

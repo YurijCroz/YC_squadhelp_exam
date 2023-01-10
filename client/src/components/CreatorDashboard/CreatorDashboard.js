@@ -260,20 +260,22 @@ class CreatorDashboard extends React.Component {
             </section>
           </section>
         </aside>
-        {error ? (
-          <section className={styles.messageContainer}>
-            <TryAgain getData={this.tryLoadAgain} />
-          </section>
-        ) : (
-          <ContestsContainer
-            isFetching={this.props.isFetching}
-            loadMore={this.loadMore}
-            history={this.props.history}
-            haveMore={haveMore}
-          >
-            {this.setContestList()}
-          </ContestsContainer>
-        )}
+        <section className={styles.contestsContainer}>
+          {error ? (
+            <section className={styles.messageContainer}>
+              <TryAgain getData={this.tryLoadAgain} />
+            </section>
+          ) : (
+            <ContestsContainer
+              isFetching={this.props.isFetching}
+              loadMore={this.loadMore}
+              history={this.props.history}
+              haveMore={haveMore}
+            >
+              {this.setContestList()}
+            </ContestsContainer>
+          )}
+        </section>
       </main>
     );
   }

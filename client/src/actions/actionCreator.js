@@ -1,4 +1,4 @@
-import ACTION from './actionTypes';
+import ACTION from "./actionTypes";
 
 export const authActionLogin = (data, history) => ({
   type: ACTION.AUTH_ACTION_LOGIN,
@@ -48,7 +48,9 @@ export const getDataForContest = (data) => ({
   data,
 });
 
-export const clearDataForContest = () => ({ type: ACTION.CLEAR_DATA_FOR_SELECTS });
+export const clearDataForContest = () => ({
+  type: ACTION.CLEAR_DATA_FOR_SELECTS,
+});
 
 export const getContestsForCreative = (data) => ({
   type: ACTION.GET_CONTESTS_FOR_CREATIVE,
@@ -145,7 +147,6 @@ export const goToExpandedDialog = (data) => ({
 });
 
 export const getDialogMessages = (data) => ({
-
   type: ACTION.GET_DIALOG_MESSAGES_ASYNC,
   data,
 });
@@ -290,5 +291,52 @@ export const clearChatError = () => ({
 
 export const changeModalShow = (data) => ({
   type: ACTION.CHANGE_SHOW_MODAL,
+  data,
+});
+
+export const getContestsForModerator = (data) => ({
+  type: ACTION.GET_CONTESTS_FOR_MODERATOR,
+  data,
+});
+
+export const getOffersForModerator = (data) => ({
+  type: ACTION.GET_OFFERS_FOR_MODERATOR,
+  data,
+});
+
+export const clearModerationList = () => ({
+  type: ACTION.CLEAR_MODERATION_LIST,
+});
+
+export const setNewModerationFilter = (filter) => ({
+  type: ACTION.SET_NEW_MODERATION_FILTER,
+  filter,
+});
+
+export const setStatusModerationFilter = (filter) => ({
+  type: ACTION.SET_STATUS_MODERATION_FILTER,
+  filter,
+});
+
+export const getContestByIdForModerator = (data) => ({
+  type: ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ACTION,
+  data,
+});
+
+export const clearContestByIdForModerator = () => ({
+  type: ACTION.CLEAR_CONTEST_BY_ID_FOR_MODERATOR,
+});
+
+export const moderationContest = (data) => ({
+  type: ACTION.MODERATION_CONTEST_ACTION,
+  data,
+});
+
+export const backToModerationList = () => ({
+  type: ACTION.BACK_TO_MODERATION_LIST,
+});
+
+export const moderationOffer = (data) => ({
+  type: ACTION.MODERATION_OFFER_ACTION,
   data,
 });

@@ -92,6 +92,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
+      passedModeration: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      banned: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      }
     },
     {
       sequelize,

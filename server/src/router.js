@@ -12,6 +12,11 @@ router.use("/auth", authRouter);
 const contestRouter = require("./routes/contestRouter.js");
 router.use("/contests", contestRouter);
 
+// moderatorRouter /api/moderation
+
+const moderatorRouter = require("./routes/moderatorRouter.js");
+router.use("/moderation", moderatorRouter)
+
 // userRouter /api/users
 
 const usersRouter = require("./routes/userRouter.js");

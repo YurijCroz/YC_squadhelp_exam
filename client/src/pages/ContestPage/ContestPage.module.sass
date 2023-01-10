@@ -104,6 +104,53 @@
       .activeBtn
         background-color: white
         color: #333
+        cursor: default
 
         &:hover
           background-color: white
+
+    .btnsContainer
+      margin: 10px 0
+      align-self: stretch
+      display: flex
+      flex-direction: row
+      align-items: center
+      justify-content: space-around
+
+      button
+        border: 0 solid
+        width: 100px
+        cursor: pointer
+        text-align: center
+        padding: 10px
+        border-radius: 8px
+        color: white
+        margin: 0 10px
+
+      .backBtn
+        background-color: #888
+
+        &:hover
+          background-color: #9e9e9e
+
+      .acceptBtn
+        background-color: #8aca6b
+
+        &:hover
+          background-color: rgba(138, 202, 107, 0.7)
+
+      .rejectBtn
+        background-color: #CD5C5C
+
+        &:hover
+          background-color: rgba(205, 92, 92, 0.7)
+
+      .deactivateAcceptBtn
+        cursor: not-allowed
+        &:hover
+          background-color: #8aca6b
+
+      .deactivateRejectBtn
+        cursor: not-allowed
+        &:hover
+          background-color: #CD5C5C

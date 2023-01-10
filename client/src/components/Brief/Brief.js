@@ -25,32 +25,7 @@ const Brief = (props) => {
   };
 
   const getContestObjInfo = () => {
-    const {
-      focusOfWork,
-      industry,
-      nameVenture,
-      styleName,
-      targetCustomer,
-      title,
-      brandStyle,
-      typeOfName,
-      typeOfTagline,
-      originalFileName,
-      contestType,
-    } = props.contestData;
-    const data = {
-      focusOfWork,
-      industry,
-      nameVenture,
-      styleName,
-      targetCustomer,
-      title,
-      brandStyle,
-      typeOfName,
-      typeOfTagline,
-      originalFileName,
-      contestType,
-    };
+    const data = props.contestData;
     const defaultData = {};
     Object.keys(data).forEach((key) => {
       if (data[key]) {

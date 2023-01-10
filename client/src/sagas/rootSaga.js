@@ -1,10 +1,13 @@
-import { takeLatest, takeLeading, takeEvery } from 'redux-saga/effects';
-import ACTION from '../actions/actionTypes';
-import { registerSaga, loginSaga } from './authSagas';
+import { takeLatest, takeLeading, takeEvery } from "redux-saga/effects";
+import ACTION from "../actions/actionTypes";
+import { registerSaga, loginSaga } from "./authSagas";
 import {
-  privateSaga, updateUserData, notAuthorizeSaga, headerRequest,
-} from './userSaga';
-import { paymentSaga, cashoutSaga } from './paymentSaga';
+  privateSaga,
+  updateUserData,
+  notAuthorizeSaga,
+  headerRequest,
+} from "./userSaga";
+import { paymentSaga, cashoutSaga } from "./paymentSaga";
 import {
   activeContestsSaga,
   customerContestsSaga,
@@ -12,8 +15,8 @@ import {
   dataForContestSaga,
   getContestByIdSaga,
   downloadContestFileSaga,
-} from './contestsSagas';
-import { changeMarkSaga, setOfferStatusSaga, addOfferSaga } from './offerSagas';
+} from "./contestsSagas";
+import { changeMarkSaga, setOfferStatusSaga, addOfferSaga } from "./offerSagas";
 import {
   previewSaga,
   getDialog,
@@ -26,7 +29,14 @@ import {
   deleteCatalog,
   removeChatFromCatalogSaga,
   changeCatalogName,
-} from './chatSagas';
+} from "./chatSagas";
+import {
+  moderatorGetContestsSaga,
+  moderatorGetOffersSaga,
+  getContestByIdForModeratorSaga,
+  moderationContestSaga,
+  moderationOfferSaga,
+} from "./moderatorSaga";
 
 function* rootSaga() {
   yield takeLatest(ACTION.AUTH_ACTION_REGISTER, registerSaga);
@@ -57,6 +67,11 @@ function* rootSaga() {
   yield takeLatest(ACTION.DELETE_CATALOG_REQUEST, deleteCatalog);
   yield takeLatest(ACTION.REMOVE_CHAT_FROM_CATALOG_REQUEST, removeChatFromCatalogSaga);
   yield takeLatest(ACTION.CHANGE_CATALOG_NAME_REQUEST, changeCatalogName);
+  yield takeLeading(ACTION.GET_CONTESTS_FOR_MODERATOR, moderatorGetContestsSaga);
+  yield takeLeading(ACTION.GET_OFFERS_FOR_MODERATOR, moderatorGetOffersSaga);
+  yield takeLatest(ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ACTION, getContestByIdForModeratorSaga);
+  yield takeLatest(ACTION.MODERATION_CONTEST_ACTION, moderationContestSaga);
+  yield takeLatest(ACTION.MODERATION_OFFER_ACTION, moderationOfferSaga);
 }
 
 export default rootSaga;

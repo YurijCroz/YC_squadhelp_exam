@@ -1,6 +1,6 @@
 .mainContainer
   width: 1200px
-  margin: 50px auto
+  margin: 20px auto 50px
   display: flex
   flex-direction: row
   justify-content: flex-start
@@ -32,8 +32,10 @@
     flex-direction: column
     width: 100%
     margin-top: 15px
+    padding: 0 10px
 
   .filterContainer
+    box-sizing: border-box
     min-width: 250px
     height: 350px
     padding-top: 30px
@@ -43,38 +45,55 @@
     box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.1)
     background-color: white
     margin-bottom: 15px
+    align-items: center
     @media(max-width: 1400px)
       margin-right: 25px
     @media(max-width: 1000px)
-      padding-top: 10px
-      flex-direction: row
+      padding: 10px 0
       margin-right: 0
       justify-content: center
-      height: 60px
+      height: auto
     @media(max-width: 700px)
 
-    .btn
-      margin: 0 auto
+    .btnContainer
+      width: 100%
+      display: flex
+      flex-direction: column
+      @media(max-width: 1000px)
+        flex-direction: row
+
+      .btn
+        margin: 0 auto
+        width: 85%
+        margin-top: 15px
+        align-self: stretch
+        text-align: center
+        font-size: 18px
+        border-radius: 10px
+        padding: 10px
+        @media(max-width: 1000px)
+          height: fit-content
+          margin: 0 5px
+
+      .filter
+        color: #46568a
+        cursor: pointer
+
+        &:hover
+          background-color: #eefaea
+
+      .activeFilter
+        transition: 0.5s background-color
+        background-color: #4e618d
+        color: white
+        user-select: none
+
+    .select
       width: 85%
       margin-top: 15px
-      align-self: stretch
+      height: 30px
+      border-radius: 5px
+      background-color: #fff
       text-align: center
-      font-size: 18px
-      border-radius: 10px
-      padding: 10px
       @media(max-width: 1000px)
-        height: fit-content
-        margin: 0 5px
-
-    .filter
-      color: #46568a
-      cursor: pointer
-
-      &:hover
-        background-color: #eefaea
-
-    .activeFilter
-      transition: 0.5s background-color
-      background-color: #4e618d
-      color: white
-      user-select: none
+        width: calc( 85% / 2 )

@@ -79,7 +79,6 @@ module.exports.uploadContestFiles = (req, res, next) => {
 };
 
 module.exports.updateContestFile = (req, res, next) => {
-  console.log(req)
   updateContestFile(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       next(new ServerError());

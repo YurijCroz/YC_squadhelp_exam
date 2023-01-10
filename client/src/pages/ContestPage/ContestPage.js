@@ -137,7 +137,7 @@ class ContestPage extends React.Component {
       <>
         {isShowOnFull && (
           <LightBox
-            mainSrc={`${CONSTANTS.publicURL}${imagePath}`}
+            mainSrc={`${CONSTANTS.publicURL}images_logo/${imagePath}`}
             onCloseRequest={() =>
               changeShowImage({ isShowOnFull: false, imagePath: null })
             }

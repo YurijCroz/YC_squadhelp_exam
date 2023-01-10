@@ -8,6 +8,7 @@ module.exports = {
   SQUADHELP_BANK_EXPIRY: '11/23',
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  MODER: 'moderator',
   CREATOR_ENTRIES: 'creator_entries',
   CONTEST_STATUS_ACTIVE: 'active',
   CONTEST_STATUS_FINISHED: 'finished',

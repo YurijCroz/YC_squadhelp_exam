@@ -39,7 +39,7 @@ const ContestInfo = (props) => {
                 Edit
               </button>
             )}
-          {role !== CONSTANTS.CUSTOMER && (
+          {role === CONSTANTS.CREATOR && (
             <i onClick={goChat} className="fas fa-comments" />
           )}
         </section>
