@@ -12,6 +12,12 @@ import ContestBox from "../ContestBox/ContestBox";
 import styles from "./CustomerDashboard.module.sass";
 import TryAgain from "../TryAgain/TryAgain";
 
+const buttonName = {
+  activeContests: "Active Contests",
+  completedContests: "Completed Contests",
+  inactiveContests: "Inactive contests",
+};
+
 class CustomerDashboard extends React.Component {
   loadMore = (startFrom) => {
     this.props.getContests({
@@ -39,7 +45,7 @@ class CustomerDashboard extends React.Component {
   }
 
   goToExtended = (contest_id) => {
-    this.props.history.push(`/contest/${contest_id}`);
+    this.props.history.push(`/dashboard/contest/${contest_id}`);
   };
 
   setContestList = () => {
@@ -66,52 +72,57 @@ class CustomerDashboard extends React.Component {
     this.getContests();
   };
 
+  getButton() {
+    const { customerFilter, newFilter } = this.props;
+
+    return (
+      <>
+        {customerFilter === CONSTANTS.CONTEST_STATUS_ACTIVE ? (
+          <section className={classnames(styles.btn, styles.activeFilter)}>
+            {buttonName.activeContests}
+          </section>
+        ) : (
+          <section
+            onClick={() => newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)}
+            className={classnames(styles.btn, styles.filter)}
+          >
+            {buttonName.activeContests}
+          </section>
+        )}
+        {customerFilter === CONSTANTS.CONTEST_STATUS_FINISHED ? (
+          <section className={classnames(styles.btn, styles.activeFilter)}>
+            {buttonName.completedContests}
+          </section>
+        ) : (
+          <section
+            onClick={() => newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)}
+            className={classnames(styles.btn, styles.filter)}
+          >
+            {buttonName.completedContests}
+          </section>
+        )}
+        {customerFilter === CONSTANTS.CONTEST_STATUS_PENDING ? (
+          <section className={classnames(styles.btn, styles.activeFilter)}>
+            {buttonName.inactiveContests}
+          </section>
+        ) : (
+          <section
+            onClick={() => newFilter(CONSTANTS.CONTEST_STATUS_PENDING)}
+            className={classnames(styles.btn, styles.filter)}
+          >
+            {buttonName.inactiveContests}
+          </section>
+        )}
+      </>
+    );
+  }
+
   render() {
     const { error, haveMore } = this.props;
-    const { customerFilter } = this.props;
+
     return (
       <main className={styles.mainContainer}>
-        <aside className={styles.filterContainer}>
-          <section
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)
-            }
-            className={classnames(styles.btn, {
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_ACTIVE === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_ACTIVE !== customerFilter,
-            })}
-          >
-            Active Contests
-          </section>
-          <section
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)
-            }
-            className={classnames(styles.btn, {
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_FINISHED === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_FINISHED !== customerFilter,
-            })}
-          >
-            Completed contests
-          </section>
-          <section
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_PENDING)
-            }
-            className={classnames(styles.btn, {
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_PENDING === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_PENDING !== customerFilter,
-            })}
-          >
-            Inactive contests
-          </section>
-        </aside>
+        <aside className={styles.filterContainer}>{this.getButton()}</aside>
         <section className={styles.contestsContainer}>
           {error ? (
             <TryAgain getData={this.tryToGetContest()} />

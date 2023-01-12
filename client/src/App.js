@@ -84,7 +84,7 @@ class App extends Component {
           <Route exact path="/dashboard" component={PrivateHoc(Dashboard)} />
           <Route
             exact
-            path="/contest/:id"
+            path="/dashboard/contest/:id"
             component={PrivateHoc(ContestPage)}
           />
           <Route

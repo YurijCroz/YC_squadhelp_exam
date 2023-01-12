@@ -16,6 +16,11 @@ import Spinner from "../../components/Spinner/Spinner";
 import TryAgain from "../../components/TryAgain/TryAgain";
 import "../../components/OfferBox/confirmStyle.css";
 
+const buttonName = {
+  accept: "Accept",
+  reject: "Reject",
+};
+
 function ContestPageForModerator(props) {
   const { role } = props.userStore.data;
   const { getData, history, moderationContest, backPageAction } = props;
@@ -92,24 +97,24 @@ function ContestPageForModerator(props) {
       <>
         {!contestData.passedModeration || contestData.banned ? (
           <button onClick={acceptContest} className={styles.acceptBtn}>
-            Accept
+            {buttonName.accept}
           </button>
         ) : (
           <button
             className={classnames(styles.acceptBtn, styles.deactivateAcceptBtn)}
           >
-            Accept
+            {buttonName.accept}
           </button>
         )}
         {!contestData.banned ? (
           <button onClick={rejectContest} className={styles.rejectBtn}>
-            Reject
+            {buttonName.reject}
           </button>
         ) : (
           <button
             className={classnames(styles.rejectBtn, styles.deactivateRejectBtn)}
           >
-            Reject
+            {buttonName.reject}
           </button>
         )}
       </>

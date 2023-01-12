@@ -13,6 +13,11 @@ export default {
   CONTEST_STATUS_PENDING: "pending",
   MODER_STATUS_CONTESTS: "contests",
   MODER_STATUS_OFFERS: "offers",
+  STATUS_MODERATION: {
+    INSPECTION: "inspection",
+    PASSED: "passed",
+    BANNED: "banned",
+  },
   NAME_CONTEST: "name",
   LOGO_CONTEST: "logo",
   TAGLINE_CONTEST: "tagline",

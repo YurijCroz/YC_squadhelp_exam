@@ -86,6 +86,8 @@ const OfferBox = (props) => {
 
   const offerStatus = () => {
     const { status } = props.data;
+    const { passedModeration, banned } = data;
+
     if (status === CONSTANTS.OFFER_STATUS_REJECTED) {
       return (
         <i
@@ -100,11 +102,7 @@ const OfferBox = (props) => {
         />
       );
     }
-    if (
-      data.User.id === id &&
-      data.passedModeration === false &&
-      data.banned === false
-    ) {
+    if (data.User.id === id && !passedModeration && !banned) {
       return (
         <span
           className={classnames(styles.statusOffer, styles.statusInspection)}
@@ -113,22 +111,14 @@ const OfferBox = (props) => {
         </span>
       );
     }
-    if (
-      data.User.id === id &&
-      data.passedModeration === true &&
-      data.banned === false
-    ) {
+    if (data.User.id === id && passedModeration && !banned) {
       return (
         <span className={classnames(styles.statusOffer, styles.statusPassed)}>
           passed
         </span>
       );
     }
-    if (
-      data.User.id === id &&
-      data.passedModeration === true &&
-      data.banned === true
-    ) {
+    if (data.User.id === id && passedModeration && banned) {
       return (
         <span className={classnames(styles.statusOffer, styles.statusBanned)}>
           banned

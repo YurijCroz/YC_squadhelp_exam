@@ -184,7 +184,7 @@ class CreatorDashboard extends React.Component {
   };
 
   goToExtended = (contestId) => {
-    this.props.history.push(`/contest/${contestId}`);
+    this.props.history.push(`/dashboard/contest/${contestId}`);
   };
 
   tryLoadAgain = () => {
@@ -196,9 +196,14 @@ class CreatorDashboard extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    this.props.clearContestsList();
+  }
+
   render() {
     const { error, haveMore, creatorFilter } = this.props;
     const { isFetching } = this.props.dataForContest;
+
     return (
       <main className={styles.mainContainer}>
         <aside className={styles.filterContainer}>

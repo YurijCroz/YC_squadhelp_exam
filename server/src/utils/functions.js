@@ -50,14 +50,16 @@ const types = [
   "name,logo",
 ];
 
+const {INSPECTION, PASSED, BANNED} = CONSTANTS.STATUS_MODERATION;
+
 module.exports.whereHelper = (typeFilter) => {
-  if (typeFilter === "inspection") {
+  if (typeFilter === INSPECTION) {
     return { passedModeration: false, banned: false };
   }
-  if (typeFilter === "passed") {
+  if (typeFilter === PASSED) {
     return { passedModeration: true, banned: false };
   }
-  if (typeFilter === "banned") {
+  if (typeFilter === BANNED) {
     return { passedModeration: true, banned: true };
   }
   return {}

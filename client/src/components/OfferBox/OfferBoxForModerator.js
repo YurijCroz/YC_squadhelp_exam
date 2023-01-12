@@ -9,6 +9,11 @@ import styles from "./OfferBox.module.sass";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./confirmStyle.css";
 
+const buttonName = {
+  accept: "Accept",
+  reject: "Reject",
+};
+
 const OfferBoxForModerator = (props) => {
   const { data, moderationOffer } = props;
   const { firstName, lastName, email } = props.data.User;
@@ -66,7 +71,9 @@ const OfferBoxForModerator = (props) => {
   };
 
   const offerStatus = () => {
-    if (data.passedModeration === false && data.banned === false) {
+    const { passedModeration, banned } = data;
+
+    if (!passedModeration && !banned) {
       return (
         <span
           className={classnames(styles.statusOffer, styles.statusInspection)}
@@ -75,14 +82,14 @@ const OfferBoxForModerator = (props) => {
         </span>
       );
     }
-    if (data.passedModeration === true && data.banned === false) {
+    if (passedModeration && !banned) {
       return (
         <span className={classnames(styles.statusOffer, styles.statusPassed)}>
           passed
         </span>
       );
     }
-    if (data.passedModeration === true && data.banned === true) {
+    if (passedModeration && banned) {
       return (
         <span className={classnames(styles.statusOffer, styles.statusBanned)}>
           banned
@@ -90,6 +97,35 @@ const OfferBoxForModerator = (props) => {
       );
     }
     return null;
+  };
+
+  const getButton = () => {
+    return (
+      <>
+        {!data.passedModeration || data.banned ? (
+          <button onClick={acceptOffer} className={styles.resolveBtn}>
+            {buttonName.accept}
+          </button>
+        ) : (
+          <button
+            className={classnames(styles.acceptBtn, styles.deactivateAcceptBtn)}
+          >
+            {buttonName.accept}
+          </button>
+        )}
+        {!data.banned ? (
+          <button onClick={rejectOffer} className={styles.rejectBtn}>
+            {buttonName.reject}
+          </button>
+        ) : (
+          <button
+            className={classnames(styles.rejectBtn, styles.deactivateRejectBtn)}
+          >
+            {buttonName.reject}
+          </button>
+        )}
+      </>
+    );
   };
 
   return (
@@ -128,28 +164,7 @@ const OfferBoxForModerator = (props) => {
         </section>
       </article>
       <section className={styles.btnsContainer}>
-        {!data.passedModeration || data.banned ? (
-          <button onClick={acceptOffer} className={styles.resolveBtn}>
-            Accept
-          </button>
-        ) : (
-          <button
-            className={classnames(styles.acceptBtn, styles.deactivateAcceptBtn)}
-          >
-            Accept
-          </button>
-        )}
-        {!data.banned ? (
-          <button onClick={rejectOffer} className={styles.rejectBtn}>
-            Reject
-          </button>
-        ) : (
-          <button
-            className={classnames(styles.rejectBtn, styles.deactivateRejectBtn)}
-          >
-            Reject
-          </button>
-        )}
+        {getButton()}
       </section>
     </section>
   );

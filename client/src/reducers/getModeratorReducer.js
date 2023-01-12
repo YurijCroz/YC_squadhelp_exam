@@ -7,7 +7,7 @@ const initialState = {
   moderData: [],
   haveMore: true,
   moderatorFilter: CONSTANTS.MODER_STATUS_CONTESTS,
-  filterStatus: "inspection",
+  filterStatus: CONSTANTS.STATUS_MODERATION.INSPECTION,
   isShowOnFull: false,
   imagePath: null,
   refresh: false,

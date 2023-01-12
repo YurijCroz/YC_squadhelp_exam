@@ -18,6 +18,14 @@ import ContestsContainer from "../ContestsContainer/ContestsContainer";
 import ContestBoxForModerator from "../ContestBox/ContestBoxForModerator";
 import OfferBoxForModerator from "../OfferBox/OfferBoxForModerator";
 
+const buttonName = {
+  contests: "Contests",
+  offers: "Offers",
+};
+
+const { INSPECTION, PASSED, BANNED } = CONSTANTS.STATUS_MODERATION;
+const { MODER_STATUS_CONTESTS, MODER_STATUS_OFFERS } = CONSTANTS;
+
 function ModeratorDashboard(props) {
   const { moderatorFilter, error, haveMore, clearModerationList } = props,
     { isShowOnFull, imagePath, changeShowImage } = props,
@@ -26,7 +34,7 @@ function ModeratorDashboard(props) {
   const setModerationList = () => {
     const array = [];
     const { moderData } = props;
-    if (moderatorFilter === CONSTANTS.MODER_STATUS_CONTESTS) {
+    if (moderatorFilter === MODER_STATUS_CONTESTS) {
       for (let i = 0; i < moderData.length; i++) {
         array.push(
           <ContestBoxForModerator
@@ -36,7 +44,7 @@ function ModeratorDashboard(props) {
           />
         );
       }
-    } else if (moderatorFilter === CONSTANTS.MODER_STATUS_OFFERS) {
+    } else if (moderatorFilter === MODER_STATUS_OFFERS) {
       for (let i = 0; i < moderData.length; i++) {
         array.push(
           <OfferBoxForModerator data={moderData[i]} key={moderData[i].id} />
@@ -57,10 +65,10 @@ function ModeratorDashboard(props) {
       offset: startFrom,
       filter: filterStatus,
     };
-    if (moderatorFilter === CONSTANTS.MODER_STATUS_CONTESTS) {
+    if (moderatorFilter === MODER_STATUS_CONTESTS) {
       props.getContests({ ...data });
     }
-    if (moderatorFilter === CONSTANTS.MODER_STATUS_OFFERS) {
+    if (moderatorFilter === MODER_STATUS_OFFERS) {
       props.getOffers({ ...data });
     }
   };
@@ -70,8 +78,8 @@ function ModeratorDashboard(props) {
     getModerationList();
   };
 
-  const goToExtended = (contest_id) => {
-    props.history.push(`/dashboard/moderation-contest/${contest_id}`);
+  const goToExtended = (contestId) => {
+    props.history.push(`/dashboard/moderation-contest/${contestId}`);
   };
 
   useEffect(() => {
@@ -85,33 +93,41 @@ function ModeratorDashboard(props) {
     return () => clearModerationList();
   }, [moderatorFilter, filterStatus]);
 
+  const getButton = () => {
+    return (
+      <>
+        {moderatorFilter === MODER_STATUS_CONTESTS ? (
+          <section className={classnames(styles.btn, styles.activeFilter)}>
+            <h4>{buttonName.contests}</h4>
+          </section>
+        ) : (
+          <section
+            onClick={() => props.newFilter(MODER_STATUS_CONTESTS)}
+            className={classnames(styles.btn, styles.filter)}
+          >
+            <h4>{buttonName.contests}</h4>
+          </section>
+        )}
+        {moderatorFilter === MODER_STATUS_OFFERS ? (
+          <section className={classnames(styles.btn, styles.activeFilter)}>
+            <h4>{buttonName.offers}</h4>
+          </section>
+        ) : (
+          <section
+            onClick={() => props.newFilter(MODER_STATUS_OFFERS)}
+            className={classnames(styles.btn, styles.filter)}
+          >
+            <h4>{buttonName.offers}</h4>
+          </section>
+        )}
+      </>
+    );
+  };
+
   return (
     <main className={styles.mainContainer}>
       <aside className={styles.filterContainer}>
-        <section className={styles.btnContainer}>
-          <section
-            onClick={() => props.newFilter(CONSTANTS.MODER_STATUS_CONTESTS)}
-            className={classnames(styles.btn, {
-              [styles.activeFilter]:
-                CONSTANTS.MODER_STATUS_CONTESTS === moderatorFilter,
-              [styles.filter]:
-                CONSTANTS.MODER_STATUS_CONTESTS !== moderatorFilter,
-            })}
-          >
-            <h4>Contests</h4>
-          </section>
-          <section
-            onClick={() => props.newFilter(CONSTANTS.MODER_STATUS_OFFERS)}
-            className={classnames(styles.btn, {
-              [styles.activeFilter]:
-                CONSTANTS.MODER_STATUS_OFFERS === moderatorFilter,
-              [styles.filter]:
-                CONSTANTS.MODER_STATUS_OFFERS !== moderatorFilter,
-            })}
-          >
-            <h4>Offers</h4>
-          </section>
-        </section>
+        <section className={styles.btnContainer}>{getButton()}</section>
         <select
           id="select"
           name="stateList"
@@ -119,9 +135,9 @@ function ModeratorDashboard(props) {
           className={styles.select}
           onChange={filterStatusHandler}
         >
-          <option value="inspection">inspection</option>
-          <option value="passed">passed</option>
-          <option value="banned">banned</option>
+          <option value={INSPECTION}>inspection</option>
+          <option value={PASSED}>passed</option>
+          <option value={BANNED}>banned</option>
           <option value="all">all</option>
         </select>
       </aside>
