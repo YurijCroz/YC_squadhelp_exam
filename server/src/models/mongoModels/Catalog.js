@@ -1,25 +1,24 @@
-const mongoose = require('mongoose');
+"use strict";
+const mongoose = require("mongoose");
 
 const Schema = new mongoose.Schema({
   userId: {
-    type: 'Number',
+    type: "Number",
     required: true,
   },
   catalogName: {
-    type: 'String',
+    type: "String",
     required: true,
   },
   chats: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Conversation',
+      ref: "Conversation",
       required: false,
       unique: false,
     },
   ],
 });
 
-const Catalog = mongoose.model('Catalog', Schema);
+const Catalog = mongoose.model("Catalog", Schema);
 module.exports = Catalog;
-
-

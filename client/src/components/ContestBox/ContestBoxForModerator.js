@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./ContestBox.module.sass";
-import CONSTANTS from "../../constants";
 import classnames from "classnames";
 
 const ContestBoxForModerator = ({data, goToExtended}) => {

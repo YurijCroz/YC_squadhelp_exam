@@ -10,7 +10,6 @@ import {
   clearChangeMarkError,
   goToExpandedDialog,
   changeShowImage,
-  changeModalShow,
 } from "../../actions/actionCreator";
 import CONSTANTS from "../../constants";
 import styles from "./OfferBox.module.sass";
@@ -145,7 +144,7 @@ const OfferBox = (props) => {
               src={
                 avatar === "anon.png"
                   ? CONSTANTS.ANONYM_IMAGE_PATH
-                  : `${CONSTANTS.publicURL}images_avatar/${avatar}`
+                  : `${CONSTANTS.PUBLIC_URL}images_avatar/${avatar}`
               }
               alt="user"
             />
@@ -191,7 +190,7 @@ const OfferBox = (props) => {
                 })
               }
               className={styles.responseLogo}
-              src={`${CONSTANTS.publicURL}images_logo/${data.fileName}`}
+              src={`${CONSTANTS.PUBLIC_URL}images_logo/${data.fileName}`}
               alt="logo"
             />
           ) : (

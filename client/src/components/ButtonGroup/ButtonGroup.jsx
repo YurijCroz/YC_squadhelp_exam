@@ -11,19 +11,17 @@ function ButtonGroup() {
     removeActiveStyle();
     addActiveStyle(target);
   };
-  const removeActiveStyle = () => document.querySelector(`div.${styles.active}`)
-    .classList.remove(styles.active);
+  const removeActiveStyle = () =>
+    document
+      .querySelector(`div.${styles.active}`)
+      .classList.remove(styles.active);
 
   const addActiveStyle = (target) => target.classList.add(styles.active);
 
   return (
     <section className={styles.container}>
       <input type="hidden" name="company_url_needed" value={valueInput} />
-      <div
-        data-choose="asname"
-        onClick={activeHandler} 
-        className={styles.card}
-      >
+      <div data-choose="asname" onClick={activeHandler} className={styles.card}>
         <span className={styles.badge}>Yes</span>
         <h5>The Domain should exactly match the name</h5>
       </div>
@@ -35,11 +33,7 @@ function ButtonGroup() {
         <span className={styles.badge}>Yes</span>
         <h5>But minor variations are allowed (Recommended)</h5>
       </div>
-      <div
-        data-choose="no"
-        onClick={activeHandler}
-        className={styles.card}
-      >
+      <div data-choose="no" onClick={activeHandler} className={styles.card}>
         <span className={styles.badge}>No</span>
         <h5>I am only looking for a name, not a Domain</h5>
       </div>

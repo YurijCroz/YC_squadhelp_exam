@@ -14,7 +14,7 @@ function HeroBanner() {
             combining the power of crowdsourcing with sophisticated technology
             and Agency-level validation services.
           </p>
-          <a href="#"><i className="fas fa-play" />Play Video</a>
+          <a href="https://www.google.com/"><i className="fas fa-play" />Play Video</a>
         </article>
         <section className={styles.images}>
           <img src={`${CONSTANTS.STATIC_IMAGES_PATH}svgMobile.svg`} alt="mobile" />

@@ -1,7 +1,7 @@
 const env = process.env.NODE_ENV || "development";
 const serverIP = "localhost";
 const serverPort = 3000;
-export default {
+export default Object.freeze({
   CONTACTS: {
     TEL: "(877) 355-3585",
   },
@@ -28,7 +28,7 @@ export default {
   ANONYM_IMAGE_PATH: "/staticImages/anonym.png",
   BASE_URL: `http://${serverIP}:${serverPort}/`,
   ACCESS_TOKEN: "accessToken",
-  publicURL:
+  PUBLIC_URL:
     env === "production"
       ? `http://${serverIP}:80/`
       : `http://${serverIP}:${serverPort}/public/`,
@@ -52,7 +52,7 @@ export default {
     "a Product",
     "a Startup",
   ],
-  FooterItems: [
+  FOOTER_ITEMS: [
     {
       title: "SQUADHELP",
       items: ["About", "Contact", "How It Works?", "Testimonials", "Our Work"],
@@ -90,4 +90,4 @@ export default {
   ],
   EVENT_KEY: "events",
   EVENT_INTERVAL: 10000,
-};
+});

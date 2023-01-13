@@ -29,7 +29,7 @@ function PricingSection() {
                 <h4>Satisfaction Guarantee</h4>
                 <p>
                   Of course! We have policies in place to ensure that you are
-                  satisfied with your experience. <a href="#">Learn more</a>
+                  satisfied with your experience. <a href="https://www.google.com/">Learn more</a>
                 </p>
               </div>
             </li>

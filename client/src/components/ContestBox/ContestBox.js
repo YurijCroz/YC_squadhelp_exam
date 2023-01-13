@@ -4,6 +4,8 @@ import styles from "./ContestBox.module.sass";
 import CONSTANTS from "../../constants";
 
 const ContestBox = (props) => {
+  const { id, title, contestType, prize, count } = props.data;
+
   const getTimeStr = () => {
     const diff = moment.duration(moment().diff(moment(props.data.createdAt)));
     let str = "";
@@ -23,7 +25,6 @@ const ContestBox = (props) => {
   const ucFirstLetter = (string) =>
     string.charAt(0).toUpperCase() + string.slice(1);
 
-  const { id, title, contestType, prize, count } = props.data;
   return (
     <section
       className={styles.contestBoxContainer}

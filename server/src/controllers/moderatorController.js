@@ -1,3 +1,4 @@
+"use strict";
 const { Contest, Offer, User } = require("../models");
 const CONSTANTS = require("../constants");
 const utilFunctions = require("../utils/functions");

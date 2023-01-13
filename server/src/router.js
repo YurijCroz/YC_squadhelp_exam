@@ -1,3 +1,4 @@
+"use strict";
 const { Router } = require("express");
 
 const router = Router();
@@ -15,7 +16,7 @@ router.use("/contests", contestRouter);
 // moderatorRouter /api/moderation
 
 const moderatorRouter = require("./routes/moderatorRouter.js");
-router.use("/moderation", moderatorRouter)
+router.use("/moderation", moderatorRouter);
 
 // userRouter /api/users
 

@@ -1,8 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Catalog from '../Catalog/Catalog';
-import styles from '../CatalogListContainer/CatalogListContainer.module.sass';
-import { changeShowModeCatalog, deleteCatalog } from '../../../../actions/actionCreator';
+import React from "react";
+import { connect } from "react-redux";
+import Catalog from "../Catalog/Catalog";
+import styles from "../CatalogListContainer/CatalogListContainer.module.sass";
+import {
+  changeShowModeCatalog,
+  deleteCatalog,
+} from "../../../../actions/actionCreator";
 
 const CatalogList = (props) => {
   const goToCatalog = (event, catalog) => {
@@ -19,21 +22,25 @@ const CatalogList = (props) => {
     const { catalogList } = props;
     const elementList = [];
     catalogList.forEach((catalog) => {
-      elementList.push(<Catalog
-        catalog={catalog}
-        key={catalog._id}
-        deleteCatalog={deleteCatalog}
-        goToCatalog={goToCatalog}
-      />);
+      elementList.push(
+        <Catalog
+          catalog={catalog}
+          key={catalog._id}
+          deleteCatalog={deleteCatalog}
+          goToCatalog={goToCatalog}
+        />
+      );
     });
-    return elementList.length ? elementList : <span className={styles.notFound}>You have not created any directories.</span>;
+    return elementList.length ? (
+      elementList
+    ) : (
+      <span className={styles.notFound}>
+        You have not created any directories.
+      </span>
+    );
   };
 
-  return (
-    <section className={styles.listContainer}>
-      {getListCatalog()}
-    </section>
-  );
+  return <section className={styles.listContainer}>{getListCatalog()}</section>;
 };
 
 const mapDispatchToProps = (dispatch) => ({

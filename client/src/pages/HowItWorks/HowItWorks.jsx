@@ -38,7 +38,7 @@ function HowItWorks() {
               Fill out your contest brief and begin receiving custom name
               suggestions within minutes.
             </p>
-            <a href="#">Start A Contest</a>
+            <a href="https://www.google.com/">Start A Contest</a>
           </article>
           <div className={classnames(styles.svgImg, styles.svgFirst)}>
             <img
@@ -73,28 +73,28 @@ function HowItWorks() {
               <section className={styles.clients__body}>
                 <section className={styles.client}>
                   <div className={styles.client__logo}>
-                    <a href="#">
+                    <a href="https://www.google.com/">
                       <img src={`${CONSTANTS.STATIC_IMAGES_PATH}forbes.svg`} alt="forbes" />
                     </a>
                   </div>
                 </section>
                 <section className={styles.client}>
                   <div className={styles.client__logo}>
-                    <a href="#">
+                    <a href="https://www.google.com/">
                       <img src={`${CONSTANTS.STATIC_IMAGES_PATH}TNW.svg`} alt="TNW" />
                     </a>
                   </div>
                 </section>
                 <section className={styles.client}>
                   <div className={styles.client__logo}>
-                    <a href="#">
+                    <a href="https://www.google.com/">
                       <img src={`${CONSTANTS.STATIC_IMAGES_PATH}chicago.svg`} alt="chicago" />
                     </a>
                   </div>
                 </section>
                 <section className={styles.client}>
                   <div className={styles.client__logo}>
-                    <a href="#">
+                    <a href="https://www.google.com/">
                       <img src={`${CONSTANTS.STATIC_IMAGES_PATH}Mashable.svg`} alt="Mashable" />
                     </a>
                   </div>

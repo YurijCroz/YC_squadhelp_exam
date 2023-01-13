@@ -3,16 +3,16 @@ import valid from 'card-validator';
 
 export default {
   LoginSchem: yup.object().shape({
-    email: yup.string().email('check email').required('required'),
+    email: yup.string().email('check email').required('Email is not valid format'),
     password: yup.string().test('test-password', 'min 6 symbols', (value) => (value && value.trim().length >= 6)).required('required'),
   }),
   RegistrationSchem: yup.object().shape({
     email: yup.string().email('check email').required('Email is required'),
     password: yup.string().test('test-password', 'min 6 symbols', (value) => (value && value.trim().length >= 6)).required('required'),
     confirmPassword: yup.string().required('confirm password is required').oneOf([yup.ref('password')], 'confirmation pass must match password'),
-    firstName: yup.string().test('test-firstName', 'required', (value) => (value && value.trim().length >= 1)).required('First Name is required'),
-    lastName: yup.string().test('test-lastName', 'required', (value) => (value && value.trim().length >= 1)).required('Last Name is required'),
-    displayName: yup.string().test('test-displayName', 'required', (value) => (value && value.trim().length >= 1)).required('Display Name is required'),
+    firstName: yup.string().test('test-firstName', 'First Name is required', (value) => (value && value.trim().length >= 1)).required('First Name is required'),
+    lastName: yup.string().test('test-lastName', 'Last Name is required', (value) => (value && value.trim().length >= 1)).required('Last Name is required'),
+    displayName: yup.string().test('test-displayName', 'Display Name is required', (value) => (value && value.trim().length >= 1)).required('Display Name is required'),
     role: yup.string().matches(/(customer|creator)/).required('Role is required'),
     agreeOfTerms: yup.boolean().oneOf([true], 'Must Accept Terms and Conditions').required('Must Accept Terms and Conditions'),
   }),
@@ -39,7 +39,7 @@ export default {
     offerData: yup.mixed().required('required'),
   }),
   TextOfferSchema: yup.object().shape({
-    offerData: yup.string().test('test-offerData', 'required', (value) => (value && value.trim().length >= 1)).required('suggestion is required'),
+    offerData: yup.string().test('test-offerData', 'suggestion is required', (value) => (value && value.trim().length >= 1)).required('suggestion is required'),
   }),
   PaymentSchema: yup.object().shape({
     number: yup.string().test('test-cardNumber', 'Credit Card number is invalid', (value) => valid.number(value).isValid).required('required'),

@@ -1,7 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { onlyForNotAuthorize } from '../../actions/actionCreator';
-import Spinner from '../Spinner/Spinner';
+import React from "react";
+import { connect } from "react-redux";
+import { onlyForNotAuthorize } from "../../actions/actionCreator";
+import Spinner from "../Spinner/Spinner";
 
 const OnlyNotAuthorizedUserHoc = (Component) => {
   const mapStateToProps = (state) => state.userStore;
@@ -18,7 +18,8 @@ const OnlyNotAuthorizedUserHoc = (Component) => {
     render() {
       if (this.props.isFetching) {
         return <Spinner />;
-      } if (!this.props.data) {
+      }
+      if (!this.props.data) {
         return <Component history={this.props.history} />;
       }
       return null;

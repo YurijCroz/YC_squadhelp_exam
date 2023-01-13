@@ -1,11 +1,11 @@
-import ACTION from '../actions/actionTypes';
+import ACTION from "../actions/actionTypes";
 
 const initialState = {
   isFetching: false,
   error: null,
 };
 
-export default function (state = initialState, action) {
+function authReducer(state = initialState, action) {
   switch (action.type) {
     case ACTION.AUTH_ACTION_REQUEST: {
       return {
@@ -38,3 +38,5 @@ export default function (state = initialState, action) {
       return state;
   }
 }
+
+export default authReducer;

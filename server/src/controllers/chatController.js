@@ -1,5 +1,5 @@
+"use strict";
 const { Conversation, Message, Catalog} = require('../models/mongoModels');
-const moment = require('moment');
 const { User } = require('../models');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');

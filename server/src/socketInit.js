@@ -1,20 +1,21 @@
-const { Server } = require('socket.io');
-const ChatController = require('./controllers/sockets/ChatController');
-const NotificationController = require('./controllers/sockets/NotificationController');
+"use strict";
+const { Server } = require("socket.io");
+const ChatController = require("./controllers/sockets/ChatController");
+const NotificationController = require("./controllers/sockets/NotificationController");
 
 let notificationController;
 let chatController;
 
 const cors = {
-  origin: '*',
+  origin: "*",
 };
 
 module.exports.createConnection = (httpServer) => {
   const io = new Server(httpServer, { cors });
   notificationController = new NotificationController();
-  notificationController.connect('/notifications', io);
+  notificationController.connect("/notifications", io);
   chatController = new ChatController();
-  chatController.connect('/chat', io);
+  chatController.connect("/chat", io);
 };
 
 module.exports.getChatController = () => {

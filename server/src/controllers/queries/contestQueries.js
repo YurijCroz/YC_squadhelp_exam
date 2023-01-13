@@ -1,3 +1,4 @@
+"use strict";
 const { Contest, Offer } = require("../../models");
 const ServerError = require("../../errors/ServerError");
 

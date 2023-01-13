@@ -1,8 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { getUserAction } from '../../actions/actionCreator';
-import Spinner from '../Spinner/Spinner';
+import React from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { getUserAction } from "../../actions/actionCreator";
+import Spinner from "../Spinner/Spinner";
 
 const PrivateHoc = (Component, props) => {
   const mapStateToProps = (state) => state.userStore;
@@ -21,8 +21,15 @@ const PrivateHoc = (Component, props) => {
     render() {
       return (
         <>
-          {this.props.isFetching ? (<Spinner/>,<Redirect to="/login" />)
-            : <Component history={this.props.history} match={this.props.match} {...props} />}
+          {this.props.isFetching ? (
+            ((<Spinner />), (<Redirect to="/login" />))
+          ) : (
+            <Component
+              history={this.props.history}
+              match={this.props.match}
+              {...props}
+            />
+          )}
         </>
       );
     }

@@ -1,3 +1,4 @@
+"use strict";
 const bd = require("../models");
 const CONSTANTS = require("../constants");
 
@@ -50,7 +51,7 @@ const types = [
   "name,logo",
 ];
 
-const {INSPECTION, PASSED, BANNED} = CONSTANTS.STATUS_MODERATION;
+const { INSPECTION, PASSED, BANNED } = CONSTANTS.STATUS_MODERATION;
 
 module.exports.whereHelper = (typeFilter) => {
   if (typeFilter === INSPECTION) {
@@ -62,5 +63,5 @@ module.exports.whereHelper = (typeFilter) => {
   if (typeFilter === BANNED) {
     return { passedModeration: true, banned: true };
   }
-  return {}
+  return {};
 };

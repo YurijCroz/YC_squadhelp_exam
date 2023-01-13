@@ -1,10 +1,10 @@
-const ApplicationError = require('./ApplicationError');
+"use strict";
+const ApplicationError = require("./ApplicationError");
 
-class UncorrectPassword extends ApplicationError{
-  constructor (message) {
-    super(message || 'uncorrect password', 406);
+class UncorrectPassword extends ApplicationError {
+  constructor(message) {
+    super(message || "uncorrect password", 406);
   }
 }
 
 module.exports = UncorrectPassword;
-

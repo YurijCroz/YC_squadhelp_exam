@@ -4,7 +4,6 @@ import { Link, withRouter } from "react-router-dom";
 import styles from "./Header.module.sass";
 import CONSTANTS from "../../constants";
 import {
-  getUserAction,
   clearUserStore,
   headerRequest,
 } from "../../actions/actionCreator";
@@ -38,7 +37,7 @@ class Header extends React.Component {
               src={
                 this.props.data.avatar === "anon.png"
                   ? CONSTANTS.ANONYM_IMAGE_PATH
-                  : `${CONSTANTS.publicURL}images_avatar/${this.props.data.avatar}`
+                  : `${CONSTANTS.PUBLIC_URL}images_avatar/${this.props.data.avatar}`
               }
               alt="user"
             />

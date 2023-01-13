@@ -155,7 +155,7 @@ const OfferBoxForModerator = (props) => {
                 })
               }
               className={styles.responseLogo}
-              src={`${CONSTANTS.publicURL}images_logo/${data.fileName}`}
+              src={`${CONSTANTS.PUBLIC_URL}images_logo/${data.fileName}`}
               alt="logo"
             />
           ) : (

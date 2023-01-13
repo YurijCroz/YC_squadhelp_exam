@@ -1,8 +1,9 @@
+"use strict";
 const { Router } = require("express");
 const moderatorController = require("../controllers/moderatorController");
 const checkToken = require("../middlewares/checkToken");
 
-const moderatorRouter = Router()
+const moderatorRouter = Router();
 
 moderatorRouter.post(
   "/get-contests",
@@ -34,4 +35,4 @@ moderatorRouter.post(
   moderatorController.moderationOfferById
 );
 
-module.exports = moderatorRouter
+module.exports = moderatorRouter;

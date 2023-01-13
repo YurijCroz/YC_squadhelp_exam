@@ -46,7 +46,7 @@ function SatisfactionCard() {
               </span>
               <div className={styles.card__media_text}>
                 Partial refund for Gold and Platinum packages.{" "}
-                <a href="#">Read more.</a>
+                <a href="https://www.google.com/">Read more.</a>
               </div>
             </div>
           </li>
@@ -57,7 +57,7 @@ function SatisfactionCard() {
               </span>
               <div className={styles.card__media_text}>
                 No-questions-asked refund within 10 days for any marketplace
-                domains purchased. <a href="#">Read more.</a>
+                domains purchased. <a href="https://www.google.com/">Read more.</a>
               </div>
             </div>
           </li>

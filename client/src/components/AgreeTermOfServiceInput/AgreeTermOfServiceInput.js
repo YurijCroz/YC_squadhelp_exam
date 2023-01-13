@@ -1,9 +1,7 @@
-import React from 'react';
-import { Field } from 'formik';
+import React from "react";
+import { Field } from "formik";
 
-const AgreeTermOfServiceInput = ({
-  id, type, classes, label, ...rest
-}) => (
+const AgreeTermOfServiceInput = ({ id, type, classes, label, ...rest }) => (
   <Field {...rest}>
     {(props) => {
       const {
@@ -16,16 +14,13 @@ const AgreeTermOfServiceInput = ({
           <section className={classes.container}>
             <input {...field} placeholder={label} id={id} type={type} />
             <label htmlFor={id}>
-              By clicking this checkbox, you agree to our
-              {' '}
+              By clicking this checkbox, you agree to our{" "}
               <a href="https://www.google.com" target="_blank" rel="noreferrer">
                 Terms of Service.
               </a>
             </label>
           </section>
-          {touched && error && (
-          <span className={classes.warning}>{error}</span>
-          )}
+          {touched && error && <span className={classes.warning}>{error}</span>}
         </>
       );
     }}

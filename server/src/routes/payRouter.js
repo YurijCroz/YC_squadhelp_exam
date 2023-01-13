@@ -1,3 +1,4 @@
+"use strict";
 const { Router } = require("express");
 const basicMiddlewares = require("../middlewares/basicMiddlewares");
 const userController = require("../controllers/userController");
@@ -24,5 +25,4 @@ payRouter.post(
   userController.cashout
 );
 
-
-module.exports =  payRouter;
+module.exports = payRouter;

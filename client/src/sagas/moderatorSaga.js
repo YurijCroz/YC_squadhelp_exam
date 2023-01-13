@@ -25,10 +25,18 @@ export function* moderatorGetOffersSaga(action) {
 export function* getContestByIdForModeratorSaga(action) {
   yield put({ type: ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_REQUEST });
   try {
-    const { data } = yield restController.getContestByIdForModerator(action.data);
-    yield put({ type: ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_SUCCESS, data: { contestData: data } });
+    const { data } = yield restController.getContestByIdForModerator(
+      action.data
+    );
+    yield put({
+      type: ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_SUCCESS,
+      data: { contestData: data },
+    });
   } catch (e) {
-    yield put({ type: ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ERROR, error: e.response });
+    yield put({
+      type: ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ERROR,
+      error: e.response,
+    });
   }
 }
 

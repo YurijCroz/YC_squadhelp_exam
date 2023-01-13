@@ -1,3 +1,4 @@
+"use strict";
 const { User } = require("../../models");
 const NotFound = require("../../errors/UserNotFoundError");
 const ServerError = require("../../errors/ServerError");

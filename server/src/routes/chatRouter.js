@@ -1,3 +1,4 @@
+"use strict";
 const { Router } = require("express");
 const checkToken = require("../middlewares/checkToken");
 const chatController = require("../controllers/chatController");
@@ -10,10 +11,7 @@ chatRouter.post(
   chatController.addMessage
 );
 
-chatRouter.post("/getChat",
-  checkToken.checkToken,
-  chatController.getChat
-);
+chatRouter.post("/getChat", checkToken.checkToken, chatController.getChat);
 
 chatRouter.post(
   "/getPreview",
@@ -21,10 +19,7 @@ chatRouter.post(
   chatController.getPreview
 );
 
-chatRouter.post("/blackList",
-    checkToken.checkToken,
-    chatController.blackList
-);
+chatRouter.post("/blackList", checkToken.checkToken, chatController.blackList);
 
 chatRouter.post(
   "/favorite",

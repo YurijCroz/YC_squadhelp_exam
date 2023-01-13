@@ -1,3 +1,4 @@
+"use strict";
 const { Rating } = require("../../models");
 const ServerError = require("../../errors/ServerError");
 

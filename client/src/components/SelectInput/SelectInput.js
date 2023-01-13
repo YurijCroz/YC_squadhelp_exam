@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react';
-import { Field, ErrorMessage } from 'formik';
+import React, { useLayoutEffect } from "react";
+import { Field, ErrorMessage } from "formik";
 
 const SelectInput = ({
   header,
@@ -65,7 +65,11 @@ const SelectInputWrapper = ({
           optionsArray={optionsArray}
           valueArray={valueArray}
         />
-        <ErrorMessage name={fieldProps.field.name} component="span" className={classes.warning} />
+        <ErrorMessage
+          name={fieldProps.field.name}
+          component="span"
+          className={classes.warning}
+        />
       </>
     )}
   </Field>

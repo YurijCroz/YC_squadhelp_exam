@@ -1,3 +1,4 @@
+"use strict";
 const { Bank } = require("../../models");
 const BankDeclineError = require("../../errors/BankDeclineError");
 

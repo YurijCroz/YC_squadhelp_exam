@@ -31,7 +31,7 @@ const UserInfo = (props) => {
             src={
               avatar === "anon.png"
                 ? CONSTANTS.ANONYM_IMAGE_PATH
-                : `${CONSTANTS.publicURL}images_avatar/${avatar}`
+                : `${CONSTANTS.PUBLIC_URL}images_avatar/${avatar}`
             }
             className={styles.avatar}
             alt="user"

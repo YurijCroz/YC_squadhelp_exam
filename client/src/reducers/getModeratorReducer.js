@@ -1,5 +1,5 @@
-import ACTION from '../actions/actionTypes';
-import CONSTANTS from '../constants';
+import ACTION from "../actions/actionTypes";
+import CONSTANTS from "../constants";
 
 const initialState = {
   isFetching: true,
@@ -13,7 +13,7 @@ const initialState = {
   refresh: false,
 };
 
-export default function (state = initialState, action) {
+function getModeratorReducer(state = initialState, action) {
   switch (action.type) {
     case ACTION.GET_MODERATION_ACTION_REQUEST: {
       return {
@@ -74,15 +74,17 @@ export default function (state = initialState, action) {
         isFetching: false,
         error: action.error,
         moderData: [],
-      }
+      };
     }
     case ACTION.MODERATION_LIST_REFRESH: {
       return {
         ...state,
         refresh: true,
-      }
+      };
     }
     default:
       return state;
   }
 }
+
+export default getModeratorReducer;
