@@ -97,28 +97,28 @@ function ModeratorDashboard(props) {
     return (
       <>
         {moderatorFilter === MODER_STATUS_CONTESTS ? (
-          <section className={classnames(styles.btn, styles.activeFilter)}>
+          <div className={classnames(styles.btn, styles.activeFilter)}>
             <h4>{buttonName.contests}</h4>
-          </section>
+          </div>
         ) : (
-          <section
+          <div
             onClick={() => props.newFilter(MODER_STATUS_CONTESTS)}
             className={classnames(styles.btn, styles.filter)}
           >
             <h4>{buttonName.contests}</h4>
-          </section>
+          </div>
         )}
         {moderatorFilter === MODER_STATUS_OFFERS ? (
-          <section className={classnames(styles.btn, styles.activeFilter)}>
+          <div className={classnames(styles.btn, styles.activeFilter)}>
             <h4>{buttonName.offers}</h4>
-          </section>
+          </div>
         ) : (
-          <section
+          <div
             onClick={() => props.newFilter(MODER_STATUS_OFFERS)}
             className={classnames(styles.btn, styles.filter)}
           >
             <h4>{buttonName.offers}</h4>
-          </section>
+          </div>
         )}
       </>
     );

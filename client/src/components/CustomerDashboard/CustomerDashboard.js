@@ -78,40 +78,40 @@ class CustomerDashboard extends React.Component {
     return (
       <>
         {customerFilter === CONSTANTS.CONTEST_STATUS_ACTIVE ? (
-          <section className={classnames(styles.btn, styles.activeFilter)}>
+          <div className={classnames(styles.btn, styles.activeFilter)}>
             {buttonName.activeContests}
-          </section>
+          </div>
         ) : (
-          <section
+          <div
             onClick={() => newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)}
             className={classnames(styles.btn, styles.filter)}
           >
             {buttonName.activeContests}
-          </section>
+          </div>
         )}
         {customerFilter === CONSTANTS.CONTEST_STATUS_FINISHED ? (
-          <section className={classnames(styles.btn, styles.activeFilter)}>
+          <div className={classnames(styles.btn, styles.activeFilter)}>
             {buttonName.completedContests}
-          </section>
+          </div>
         ) : (
-          <section
+          <div
             onClick={() => newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)}
             className={classnames(styles.btn, styles.filter)}
           >
             {buttonName.completedContests}
-          </section>
+          </div>
         )}
         {customerFilter === CONSTANTS.CONTEST_STATUS_PENDING ? (
-          <section className={classnames(styles.btn, styles.activeFilter)}>
+          <div className={classnames(styles.btn, styles.activeFilter)}>
             {buttonName.inactiveContests}
-          </section>
+          </div>
         ) : (
-          <section
+          <div
             onClick={() => newFilter(CONSTANTS.CONTEST_STATUS_PENDING)}
             className={classnames(styles.btn, styles.filter)}
           >
             {buttonName.inactiveContests}
-          </section>
+          </div>
         )}
       </>
     );

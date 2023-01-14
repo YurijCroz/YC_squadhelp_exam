@@ -1,4 +1,5 @@
-module.exports = Object.freeze({
+"use strict";
+const CONSTANTS = Object.freeze({
   JWT_SECRET: "asdasdasd4as5d4as8d7a8sd4as65d4a8sd7asd4as56d4",
   ACCESS_TOKEN_TIME: "1d", //60 * 60,
   SALT_ROUNDS: 5,
@@ -34,4 +35,16 @@ module.exports = Object.freeze({
     PASSED: "passed",
     BANNED: "banned",
   },
+  NODEMAILER: {
+    SMTP: "smtp.ethereal.email",
+    PORT: 587,
+    AUTH: {
+      user: "genoveva.wisozk27@ethereal.email",
+      pass: "ECyNUUsRzy1BEBTFhR",
+    },
+  },
+  CONTEST: "contest",
+  OFFER: "offer",
 });
+
+module.exports = CONSTANTS;

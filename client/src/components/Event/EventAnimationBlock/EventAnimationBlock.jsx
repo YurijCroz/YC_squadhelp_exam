@@ -34,6 +34,9 @@ function EventAnimationBlock({ event, setIsFetching, getDiffInSec }) {
     format(new Date(event.deadLine), regFormat)
       ? reset()
       : setIsRun(true);
+    return () => {
+      setIsRun(false);
+    };
   });
 
   const percentWidth =

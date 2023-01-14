@@ -2,11 +2,14 @@
 const { Contest, Offer, User } = require("../models");
 const CONSTANTS = require("../constants");
 const utilFunctions = require("../utils/functions");
+const mailerHandler = require("../utils/mailer.js");
+
+const { MODER, CONTEST, OFFER } = CONSTANTS;
 
 module.exports.getContests = async (req, res, next) => {
   try {
-    if (req.tokenData.role === CONSTANTS.MODER) {
-      const where = utilFunctions.whereHelper(req.body.filter)
+    if (req.tokenData.role === MODER) {
+      const where = utilFunctions.whereHelper(req.body.filter);
       const moderData = await Contest.findAll({
         where: { ...where },
         attributes: ["id", "title", "updatedAt", "contestType"],
@@ -31,7 +34,7 @@ module.exports.getContests = async (req, res, next) => {
 
 module.exports.getContestById = async (req, res, next) => {
   try {
-    if (req.tokenData.role === CONSTANTS.MODER) {
+    if (req.tokenData.role === MODER) {
       const contestInfo = await Contest.findOne({
         where: { id: req.headers.contestid },
         attributes: {
@@ -44,7 +47,6 @@ module.exports.getContestById = async (req, res, next) => {
             "priority",
           ],
         },
-        order: [["updatedAt", "ASC"]],
         include: {
           model: User,
           attributes: {
@@ -61,16 +63,20 @@ module.exports.getContestById = async (req, res, next) => {
 
 module.exports.moderationContestById = async (req, res, next) => {
   try {
-    if (req.tokenData.role === CONSTANTS.MODER) {
-      const newState = await Contest.update({
-        passedModeration: req.body.passedModeration,
-        banned: req.body.banned,
-      }, {
-        where: {
-          id: req.body.contestId,
+    if (req.tokenData.role === MODER) {
+      const newState = await Contest.update(
+        {
+          passedModeration: req.body.passedModeration,
+          banned: req.body.banned,
         },
-        returning: true,
-      });
+        {
+          where: {
+            id: req.body.contestId,
+          },
+          returning: true,
+        }
+      );
+      mailerHandler(CONTEST, req.body.contestId);
       res.status(200).send(newState);
     }
   } catch (error) {
@@ -80,8 +86,8 @@ module.exports.moderationContestById = async (req, res, next) => {
 
 module.exports.getOffers = async (req, res, next) => {
   try {
-    if (req.tokenData.role === CONSTANTS.MODER) {
-      const where = utilFunctions.whereHelper(req.body.filter)
+    if (req.tokenData.role === MODER) {
+      const where = utilFunctions.whereHelper(req.body.filter);
       const moderData = await Offer.findAll({
         where: { ...where },
         attributes: [
@@ -113,16 +119,20 @@ module.exports.getOffers = async (req, res, next) => {
 
 module.exports.moderationOfferById = async (req, res, next) => {
   try {
-    if (req.tokenData.role === CONSTANTS.MODER) {
-      const newState = await Offer.update({
-        passedModeration: req.body.passedModeration,
-        banned: req.body.banned,
-      }, {
-        where: {
-          id: req.body.offerId,
+    if (req.tokenData.role === MODER) {
+      const newState = await Offer.update(
+        {
+          passedModeration: req.body.passedModeration,
+          banned: req.body.banned,
         },
-        returning: true,
-      });
+        {
+          where: {
+            id: req.body.offerId,
+          },
+          returning: true,
+        }
+      );
+      mailerHandler(OFFER, req.body.offerId);
       res.status(200).send(newState);
     }
   } catch (error) {

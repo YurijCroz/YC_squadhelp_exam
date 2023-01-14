@@ -1,5 +1,5 @@
 "use strict";
-const { Contest, Offer } = require("../../models");
+const { Contest, Offer, User } = require("../../models");
 const ServerError = require("../../errors/ServerError");
 
 module.exports.updateContest = async (data, predicate, transaction) => {
@@ -60,5 +60,43 @@ module.exports.createOffer = async (data) => {
     throw new ServerError("cannot create new Offer");
   } else {
     return result.get({ plain: true });
+  }
+};
+
+module.exports.getOfferById = async (id) => {
+  try {
+    const offer = await Offer.findOne({
+      where: { id },
+      attributes: ["text", "originalFileName", "passedModeration", "banned"],
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "email"],
+        },
+        {
+          model: Contest,
+          attributes: ["title"],
+        },
+      ],
+    });
+    return offer.dataValues;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+module.exports.getContestById = async (id) => {
+  try {
+    const contest = await Contest.findOne({
+      where: { id },
+      attributes: ["title", "passedModeration", "banned"],
+      include: {
+        model: User,
+        attributes: ["firstName", "email"],
+      },
+    });
+    return contest.dataValues;
+  } catch (error) {
+    console.error(error);
   }
 };

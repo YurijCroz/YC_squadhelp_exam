@@ -336,6 +336,6 @@ module.exports.getContests = async (req, res, next) => {
       res.send({ contests, haveMore });
     })
     .catch((err) => {
-      next(new ServerError());
+      next(new ServerError(err));
     });
 };
