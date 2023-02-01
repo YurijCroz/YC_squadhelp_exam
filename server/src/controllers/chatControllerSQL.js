@@ -6,6 +6,7 @@ const {
   Conversation,
   ConversationToCatalog,
   Sequelize,
+  sequelize,
 } = require("../models");
 const { Op } = require("sequelize");
 
@@ -117,8 +118,10 @@ module.exports.getChat = async (req, res, next) => {
       ],
     });
     conversation.dataValues.participant0 === req.tokenData.userId
-      ? (conversation.dataValues.interlocutor = conversation.dataValues.userSecond)
-      : (conversation.dataValues.interlocutor = conversation.dataValues.userFirst);
+      ? (conversation.dataValues.interlocutor =
+          conversation.dataValues.userSecond)
+      : (conversation.dataValues.interlocutor =
+          conversation.dataValues.userFirst);
     delete conversation.dataValues.userFirst;
     delete conversation.dataValues.userSecond;
     delete conversation.dataValues.participant0;
@@ -130,14 +133,52 @@ module.exports.getChat = async (req, res, next) => {
 };
 
 module.exports.blackList = async (req, res, next) => {
+  const participants = req.body.participants.sort(
+    (participant1, participant2) => participant1 - participant2
+  );
+  const index = participants.indexOf(req.tokenData.userId);
+  if (index < 0) return;
   try {
+    const state = await sequelize.query(`
+      UPDATE "Conversations"
+      SET "blackList"[${index + 1}] = ${req.body.blackListFlag}
+      WHERE "participant0" = ${req.body.participants[0]}
+      AND "participant1" = ${req.body.participants[1]}
+      RETURNING *;
+    `);
+    state[0][0].participants = [
+      state[0][0].participant0,
+      state[0][0].participant1,
+    ];
+    delete state[0][0].participant0;
+    delete state[0][0].participant1;
+    res.status(200).send(state[0][0]);
   } catch (error) {
     next(error);
   }
 };
 
 module.exports.favoriteChat = async (req, res, next) => {
+  const participants = req.body.participants.sort(
+    (participant1, participant2) => participant1 - participant2
+  );
+  const index = participants.indexOf(req.tokenData.userId);
+  if (index < 0) return;
   try {
+    const state = await sequelize.query(`
+      UPDATE "Conversations"
+      SET "favoriteList"[${index + 1}] = ${req.body.favoriteFlag}
+      WHERE "participant0" = ${req.body.participants[0]}
+      AND "participant1" = ${req.body.participants[1]}
+      RETURNING *;
+    `);
+    state[0][0].participants = [
+      state[0][0].participant0,
+      state[0][0].participant1,
+    ];
+    delete state[0][0].participant0;
+    delete state[0][0].participant1;
+    res.status(200).send(state[0][0]);
   } catch (error) {
     next(error);
   }
