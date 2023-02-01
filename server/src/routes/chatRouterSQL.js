@@ -1,74 +1,74 @@
 "use strict";
 const { Router } = require("express");
 const checkToken = require("../middlewares/checkToken");
-const chatController = require("../controllers/chatController");
+const chatController = require("../controllers/chatControllerSQL");
 
-const chatRouter = Router();
+const chatRouterSQL = Router();
 
-chatRouter.post(
-  "/newMessage",
-  checkToken.checkToken,
-  chatController.addMessage
-);
-
-chatRouter.post(
-  "/getChat",
-  checkToken.checkToken,
-  chatController.getChat
-);
-
-chatRouter.post(
+chatRouterSQL.post(
   "/getPreview",
   checkToken.checkToken,
   chatController.getPreview
 );
 
-chatRouter.post(
+chatRouterSQL.post(
+  "/newMessage",
+  checkToken.checkToken,
+  chatController.addMessage
+);
+
+chatRouterSQL.post(
+  "/getChat",
+  checkToken.checkToken,
+  chatController.getChat
+);
+
+chatRouterSQL.post(
   "/blackList",
   checkToken.checkToken,
   chatController.blackList
 );
 
-chatRouter.post(
+chatRouterSQL.post(
   "/favorite",
   checkToken.checkToken,
   chatController.favoriteChat
 );
 
-chatRouter.post(
+chatRouterSQL.post(
   "/createCatalog",
   checkToken.checkToken,
   chatController.createCatalog
 );
 
-chatRouter.post(
+chatRouterSQL.post(
   "/updateNameCatalog",
   checkToken.checkToken,
   chatController.updateNameCatalog
 );
 
-chatRouter.post(
+chatRouterSQL.post(
   "/addNewChatToCatalog",
   checkToken.checkToken,
   chatController.addNewChatToCatalog
 );
 
-chatRouter.post(
+chatRouterSQL.post(
   "/removeChatFromCatalog",
   checkToken.checkToken,
   chatController.removeChatFromCatalog
 );
 
-chatRouter.post(
+chatRouterSQL.post(
   "/deleteCatalog",
   checkToken.checkToken,
   chatController.deleteCatalog
 );
 
-chatRouter.post(
+chatRouterSQL.post(
   "/getCatalogs",
   checkToken.checkToken,
   chatController.getCatalogs
 );
 
-module.exports = chatRouter;
+module.exports = chatRouterSQL;

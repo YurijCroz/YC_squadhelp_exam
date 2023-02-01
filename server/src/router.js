@@ -28,6 +28,9 @@ router.use("/users", usersRouter);
 const chatRouter = require("./routes/chatRouter.js");
 router.use("/chat", chatRouter);
 
+const chatRouterSQL = require("./routes/chatRouterSQL.js");
+router.use("/chatSQL", chatRouterSQL);
+
 // payRouter  /api/pay
 
 const payRouter = require("./routes/payRouter.js");
