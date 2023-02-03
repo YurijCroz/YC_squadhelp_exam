@@ -3,14 +3,22 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate({ Offer, Contest, Rating, Conversation, Message, Catalog}) {
-      User.hasMany(Offer, { foreignKey: "userId", targetKey: "id" });
-      User.hasMany(Contest, { foreignKey: "userId", targetKey: "id" });
-      User.hasMany(Rating, { foreignKey: "userId", targetKey: "id" });
-      User.hasMany(Conversation);
-      // User.hasMany(Conversation, { foreignKey: "participant1", targetKey: "id" });
-      User.hasMany(Message, { foreignKey: "sender", targetKey: "id" });
-      User.hasMany(Catalog, { foreignKey: "userId", targetKey: "id" });
+    static associate(models) {
+      User.hasMany(models.Offer, { foreignKey: "userId", targetKey: "id" });
+      User.hasMany(models.Contest, { foreignKey: "userId", targetKey: "id" });
+      User.hasMany(models.Rating, { foreignKey: "userId", targetKey: "id" });
+      User.hasMany(models.Conversation, {
+        as: "userFirst",
+        foreignKey: "participant0",
+        targetKey: "id",
+      });
+      User.hasMany(models.Conversation, {
+        as: "userSecond",
+        foreignKey: "participant1",
+        targetKey: "id",
+      });
+      User.hasMany(models.Message, { foreignKey: "sender", targetKey: "id" });
+      User.hasMany(models.Catalog, { foreignKey: "userId", targetKey: "id" });
     }
   }
   User.init(

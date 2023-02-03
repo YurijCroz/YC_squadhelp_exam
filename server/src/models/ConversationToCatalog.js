@@ -3,10 +3,7 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class ConversationToCatalog extends Model {
-    static associate({Conversation, Catalog}) {
-      // ConversationToCatalog.hasMany(Conversation, { foreignKey: "conversationId", targetKey: "id" }),
-      // ConversationToCatalog.hasMany(Catalog, { foreignKey: "catalogId", targetKey: "id" })
-    }
+    static associate(models) {}
   }
   ConversationToCatalog.init(
     {

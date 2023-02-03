@@ -9,6 +9,9 @@ const {
   sequelize,
 } = require("../models");
 const { Op } = require("sequelize");
+const chatQueries = require("./queries/chatQueries.js");
+const controller = require('../socketInit');
+const _ = require('lodash');
 
 module.exports.getPreview = async (req, res, next) => {
   try {
@@ -54,13 +57,13 @@ module.exports.getPreview = async (req, res, next) => {
       chat.dataValues.participant0 === req.tokenData.userId
         ? (chat.dataValues.interlocutor = chat.dataValues.userSecond)
         : (chat.dataValues.interlocutor = chat.dataValues.userFirst);
-      const message = chat.dataValues.messages[0].dataValues;
+      const message = chat.dataValues.messages.map((el) => el.dataValues);
       delete chat.dataValues.messages;
       delete chat.dataValues.userFirst;
       delete chat.dataValues.userSecond;
       delete chat.dataValues.participant0;
       delete chat.dataValues.participant1;
-      chat.dataValues = { ...message, ...chat.dataValues };
+      chat.dataValues = { ...message["0"], ...chat.dataValues };
     });
     res.status(200).send(conversations);
   } catch (error) {
@@ -69,7 +72,79 @@ module.exports.getPreview = async (req, res, next) => {
 };
 
 module.exports.addMessage = async (req, res, next) => {
+  //findOrCreate
+  const firstUser =
+    req.tokenData.userId <= req.body.recipient
+      ? req.tokenData.userId
+      : req.body.recipient;
+  const secondUser =
+    req.body.recipient >= req.tokenData.userId
+      ? req.body.recipient
+      : req.tokenData.userId;
   try {
+    const conversation = await Conversation.findOrCreate({
+      where: {
+        participant0: firstUser,
+        participant1: secondUser,
+      },
+      default: {
+        blackList: [false, false],
+        favoriteList: [false, false],
+      },
+      attributes: [
+        "id",
+        "blackList",
+        "favoriteList",
+        "participant0",
+        "participant1",
+      ],
+    });
+    const conversationId = conversation[0].dataValues.id;
+    const message = await Message.create(
+      {
+        sender: req.tokenData.userId,
+        body: req.body.messageBody,
+        conversation: conversationId,
+      },
+      {
+        returning: true,
+        plain: true
+      }
+    );
+    message.dataValues.participants = [firstUser, secondUser];
+    const preview = {
+      id: conversation[0].dataValues.id,
+      sender: req.tokenData.userId,
+      text: req.body.messageBody,
+      createAt: message.dataValues.createdAt,
+      participants: [firstUser, secondUser],
+      blackList: conversation[0].dataValues.blackList,
+      favoriteList: conversation[0].dataValues.favoriteList,
+    };
+    controller.getChatController().emitNewMessage(req.body.interlocutor, {
+      message,
+      preview: {
+        id: conversation[0].dataValues.id,
+        sender: req.tokenData.userId,
+        text: req.body.messageBody,
+        createAt: message.dataValues.createdAt,
+        participants: [firstUser, secondUser],
+        blackList: conversation[0].dataValues.blackList,
+        favoriteList: conversation[0].dataValues.favoriteList,
+        interlocutor: {
+          id: req.tokenData.userId,
+          firstName: req.tokenData.firstName,
+          lastName: req.tokenData.lastName,
+          displayName: req.tokenData.displayName,
+          avatar: req.tokenData.avatar,
+          email: req.tokenData.email,
+        },
+      },
+    });
+    res.status(200).send({
+      message,
+      preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
+    });
   } catch (error) {
     next(error);
   }
@@ -138,21 +213,16 @@ module.exports.blackList = async (req, res, next) => {
   );
   const index = participants.indexOf(req.tokenData.userId);
   if (index < 0) return;
+  const columnName = "blackList";
   try {
-    const state = await sequelize.query(`
-      UPDATE "Conversations"
-      SET "blackList"[${index + 1}] = ${req.body.blackListFlag}
-      WHERE "participant0" = ${req.body.participants[0]}
-      AND "participant1" = ${req.body.participants[1]}
-      RETURNING *;
-    `);
-    state[0][0].participants = [
-      state[0][0].participant0,
-      state[0][0].participant1,
-    ];
-    delete state[0][0].participant0;
-    delete state[0][0].participant1;
-    res.status(200).send(state[0][0]);
+    const state = await chatQueries.updateColumnArray(
+      columnName,
+      index,
+      req.body.favoriteFlag,
+      req.body.participants[0],
+      req.body.participants[1]
+    );
+    res.status(200).send(state);
   } catch (error) {
     next(error);
   }
@@ -164,21 +234,16 @@ module.exports.favoriteChat = async (req, res, next) => {
   );
   const index = participants.indexOf(req.tokenData.userId);
   if (index < 0) return;
+  const columnName = "favoriteList";
   try {
-    const state = await sequelize.query(`
-      UPDATE "Conversations"
-      SET "favoriteList"[${index + 1}] = ${req.body.favoriteFlag}
-      WHERE "participant0" = ${req.body.participants[0]}
-      AND "participant1" = ${req.body.participants[1]}
-      RETURNING *;
-    `);
-    state[0][0].participants = [
-      state[0][0].participant0,
-      state[0][0].participant1,
-    ];
-    delete state[0][0].participant0;
-    delete state[0][0].participant1;
-    res.status(200).send(state[0][0]);
+    const state = await chatQueries.updateColumnArray(
+      columnName,
+      index,
+      req.body.favoriteFlag,
+      req.body.participants[0],
+      req.body.participants[1]
+    );
+    res.status(200).send(state);
   } catch (error) {
     next(error);
   }
@@ -186,6 +251,22 @@ module.exports.favoriteChat = async (req, res, next) => {
 
 module.exports.createCatalog = async (req, res, next) => {
   try {
+    const newCatalog = await Catalog.create(
+      {
+        userId: req.tokenData.userId,
+        catalogName: req.body.catalogName,
+      },
+      { returning: ["id"] }
+    );
+    await ConversationToCatalog.create({
+      catalogId: newCatalog.dataValues.id,
+      conversationId: req.body.chatId,
+    });
+    const catalog = await chatQueries.getCatalog(
+      newCatalog.dataValues.id,
+      req.tokenData.userId
+    );
+    res.status(200).send(catalog);
   } catch (error) {
     next(error);
   }
@@ -193,6 +274,20 @@ module.exports.createCatalog = async (req, res, next) => {
 
 module.exports.updateNameCatalog = async (req, res, next) => {
   try {
+    await Catalog.update(
+      { catalogName: req.body.catalogName },
+      {
+        where: {
+          id: req.body.catalogId,
+          userId: req.tokenData.userId,
+        },
+      }
+    );
+    const catalog = await chatQueries.getCatalog(
+      req.body.catalogId,
+      req.tokenData.userId
+    );
+    res.status(200).send(catalog);
   } catch (error) {
     next(error);
   }
@@ -200,6 +295,26 @@ module.exports.updateNameCatalog = async (req, res, next) => {
 
 module.exports.addNewChatToCatalog = async (req, res, next) => {
   try {
+    //seek and create
+    const resultCatalog = await chatQueries.userAuthenticationForCatalog({
+      id: req.body.catalogId,
+      userId: req.tokenData.userId,
+    });
+    const resultChat = await chatQueries.userAuthenticationForChat(
+      req.body.chatId,
+      req.tokenData.userId
+    );
+    if (resultCatalog && resultChat) {
+      await ConversationToCatalog.create({
+        catalogId: req.body.catalogId,
+        conversationId: req.body.chatId,
+      });
+    }
+    const catalog = await chatQueries.getCatalog(
+      req.body.catalogId,
+      req.tokenData.userId
+    );
+    res.status(200).send(catalog);
   } catch (error) {
     next(error);
   }
@@ -207,14 +322,58 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
 
 module.exports.removeChatFromCatalog = async (req, res, next) => {
   try {
+    //seek and destroy
+    const result = await chatQueries.userAuthenticationForCatalog({
+      id: req.body.catalogId,
+      userId: req.tokenData.userId,
+    });
+    if (result) {
+      await ConversationToCatalog.destroy({
+        where: {
+          catalogId: req.body.catalogId,
+          conversationId: req.body.chatId,
+        },
+      });
+    }
+    const catalog = await chatQueries.getCatalog(
+      req.body.catalogId,
+      req.tokenData.userId
+    );
+    res.status(200).send(catalog);
   } catch (error) {
     next(error);
   }
 };
 
 module.exports.deleteCatalog = async (req, res, next) => {
+  const transaction = await sequelize.transaction();
   try {
+    //seek and destroy
+    const result = await chatQueries.userAuthenticationForCatalog({
+      id: req.body.catalogId,
+      userId: req.tokenData.userId,
+    });
+    if (result) {
+      await ConversationToCatalog.destroy(
+        {
+          where: { catalogId: req.body.catalogId },
+        },
+        { transaction: transaction }
+      );
+      await Catalog.destroy(
+        {
+          where: {
+            id: req.body.catalogId,
+            userId: req.tokenData.userId,
+          },
+        },
+        { transaction: transaction }
+      );
+    }
+    await transaction.commit();
+    res.status(200).end();
   } catch (error) {
+    await transaction.rollback();
     next(error);
   }
 };
@@ -235,25 +394,8 @@ module.exports.getCatalogs = async (req, res, next) => {
       );
       delete catalog.dataValues.Conversations;
     });
-    res.send(catalogs);
+    res.status(200).send(catalogs);
   } catch (err) {
     next(err);
   }
 };
-
-// conversations.forEach((el) => {
-//   el.dataValues.participants = [
-//     el.dataValues.participant0,
-//     el.dataValues.participant1,
-//   ];
-//   delete el.dataValues.participant0;
-//   delete el.dataValues.participant1;
-// });
-
-// right: true,
-// key: "participant0",
-// where: {
-//   id: {
-//     [Op.ne]: req.tokenData.userId,
-//   },
-// },
