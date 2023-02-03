@@ -10,8 +10,9 @@ const {
 } = require("../models");
 const { Op } = require("sequelize");
 const chatQueries = require("./queries/chatQueries.js");
-const controller = require('../socketInit');
-const _ = require('lodash');
+const userQueries = require("./queries/userQueries");
+const controller = require("../socketInit");
+const _ = require("lodash");
 
 module.exports.getPreview = async (req, res, next) => {
   try {
@@ -108,7 +109,7 @@ module.exports.addMessage = async (req, res, next) => {
       },
       {
         returning: true,
-        plain: true
+        plain: true,
       }
     );
     message.dataValues.participants = [firstUser, secondUser];
@@ -192,16 +193,32 @@ module.exports.getChat = async (req, res, next) => {
         },
       ],
     });
-    conversation.dataValues.participant0 === req.tokenData.userId
-      ? (conversation.dataValues.interlocutor =
-          conversation.dataValues.userSecond)
-      : (conversation.dataValues.interlocutor =
-          conversation.dataValues.userFirst);
-    delete conversation.dataValues.userFirst;
-    delete conversation.dataValues.userSecond;
-    delete conversation.dataValues.participant0;
-    delete conversation.dataValues.participant1;
-    res.status(200).send(conversation);
+    if (conversation) {
+      conversation.dataValues.participant0 === req.tokenData.userId
+        ? (conversation.dataValues.interlocutor =
+            conversation.dataValues.userSecond)
+        : (conversation.dataValues.interlocutor =
+            conversation.dataValues.userFirst);
+      delete conversation.dataValues.userFirst;
+      delete conversation.dataValues.userSecond;
+      delete conversation.dataValues.participant0;
+      delete conversation.dataValues.participant1;
+      res.status(200).send(conversation);
+    } else {
+      const interlocutor = await userQueries.findUser({
+        id: req.body.interlocutorId,
+      });
+      res.status(200).send({
+        messages: [],
+        interlocutor: {
+          firstName: interlocutor.firstName,
+          lastName: interlocutor.lastName,
+          displayName: interlocutor.displayName,
+          id: interlocutor.id,
+          avatar: interlocutor.avatar,
+        },
+      });
+    }
   } catch (error) {
     next(error);
   }
@@ -218,7 +235,7 @@ module.exports.blackList = async (req, res, next) => {
     const state = await chatQueries.updateColumnArray(
       columnName,
       index,
-      req.body.favoriteFlag,
+      req.body.blackListFlag,
       req.body.participants[0],
       req.body.participants[1]
     );
