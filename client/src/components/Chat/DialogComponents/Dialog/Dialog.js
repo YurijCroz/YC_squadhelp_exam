@@ -40,7 +40,7 @@ class Dialog extends React.Component {
     const { messages, userId } = this.props;
     let currentTime = moment();
     messages.forEach((message, i) => {
-      if (!currentTime.isSame(message.createdAt, "date")) {
+      if (!currentTime.isSame(message.createdAt, "date") || i === 0) {
         messagesArray.push(
           <div key={message.createdAt} className={styles.date}>
             {moment(message.createdAt).format("MMMM DD, YYYY")}

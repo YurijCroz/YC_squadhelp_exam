@@ -1,13 +1,5 @@
 "use strict";
-const {
-  User,
-  Message,
-  Catalog,
-  Conversation,
-  ConversationToCatalog,
-  Sequelize,
-  sequelize,
-} = require("../../models");
+const { Catalog, Conversation, sequelize } = require("../../models");
 const { Op } = require("sequelize");
 
 module.exports.userAuthenticationForCatalog = async (where) => {
@@ -55,18 +47,18 @@ module.exports.updateColumnArray = async (
   firstUser,
   secondUser
 ) => {
-  const state = await sequelize.query(`
+  const state = await sequelize.query(
+    `
       UPDATE "Conversations"
       SET "${columnName}"[${index + 1}] = ${flag}
       WHERE "participant0" = ${firstUser}
       AND "participant1" = ${secondUser}
       RETURNING *;
-    `);
-  state[0][0].participants = [
-    state[0][0].participant0,
-    state[0][0].participant1,
-  ];
-  delete state[0][0].participant0;
-  delete state[0][0].participant1;
-  return state[0][0];
+    `,
+    { nest: true, raw: true }
+  );
+  state[0].participants = [state[0].participant0, state[0].participant1];
+  delete state[0].participant0;
+  delete state[0].participant1;
+  return state[0];
 };

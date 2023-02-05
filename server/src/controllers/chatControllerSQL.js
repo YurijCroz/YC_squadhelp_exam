@@ -5,7 +5,6 @@ const {
   Catalog,
   Conversation,
   ConversationToCatalog,
-  Sequelize,
   sequelize,
 } = require("../models");
 const { Op } = require("sequelize");
@@ -30,6 +29,7 @@ module.exports.getPreview = async (req, res, next) => {
         "participant0",
         "participant1",
       ],
+      order: [["createdAt", "ASC"]],
       include: [
         {
           model: User,
@@ -73,7 +73,6 @@ module.exports.getPreview = async (req, res, next) => {
 };
 
 module.exports.addMessage = async (req, res, next) => {
-  //findOrCreate
   const firstUser =
     req.tokenData.userId <= req.body.recipient
       ? req.tokenData.userId
@@ -88,7 +87,7 @@ module.exports.addMessage = async (req, res, next) => {
         participant0: firstUser,
         participant1: secondUser,
       },
-      default: {
+      defaults: {
         blackList: [false, false],
         favoriteList: [false, false],
       },
@@ -142,7 +141,7 @@ module.exports.addMessage = async (req, res, next) => {
         },
       },
     });
-    res.status(200).send({
+    res.status(201).send({
       message,
       preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
     });
@@ -283,7 +282,7 @@ module.exports.createCatalog = async (req, res, next) => {
       newCatalog.dataValues.id,
       req.tokenData.userId
     );
-    res.status(200).send(catalog);
+    res.status(201).send(catalog);
   } catch (error) {
     next(error);
   }
@@ -331,7 +330,7 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
       req.body.catalogId,
       req.tokenData.userId
     );
-    res.status(200).send(catalog);
+    res.status(201).send(catalog);
   } catch (error) {
     next(error);
   }
@@ -388,7 +387,7 @@ module.exports.deleteCatalog = async (req, res, next) => {
       );
     }
     await transaction.commit();
-    res.status(200).end();
+    res.status(204).end();
   } catch (error) {
     await transaction.rollback();
     next(error);

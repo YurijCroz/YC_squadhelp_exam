@@ -15,7 +15,7 @@ const DialogBox = (props) => {
     chatMode,
     interlocutor,
   } = props;
-  const { favoriteList, participants, blackList, id, text, createAt } =
+  const { favoriteList, participants, blackList, id, text, createdAt } =
     chatPreview;
   const isFavorite = favoriteList[participants.indexOf(userId)];
   const isBlocked = blackList[participants.indexOf(userId)];
@@ -50,7 +50,7 @@ const DialogBox = (props) => {
           <span className={styles.interlocutorMessage}>{text}</span>
         </section>
         <section className={styles.buttonsContainer}>
-          <span className={styles.time}>{getTimeStr(createAt)}</span>
+          <span className={styles.time}>{getTimeStr(createdAt)}</span>
           <i
             onClick={(event) =>
               changeFavorite(
