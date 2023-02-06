@@ -1,10 +1,10 @@
 "use strict";
-const schems = require("../validationSchemes/schems");
+const schemes = require("../validationSchemes/schemes");
 const ServerError = require("../errors/ServerError");
 const BadRequestError = require("../errors/BadRequestError");
 
 module.exports.validateRegistrationData = async (req, res, next) => {
-  const validationResult = await schems.registrationSchem.isValid(req.body);
+  const validationResult = await schemes.registrationScheme.isValid(req.body);
   if (!validationResult) {
     return next(new BadRequestError("Invalid data for registration"));
   } else {
@@ -13,7 +13,7 @@ module.exports.validateRegistrationData = async (req, res, next) => {
 };
 
 module.exports.validateLogin = async (req, res, next) => {
-  const validationResult = await schems.loginSchem.isValid(req.body);
+  const validationResult = await schemes.loginScheme.isValid(req.body);
   if (validationResult) {
     next();
   } else {
@@ -24,7 +24,7 @@ module.exports.validateLogin = async (req, res, next) => {
 module.exports.validateContestCreation = (req, res, next) => {
   const promiseArray = [];
   req.body.contests.forEach((el) => {
-    promiseArray.push(schems.contestSchem.isValid(el));
+    promiseArray.push(schemes.contestScheme.isValid(el));
   });
   return Promise.all(promiseArray)
     .then((results) => {
@@ -39,3 +39,86 @@ module.exports.validateContestCreation = (req, res, next) => {
       next(err);
     });
 };
+
+//****** validate for chat ******
+module.exports.validateAddMessageData = async (req, res, next) => {
+  const validationResult = await schemes.addMessageScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for sending a message"));
+  } else {
+    next();
+  }
+};
+
+module.exports.validateGetChatData = async (req, res, next) => {
+  const validationResult = await schemes.getChatScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for get chat"));
+  } else {
+    next();
+  }
+};
+
+module.exports.validateBlackListData = async (req, res, next) => {
+  const validationResult = await schemes.blackListScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for black list"));
+  } else {
+    next();
+  }
+};
+
+module.exports.validateFavoriteChatData = async (req, res, next) => {
+  const validationResult = await schemes.favoriteChatScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for favorite chat"));
+  } else {
+    next();
+  }
+};
+
+module.exports.validateCreateCatalogData = async (req, res, next) => {
+  const validationResult = await schemes.createCatalogScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for create catalog"));
+  } else {
+    next();
+  }
+};
+
+module.exports.validateUpdateNameCatalogData = async (req, res, next) => {
+  const validationResult = await schemes.updateNameCatalogScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for update name catalog"));
+  } else {
+    next();
+  }
+};
+
+module.exports.validateAddNewChatToCatalogData = async (req, res, next) => {
+  const validationResult = await schemes.addAndRemoveChatToCatalogScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for add new chat to catalog"));
+  } else {
+    next();
+  }
+};
+
+module.exports.validateRemoveChatFromCatalogData = async (req, res, next) => {
+  const validationResult = await schemes.addAndRemoveChatToCatalogScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for remove chat from catalog"));
+  } else {
+    next();
+  }
+};
+
+module.exports.validateDeleteCatalogData = async (req, res, next) => {
+  const validationResult = await schemes.deleteCatalogScheme.isValid(req.body);
+  if (!validationResult) {
+    return next(new BadRequestError("Invalid data for delete catalog"));
+  } else {
+    next();
+  }
+};
+//************************/
