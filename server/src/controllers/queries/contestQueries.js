@@ -1,6 +1,7 @@
 "use strict";
 const { Contest, Offer, User } = require("../../models");
 const ServerError = require("../../errors/ServerError");
+const logger = require("../../log");
 
 module.exports.updateContest = async (data, predicate, transaction) => {
   const [updatedCount, [updatedContest]] = await Contest.update(data, {
@@ -78,10 +79,12 @@ module.exports.getOfferById = async (id) => {
           attributes: ["title"],
         },
       ],
+      nest: true,
+      raw: true,
     });
-    return offer.dataValues;
+    return offer;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 };
 
@@ -94,9 +97,11 @@ module.exports.getContestById = async (id) => {
         model: User,
         attributes: ["firstName", "email"],
       },
+      nest: true,
+      raw: true,
     });
-    return contest.dataValues;
+    return contest;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 };

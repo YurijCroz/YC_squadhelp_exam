@@ -17,11 +17,8 @@ const mailerHandler = async (type, id) => {
   try {
     if (type === OFFER) {
       const offer = await contestQueries.getOfferById(id);
-      if (!offer) {
-        return;
-      }
-      const user = offer.User.dataValues;
-      const contest = offer.Contest.dataValues;
+      const user = offer.User;
+      const contest = offer.Contest;
       message.to = user.email;
       message.text = `Hello ${user.firstName}, the offer you suggested ${
         offer.text ? offer.text : offer.originalFileName
@@ -32,10 +29,7 @@ const mailerHandler = async (type, id) => {
     }
     if (type === CONTEST) {
       const contest = await contestQueries.getContestById(id);
-      if (!contest) {
-        return;
-      }
-      const user = contest.User.dataValues;
+      const user = contest.User;
       message.to = user.email;
       message.text = `Hello ${user.firstName}, the contest you suggested "${
         contest.title
