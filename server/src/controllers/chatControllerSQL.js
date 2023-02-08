@@ -12,6 +12,7 @@ const chatQueries = require("./queries/chatQueries.js");
 const userQueries = require("./queries/userQueries");
 const controller = require("../socketInit");
 const _ = require("lodash");
+const logger = require("../log");
 
 module.exports.getPreview = async (req, res, next) => {
   try {
@@ -68,6 +69,7 @@ module.exports.getPreview = async (req, res, next) => {
     });
     res.status(200).send(conversations);
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -146,6 +148,7 @@ module.exports.addMessage = async (req, res, next) => {
       preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
     });
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -219,6 +222,7 @@ module.exports.getChat = async (req, res, next) => {
       });
     }
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -240,6 +244,7 @@ module.exports.blackList = async (req, res, next) => {
     );
     res.status(200).send(state);
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -261,6 +266,7 @@ module.exports.favoriteChat = async (req, res, next) => {
     );
     res.status(200).send(state);
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -284,6 +290,7 @@ module.exports.createCatalog = async (req, res, next) => {
     );
     res.status(201).send(catalog);
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -305,6 +312,7 @@ module.exports.updateNameCatalog = async (req, res, next) => {
     );
     res.status(200).send(catalog);
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -332,6 +340,7 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
     );
     res.status(201).send(catalog);
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -357,6 +366,7 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
     );
     res.status(200).send(catalog);
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -390,6 +400,7 @@ module.exports.deleteCatalog = async (req, res, next) => {
     res.status(204).end();
   } catch (error) {
     await transaction.rollback();
+    logger.error(error);
     next(error);
   }
 };
@@ -411,7 +422,8 @@ module.exports.getCatalogs = async (req, res, next) => {
       delete catalog.dataValues.Conversations;
     });
     res.status(200).send(catalogs);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    logger.error(error);
+    next(error);
   }
 };

@@ -39,8 +39,8 @@ const CONSTANTS = Object.freeze({
     SMTP: "smtp.ethereal.email",
     PORT: 587,
     AUTH: {
-      user: "genoveva.wisozk27@ethereal.email",
-      pass: "ECyNUUsRzy1BEBTFhR",
+      user: "janet.aufderhar1@ethereal.email",
+      pass: "j3aPvfDDPHqHqmSF5J",
     },
   },
   CONTEST: "contest",

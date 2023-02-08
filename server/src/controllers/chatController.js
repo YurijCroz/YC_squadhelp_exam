@@ -4,6 +4,7 @@ const { User } = require('../models');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const _ = require('lodash');
+const logger = require("../log");
 
 module.exports.addMessage = async (req, res, next) => {
   const participants = [req.tokenData.userId, req.body.recipient];
@@ -63,6 +64,7 @@ module.exports.addMessage = async (req, res, next) => {
       preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
     });
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };
@@ -108,6 +110,7 @@ module.exports.getChat = async (req, res, next) => {
       },
     });
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };
@@ -174,6 +177,7 @@ module.exports.getPreview = async (req, res, next) => {
     });
     res.send(conversations);
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };
@@ -217,6 +221,7 @@ module.exports.createCatalog = async (req, res, next) => {
     await catalog.save();
     res.send(catalog);
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };
@@ -229,6 +234,7 @@ module.exports.updateNameCatalog = async (req, res, next) => {
     }, { catalogName: req.body.catalogName }, { new: true });
     res.send(catalog);
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };
@@ -241,6 +247,7 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
     }, { $addToSet: { chats: req.body.chatId } }, { new: true });
     res.send(catalog);
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };
@@ -253,6 +260,7 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
     }, { $pull: { chats: req.body.chatId } }, { new: true });
     res.send(catalog);
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };
@@ -263,6 +271,7 @@ module.exports.deleteCatalog = async (req, res, next) => {
       { _id: req.body.catalogId, userId: req.tokenData.userId });
     res.end();
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };
@@ -281,6 +290,7 @@ module.exports.getCatalogs = async (req, res, next) => {
     ]);
     res.send(catalogs);
   } catch (err) {
+    logger.error(err);
     next(err);
   }
 };

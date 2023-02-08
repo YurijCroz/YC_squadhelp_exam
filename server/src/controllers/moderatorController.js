@@ -3,6 +3,7 @@ const { Contest, Offer, User } = require("../models");
 const CONSTANTS = require("../constants");
 const utilFunctions = require("../utils/functions");
 const mailerHandler = require("../utils/mailer.js");
+const logger = require("../log");
 
 const { MODER, CONTEST, OFFER } = CONSTANTS;
 
@@ -28,6 +29,7 @@ module.exports.getContests = async (req, res, next) => {
       res.status(200).send({ moderData, haveMore });
     }
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -57,6 +59,7 @@ module.exports.getContestById = async (req, res, next) => {
       res.status(200).send(contestInfo);
     }
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -80,6 +83,7 @@ module.exports.moderationContestById = async (req, res, next) => {
       res.status(200).send(newState);
     }
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -113,6 +117,7 @@ module.exports.getOffers = async (req, res, next) => {
       res.status(200).send({ moderData, haveMore });
     }
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -136,6 +141,7 @@ module.exports.moderationOfferById = async (req, res, next) => {
       res.status(200).send(newState);
     }
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };

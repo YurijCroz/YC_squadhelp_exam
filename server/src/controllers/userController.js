@@ -8,6 +8,7 @@ const controller = require("../socketInit");
 const userQueries = require("./queries/userQueries");
 const bankQueries = require("./queries/bankQueries");
 const ratingQueries = require("./queries/ratingQueries");
+const logger = require("../log");
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -30,8 +31,9 @@ module.exports.login = async (req, res, next) => {
     );
     await userQueries.updateUser({ accessToken }, foundUser.id);
     res.send({ token: accessToken });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    logger.error(error);
+    next(error);
   }
 };
 module.exports.registration = async (req, res, next) => {
@@ -60,6 +62,7 @@ module.exports.registration = async (req, res, next) => {
     if (err.name === "SequelizeUniqueConstraintError") {
       next(new NotUniqueEmail());
     } else {
+      logger.error(err);
       next(err);
     }
   }
@@ -111,9 +114,10 @@ module.exports.changeMark = async (req, res, next) => {
     transaction.commit();
     controller.getNotificationController().emitChangeMark(creatorId);
     res.send({ userId: creatorId, rating: avg });
-  } catch (err) {
+  } catch (error) {
     transaction.rollback();
-    next(err);
+    logger.error(error);
+    next(error);
   }
 };
 
@@ -163,9 +167,10 @@ module.exports.payment = async (req, res, next) => {
     await Contest.bulkCreate(req.body.contests, transaction);
     transaction.commit();
     res.send();
-  } catch (err) {
+  } catch (error) {
     transaction.rollback();
-    next(err);
+    logger.error(error);
+    next(error);
   }
 };
 
@@ -188,8 +193,9 @@ module.exports.updateUser = async (req, res, next) => {
       role: updatedUser.role,
       id: updatedUser.id,
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    logger.error(error);
+    next(error);
   }
 };
 
@@ -233,8 +239,9 @@ module.exports.cashout = async (req, res, next) => {
     );
     transaction.commit();
     res.send({ balance: updatedUser.balance });
-  } catch (err) {
+  } catch (error) {
     transaction.rollback();
-    next(err);
+    logger.error(error);
+    next(error);
   }
 };

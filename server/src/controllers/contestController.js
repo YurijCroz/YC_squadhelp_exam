@@ -14,6 +14,7 @@ const userQueries = require("./queries/userQueries");
 const controller = require("../socketInit");
 const UtilFunctions = require("../utils/functions");
 const CONSTANTS = require("../constants");
+const logger = require("../log");
 
 module.exports.dataForContest = async (req, res, next) => {
   const response = {};
@@ -42,8 +43,8 @@ module.exports.dataForContest = async (req, res, next) => {
       response[characteristic.type].push(characteristic.describe);
     });
     res.send(response);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    logger.error(error);
     next(new ServerError("cannot get contest preferences"));
   }
 };
@@ -95,7 +96,8 @@ module.exports.getContestById = async (req, res, next) => {
       delete offer.Rating;
     });
     res.send(contestInfo);
-  } catch (e) {
+  } catch (error) {
+    logger.error(error);
     next(new ServerError());
   }
 };
@@ -118,8 +120,9 @@ module.exports.updateContest = async (req, res, next) => {
       userId: req.tokenData.userId,
     });
     res.send(updatedContest);
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    logger.error(error);
+    next(error);
   }
 };
 
@@ -142,8 +145,9 @@ module.exports.setNewOffer = async (req, res, next) => {
       .emitEntryCreated(req.body.customerId);
     const User = Object.assign({}, req.tokenData, { id: req.tokenData.userId });
     res.send(Object.assign({}, result, { User }));
-  } catch (e) {
-    return next(new ServerError());
+  } catch (error) {
+    logger.error(error);
+    next(new ServerError());
   }
 };
 
@@ -237,8 +241,9 @@ module.exports.setOfferStatus = async (req, res, next) => {
         req.body.contestId
       );
       res.send(offer);
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      logger.error(error);
+      next(error);
     }
   } else if (req.body.command === "resolve") {
     try {
@@ -252,9 +257,10 @@ module.exports.setOfferStatus = async (req, res, next) => {
         transaction
       );
       res.send(winningOffer);
-    } catch (err) {
+    } catch (error) {
       transaction.rollback();
-      next(err);
+      logger.error(error);
+      next(error);
     }
   }
 };
@@ -288,7 +294,10 @@ module.exports.getCustomersContests = async (req, res, next) => {
       }
       res.send({ contests, haveMore });
     })
-    .catch((err) => next(new ServerError(err)));
+    .catch((error) => {
+      logger.error(error);
+      next(new ServerError(error));
+    });
 };
 
 module.exports.getContests = async (req, res, next) => {
@@ -335,7 +344,8 @@ module.exports.getContests = async (req, res, next) => {
       }
       res.send({ contests, haveMore });
     })
-    .catch((err) => {
-      next(new ServerError(err));
+    .catch((error) => {
+      logger.error(error);
+      next(new ServerError(error));
     });
 };

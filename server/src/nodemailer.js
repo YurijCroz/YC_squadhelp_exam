@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const CONSTANTS = require("./constants");
+const logger = require("./log");
 
 const { PORT, SMTP, AUTH } = CONSTANTS.NODEMAILER;
 
@@ -17,7 +18,7 @@ const transporter = nodemailer.createTransport(
 
 const mailer = (message) => {
   transporter.sendMail(message, (err, info) => {
-    if (err) return console.error(err);
+    if (err) return logger.error(err);
   });
 };
 

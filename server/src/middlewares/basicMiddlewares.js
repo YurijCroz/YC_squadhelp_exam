@@ -4,6 +4,7 @@ const NotFound = require("../errors/UserNotFoundError");
 const RightsError = require("../errors/RightsError");
 const ServerError = require("../errors/ServerError");
 const CONSTANTS = require("../constants");
+const logger = require("../log");
 
 module.exports.parseBody = (req, res, next) => {
   req.body.contests = JSON.parse(req.body.contests);
@@ -38,24 +39,25 @@ module.exports.canGetContest = async (req, res, next) => {
       });
     }
     result ? next() : next(new RightsError());
-  } catch (e) {
-    next(new ServerError(e));
+  } catch (error) {
+    logger.error(error);
+    next(new ServerError(error));
   }
 };
 
 module.exports.onlyForCreative = (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CUSTOMER) {
-    next(new RightsError());
-  } else {
+  if (req.tokenData.role === CONSTANTS.CREATOR) {
     next();
+  } else {
+    next(new RightsError("this page only for creative"));
   }
 };
 
 module.exports.onlyForCustomer = (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CREATOR) {
-    return next(new RightsError("this page only for customers"));
-  } else {
+  if (req.tokenData.role === CONSTANTS.CUSTOMER) {
     next();
+  } else {
+    return next(new RightsError("this page only for customer"));
   }
 };
 
@@ -77,8 +79,9 @@ module.exports.canSendOffer = async (req, res, next) => {
     } else {
       return next(new RightsError());
     }
-  } catch (e) {
-    next(new ServerError());
+  } catch (error) {
+    logger.error(error);
+    next(new ServerError(error));
   }
 };
 
@@ -95,8 +98,9 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
       return next(new RightsError());
     }
     next();
-  } catch (e) {
-    next(new ServerError());
+  } catch (error) {
+    logger.error(error);
+    next(new ServerError(error));
   }
 };
 
@@ -113,7 +117,8 @@ module.exports.canUpdateContest = async (req, res, next) => {
       return next(new RightsError());
     }
     next();
-  } catch (e) {
-    next(new ServerError());
+  } catch (error) {
+    logger.error(error);
+    next(new ServerError(error));
   }
 };

@@ -2,6 +2,7 @@
 const schemes = require("../validationSchemes/schemes");
 const ServerError = require("../errors/ServerError");
 const BadRequestError = require("../errors/BadRequestError");
+const logger = require("../log");
 
 module.exports.validateRegistrationData = async (req, res, next) => {
   const validationResult = await schemes.registrationScheme.isValid(req.body);
@@ -35,8 +36,9 @@ module.exports.validateContestCreation = (req, res, next) => {
       });
       next();
     })
-    .catch((err) => {
-      next(err);
+    .catch((error) => {
+      logger.error(error);
+      next(error);
     });
 };
 
