@@ -1,6 +1,7 @@
 .idea/
 node_modules/
 uploadFiles/
+log/
 
 .gitignore
 
