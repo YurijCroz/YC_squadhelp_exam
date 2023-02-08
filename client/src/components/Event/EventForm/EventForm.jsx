@@ -50,6 +50,7 @@ function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
               minLength="4"
               maxLength="70"
               placeholder="Entry title event"
+              required
             />
           </label>
           <label>

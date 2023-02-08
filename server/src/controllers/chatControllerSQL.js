@@ -105,7 +105,7 @@ module.exports.addMessage = async (req, res, next) => {
     const message = await Message.create(
       {
         sender: req.tokenData.userId,
-        body: req.body.messageBody,
+        body: req.body.messageBody.trim(),
         conversation: conversationId,
       },
       {
@@ -276,7 +276,7 @@ module.exports.createCatalog = async (req, res, next) => {
     const newCatalog = await Catalog.create(
       {
         userId: req.tokenData.userId,
-        catalogName: req.body.catalogName,
+        catalogName: req.body.catalogName.trim(),
       },
       { returning: ["id"] }
     );
@@ -298,7 +298,7 @@ module.exports.createCatalog = async (req, res, next) => {
 module.exports.updateNameCatalog = async (req, res, next) => {
   try {
     await Catalog.update(
-      { catalogName: req.body.catalogName },
+      { catalogName: req.body.catalogName.trim() },
       {
         where: {
           id: req.body.catalogId,

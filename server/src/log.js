@@ -5,10 +5,10 @@ const { combine, timestamp, printf } = format;
 
 const myFormat = printf(({ message, timestamp, code, stack }) => {
   return JSON.stringify({
-    message,
+    message: message.replace(/"/gm, "'"),
     time: timestamp,
     code,
-    stackTrace: { stack },
+    stackTrace: stack.replace(/"/gm, "'"),
   });
 });
 
