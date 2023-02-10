@@ -46,15 +46,20 @@ if (process.env.NODE_ENV !== "production") {
 
 // backup log
 
-const backupLog = () => {
+const backupLog = async () => {
   try {
-    const errorLogFile = fs.readFileSync(`${logDir}/${errLogFileName}`, {
-      encoding: "utf-8",
-    });
-    fs.writeFileSync(`${logDir}/${errLogFileName}`, "");
-    const errorLogArrObj = getArrObjErrorLog(errorLogFile);
-    const nameNewBackupFile = `${moment().format("D-M-YYYY_hh:mm:ss")}.log`;
-    backupInFile(errorLogArrObj, nameNewBackupFile);
+    const errorLogFile = await fs.promises.readFile(
+      `${logDir}/${errLogFileName}`,
+      {
+        encoding: "utf-8",
+      }
+    );
+    if (errorLogFile) {
+      await fs.promises.writeFile(`${logDir}/${errLogFileName}`, "");
+      const errorLogArrObj = await getArrObjErrorLog(errorLogFile);
+      const nameNewBackupFile = `${moment().format("D-M-YYYY_hh:mm:ss-a")}.log`;
+      backupInFile(errorLogArrObj, nameNewBackupFile);
+    }
   } catch (error) {
     logger.error(error);
   }
@@ -71,8 +76,8 @@ const getArrObjErrorLog = (log) =>
 
 const backupInFile = (log, fileName) => {
   try {
-    log.forEach(({ message, code, time }) => {
-      fs.appendFileSync(
+    log.forEach(async ({ message, code, time }) => {
+      await fs.promises.appendFile(
         `${backupLogDir}/${fileName}`,
         JSON.stringify({
           message,
