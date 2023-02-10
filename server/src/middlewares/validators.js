@@ -2,7 +2,7 @@
 const schemes = require("../validationSchemes/schemes");
 const ServerError = require("../errors/ServerError");
 const BadRequestError = require("../errors/BadRequestError");
-const logger = require("../log");
+const { logger } = require("../log");
 
 module.exports.validateRegistrationData = async (req, res, next) => {
   const validationResult = await schemes.registrationScheme.isValid(req.body);
@@ -89,7 +89,9 @@ module.exports.validateCreateCatalogData = async (req, res, next) => {
 };
 
 module.exports.validateUpdateNameCatalogData = async (req, res, next) => {
-  const validationResult = await schemes.updateNameCatalogScheme.isValid(req.body);
+  const validationResult = await schemes.updateNameCatalogScheme.isValid(
+    req.body
+  );
   if (!validationResult) {
     return next(new BadRequestError("Invalid data for update name catalog"));
   } else {
@@ -98,18 +100,24 @@ module.exports.validateUpdateNameCatalogData = async (req, res, next) => {
 };
 
 module.exports.validateAddNewChatToCatalogData = async (req, res, next) => {
-  const validationResult = await schemes.addAndRemoveChatToCatalogScheme.isValid(req.body);
+  const validationResult =
+    await schemes.addAndRemoveChatToCatalogScheme.isValid(req.body);
   if (!validationResult) {
-    return next(new BadRequestError("Invalid data for add new chat to catalog"));
+    return next(
+      new BadRequestError("Invalid data for add new chat to catalog")
+    );
   } else {
     next();
   }
 };
 
 module.exports.validateRemoveChatFromCatalogData = async (req, res, next) => {
-  const validationResult = await schemes.addAndRemoveChatToCatalogScheme.isValid(req.body);
+  const validationResult =
+    await schemes.addAndRemoveChatToCatalogScheme.isValid(req.body);
   if (!validationResult) {
-    return next(new BadRequestError("Invalid data for remove chat from catalog"));
+    return next(
+      new BadRequestError("Invalid data for remove chat from catalog")
+    );
   } else {
     next();
   }

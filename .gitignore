@@ -9,6 +9,7 @@
 ./server/uploadFiles
 ./server/upload
 ./server/public
+./server/log
 
 ./server/public/images
 .server/public/images

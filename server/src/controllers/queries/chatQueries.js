@@ -1,7 +1,7 @@
 "use strict";
 const { Catalog, Conversation, sequelize } = require("../../models");
 const { Op } = require("sequelize");
-const logger = require("../../log");
+const { logger } = require("../../log");
 
 module.exports.userAuthenticationForCatalog = async (where) => {
   try {

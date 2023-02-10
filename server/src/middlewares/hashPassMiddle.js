@@ -2,7 +2,7 @@
 const CONSTANTS = require("../constants");
 const ServerError = require("../errors/ServerError");
 const bcrypt = require("bcrypt");
-const logger = require("../log");
+const { logger } = require("../log");
 
 module.exports = async (req, res, next) => {
   try {

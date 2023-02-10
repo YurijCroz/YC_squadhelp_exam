@@ -4,7 +4,7 @@ const path = require("path");
 const env = process.env.NODE_ENV || "development";
 const configPath = path.join(__dirname, "..", "config/mongoConfig.json");
 const config = require(configPath)[env];
-const logger = require("../log");
+const { logger } = require("../log");
 
 mongoose.connect(
   `mongodb://${config.host}:${config.port}/${config.database}`,

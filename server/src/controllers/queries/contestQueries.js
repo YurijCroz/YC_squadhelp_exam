@@ -1,7 +1,7 @@
 "use strict";
 const { Contest, Offer, User } = require("../../models");
 const ServerError = require("../../errors/ServerError");
-const logger = require("../../log");
+const { logger } = require("../../log");
 
 module.exports.updateContest = async (data, predicate, transaction) => {
   const [updatedCount, [updatedContest]] = await Contest.update(data, {

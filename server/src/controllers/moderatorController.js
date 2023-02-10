@@ -3,7 +3,7 @@ const { Contest, Offer, User } = require("../models");
 const CONSTANTS = require("../constants");
 const utilFunctions = require("../utils/functions");
 const mailerHandler = require("../utils/mailer.js");
-const logger = require("../log");
+const { logger } = require("../log");
 
 const { MODER, CONTEST, OFFER } = CONSTANTS;
 

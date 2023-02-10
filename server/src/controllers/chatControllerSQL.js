@@ -12,7 +12,7 @@ const chatQueries = require("./queries/chatQueries.js");
 const userQueries = require("./queries/userQueries");
 const controller = require("../socketInit");
 const _ = require("lodash");
-const logger = require("../log");
+const { logger } = require("../log");
 
 module.exports.getPreview = async (req, res, next) => {
   try {

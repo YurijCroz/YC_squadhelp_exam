@@ -8,7 +8,7 @@ const controller = require("../socketInit");
 const userQueries = require("./queries/userQueries");
 const bankQueries = require("./queries/bankQueries");
 const ratingQueries = require("./queries/ratingQueries");
-const logger = require("../log");
+const { logger } = require("../log");
 
 module.exports.login = async (req, res, next) => {
   try {

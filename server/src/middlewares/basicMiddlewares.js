@@ -4,7 +4,7 @@ const NotFound = require("../errors/UserNotFoundError");
 const RightsError = require("../errors/RightsError");
 const ServerError = require("../errors/ServerError");
 const CONSTANTS = require("../constants");
-const logger = require("../log");
+const { logger } = require("../log");
 
 module.exports.parseBody = (req, res, next) => {
   req.body.contests = JSON.parse(req.body.contests);

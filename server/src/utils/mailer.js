@@ -1,7 +1,7 @@
 const mailer = require("../nodemailer");
 const CONSTANTS = require("../constants");
 const contestQueries = require("../controllers/queries/contestQueries");
-const logger = require("../log");
+const { logger } = require("../log");
 
 const { CONTEST, OFFER } = CONSTANTS;
 

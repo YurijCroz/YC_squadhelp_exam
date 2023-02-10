@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const CONSTANTS = require("./constants");
-const logger = require("./log");
+const { logger } = require("./log");
 
 const { PORT, SMTP, AUTH } = CONSTANTS.NODEMAILER;
 
