@@ -5,6 +5,7 @@ const multer = require("multer");
 const ServerError = require("../errors/ServerError");
 const env = process.env.NODE_ENV || "development";
 const devFilePath = path.resolve(__dirname, "../../public");
+const { logger } = require("../log");
 
 const filePath = env === "production" ? "/var/www/html" : devFilePath;
 
@@ -60,8 +61,10 @@ const uploadLogoFiles = multer({ storage: storageContestFiles }).single(
 module.exports.uploadAvatar = (req, res, next) => {
   uploadAvatars(req, res, (err) => {
     if (err instanceof multer.MulterError) {
+      logger.error(err);
       next(new ServerError());
     } else if (err) {
+      logger.error(err);
       next(new ServerError());
     }
     return next();
@@ -71,8 +74,10 @@ module.exports.uploadAvatar = (req, res, next) => {
 module.exports.uploadContestFiles = (req, res, next) => {
   uploadContestFiles(req, res, (err) => {
     if (err instanceof multer.MulterError) {
+      logger.error(err);
       next(new ServerError());
     } else if (err) {
+      logger.error(err);
       next(new ServerError());
     }
     return next();
@@ -82,8 +87,10 @@ module.exports.uploadContestFiles = (req, res, next) => {
 module.exports.updateContestFile = (req, res, next) => {
   updateContestFile(req, res, (err) => {
     if (err instanceof multer.MulterError) {
+      logger.error(err);
       next(new ServerError());
     } else if (err) {
+      logger.error(err);
       next(new ServerError());
     }
     return next();
@@ -93,8 +100,10 @@ module.exports.updateContestFile = (req, res, next) => {
 module.exports.uploadLogoFiles = (req, res, next) => {
   uploadLogoFiles(req, res, (err) => {
     if (err instanceof multer.MulterError) {
+      logger.error(err);
       next(new ServerError());
     } else if (err) {
+      logger.error(err);
       next(new ServerError());
     }
     return next();
