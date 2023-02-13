@@ -6,7 +6,7 @@ module.exports.registrationScheme = yup.object().shape({
   lastName: yup.string().required().min(1),
   displayName: yup.string().required().min(1),
   email: yup.string().email().required().min(4),
-  password: yup.string().required().min(1),
+  password: yup.string().required().min(6),
   role: yup
     .string()
     .matches(/(customer|creator)/)

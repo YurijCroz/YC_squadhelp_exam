@@ -3,7 +3,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Conversations_to_Catalogs", {
+    await queryInterface.createTable("ConversationsToCatalogs", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -39,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Conversations_to_Catalogs");
+    await queryInterface.dropTable("ConversationsToCatalogs");
   },
 };
