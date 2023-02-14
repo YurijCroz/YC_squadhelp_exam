@@ -21,6 +21,7 @@ const OfferBoxForModerator = (props) => {
   const moderationHelper = () => {
     const data = {
       offerId: props.data.id,
+      customerUserId: props.data.Contest.userId,
       passedModeration: true,
     };
     return data;

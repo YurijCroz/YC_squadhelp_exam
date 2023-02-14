@@ -4,6 +4,7 @@ const CONSTANTS = require("../constants");
 const utilFunctions = require("../utils/functions");
 const mailerHandler = require("../utils/mailer.js");
 const { logger } = require("../log");
+const controller = require("../socketInit");
 
 const { MODER, CONTEST, OFFER } = CONSTANTS;
 
@@ -103,10 +104,18 @@ module.exports.getOffers = async (req, res, next) => {
           "createdAt",
         ],
         order: [["createdAt", "ASC"]],
-        include: {
-          model: User,
-          attributes: ["id", "firstName", "email", "lastName"],
-        },
+        include: [
+          {
+            model: User,
+            attributes: ["id", "firstName", "email", "lastName"],
+          },
+          {
+            model: Contest,
+            attributes: ["userId"],
+          },
+        ],
+        nest: true,
+        raw: true,
         limit: req.body.limit,
         offset: req.body.offset,
       });
@@ -137,6 +146,11 @@ module.exports.moderationOfferById = async (req, res, next) => {
           returning: true,
         }
       );
+      if (!req.body.banned) {
+        controller
+          .getNotificationController()
+          .emitEntryCreated(req.body.customerUserId);
+      }
       mailerHandler(OFFER, req.body.offerId);
       res.status(200).send(newState);
     }

@@ -9,7 +9,7 @@ const Notification = (props) => (
     <br />
     {props.contestId && (
       <span
-        onClick={() => props.history.push(`/contest/${props.contestId}`)}
+        onClick={() => props.history.push(`/dashboard/contest/${props.contestId}`)}
         className={styles.goToContest}
       >
         Go to contest

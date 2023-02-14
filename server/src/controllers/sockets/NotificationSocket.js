@@ -2,7 +2,7 @@
 const WebSocket = require("./WebSocket");
 const CONSTANTS = require("../../constants");
 
-class NotificationController extends WebSocket {
+class NotificationSocket extends WebSocket {
   emitEntryCreated(target) {
     this.io.to(target).emit(CONSTANTS.NOTIFICATION_ENTRY_CREATED);
   }
@@ -18,4 +18,4 @@ class NotificationController extends WebSocket {
   }
 }
 
-module.exports = NotificationController;
+module.exports = NotificationSocket;

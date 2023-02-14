@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import styles from "./Header.module.sass";
 import CONSTANTS from "../../constants";
-import {
-  clearUserStore,
-  headerRequest,
-} from "../../actions/actionCreator";
+import { clearUserStore, headerRequest } from "../../actions/actionCreator";
 import Logo from "../Logo";
 import EventVerification from "../Event/EventVerification/EventVerification";
 
@@ -31,8 +28,8 @@ class Header extends React.Component {
     if (this.props.data) {
       return (
         <>
+          <EventVerification />
           <section className={styles.userInfo}>
-            <EventVerification />
             <img
               src={
                 this.props.data.avatar === "anon.png"
@@ -173,7 +170,7 @@ class Header extends React.Component {
                     />
                     <ul>
                       <li>
-                        <Link to="/how-it-works" >How It Works</Link>
+                        <Link to="/how-it-works">How It Works</Link>
                       </li>
                       <li>
                         <a href="http://www.google.com">Pricing</a>

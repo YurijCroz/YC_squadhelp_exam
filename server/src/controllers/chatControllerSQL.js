@@ -123,7 +123,7 @@ module.exports.addMessage = async (req, res, next) => {
       blackList: conversation[0].dataValues.blackList,
       favoriteList: conversation[0].dataValues.favoriteList,
     };
-    controller.getChatController().emitNewMessage(req.body.interlocutor, {
+    controller.getChatController().emitNewMessage(req.body.recipient, {
       message,
       preview: {
         id: conversation[0].dataValues.id,
@@ -235,14 +235,18 @@ module.exports.blackList = async (req, res, next) => {
   if (index < 0) return;
   const columnName = "blackList";
   try {
-    const state = await chatQueries.updateColumnArray(
+    const chat = await chatQueries.updateColumnArray(
       columnName,
       index,
       req.body.blackListFlag,
       req.body.participants[0],
       req.body.participants[1]
     );
-    res.status(200).send(state);
+    const interlocutorId = req.body.participants.filter(
+      (participant) => participant !== req.tokenData.userId
+    )[0];
+    controller.getChatController().emitChangeBlockStatus(interlocutorId, chat);
+    res.status(200).send(chat);
   } catch (error) {
     logger.error(error);
     next(error);
