@@ -207,6 +207,7 @@ const resolveOffer = async (
   );
   transaction.commit();
   const arrayRoomsId = [];
+  const winningOffer = [];
   updatedOffers.forEach((offer) => {
     if (
       offer.status === CONSTANTS.OFFER_STATUS_REJECTED &&
@@ -214,18 +215,21 @@ const resolveOffer = async (
     ) {
       arrayRoomsId.push(offer.userId);
     }
+    if (offer.status === CONSTANTS.OFFER_STATUS_WON) {
+      winningOffer.push(offer);
+    }
   });
   controller
     .getNotificationController()
     .emitChangeOfferStatus(
-      arrayRoomsId,
+      [...new Set(arrayRoomsId)],
       "Someone of yours offers was rejected",
       contestId
     );
   controller
     .getNotificationController()
     .emitChangeOfferStatus(creatorId, "Someone of your offers WIN", contestId);
-  return updatedOffers[0].dataValues;
+  return winningOffer[0];
 };
 
 module.exports.setOfferStatus = async (req, res, next) => {
