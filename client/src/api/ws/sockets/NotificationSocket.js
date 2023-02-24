@@ -4,6 +4,8 @@ import WebSocket from "./WebSocket";
 import Notification from "../../../components/Notification/Notification";
 
 class NotificationSocket extends WebSocket {
+  static userId = null;
+
   constructor(dispatch, getState, room) {
     super(dispatch, getState, room);
   }
@@ -12,6 +14,7 @@ class NotificationSocket extends WebSocket {
     this.onEntryCreated();
     this.onChangeMark();
     this.onChangeOfferStatus();
+    this.connectError();
   };
 
   onChangeMark = () => {
@@ -32,11 +35,23 @@ class NotificationSocket extends WebSocket {
     });
   };
 
+  connectError = () => {
+    this.socket.on("connect_error", () => {
+      setTimeout(() => {
+        if (NotificationSocket.userId) {
+          this.socket.emit("subscribe", NotificationSocket.userId);
+        }
+      }, 5000);
+    });
+  };
+
   subscribe = (id) => {
+    NotificationSocket.userId = id;
     this.socket.emit("subscribe", id);
   };
 
   unsubscribe = (id) => {
+    NotificationSocket.userId = null;
     this.socket.emit("unsubscribe", id);
   };
 }

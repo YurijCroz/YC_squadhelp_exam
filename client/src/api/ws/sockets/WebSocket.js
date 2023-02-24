@@ -6,7 +6,8 @@ class WebSocket {
     this.dispatch = dispatch;
     this.getState = getState;
     this.socket = socketIoClient(`${CONSTANTS.BASE_URL}${room}`, {
-      origin: "localhost:*",
+      randomizationFactor: 2,
+      reconnectionDelay: 1500,
     });
     this.listen();
   }
@@ -16,8 +17,6 @@ class WebSocket {
       this.anotherSubscribes();
     });
   };
-
-  anotherSubscribes = () => {};
 }
 
 export default WebSocket;

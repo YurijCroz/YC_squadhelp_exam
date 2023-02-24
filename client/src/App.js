@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { ToastContainer } from "react-toastify";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import Payment from "./pages/Payment/Payment";
@@ -21,22 +20,13 @@ import ChatContainer from "./components/Chat/ChatComponents/ChatContainer/ChatCo
 import EventPage from "./pages/EventPage/EventPage";
 import HowItWorks from "./pages/HowItWorks/HowItWorks";
 import ContestPageForModerator from "./pages/ContestPage/ContestPageForModerator";
+import NotificationContainer from "./components/Notification/NotificationContainer";
 
 class App extends Component {
   render() {
     return (
       <Router history={browserHistory}>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnVisibilityChange
-          draggable
-          pauseOnHover
-        />
+        <NotificationContainer />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route

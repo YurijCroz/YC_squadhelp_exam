@@ -8,7 +8,6 @@ export function* privateSaga(action) {
   try {
     const { data } = yield restController.getUser();
     yield put({ type: ACTION.GET_USER_SUCCESS, data });
-    controller.subscribe(data.id);
   } catch (e) {
     yield put({ type: ACTION.GET_USER_ERROR, error: e.response });
   }
@@ -40,7 +39,6 @@ export function* headerRequest() {
   try {
     const { data } = yield restController.getUser();
     yield put({ type: ACTION.GET_USER_SUCCESS, data });
-    controller.subscribe(data.id);
   } catch (e) {
     yield put({ type: ACTION.GET_USER_ERROR, error: e.response });
   }
