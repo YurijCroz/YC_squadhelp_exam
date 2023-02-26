@@ -67,7 +67,7 @@ module.exports.whereHelper = (typeFilter) => {
   return {};
 };
 
-module.exports.getJwtToken = (userData, expiresIn) => {
+module.exports.getJwtToken = (userData, secret, expiresIn) => {
   const token = jwt.sign(
     {
       firstName: userData.firstName,
@@ -80,7 +80,7 @@ module.exports.getJwtToken = (userData, expiresIn) => {
       email: userData.email,
       rating: userData.rating,
     },
-    CONSTANTS.JWT_SECRET,
+    secret,
     { expiresIn }
   );
   return token;

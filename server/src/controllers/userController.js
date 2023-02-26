@@ -1,84 +1,12 @@
 "use strict";
 const CONSTANTS = require("../constants");
 const { Sequelize, sequelize, Contest, Offer, Rating } = require("../models");
-const NotUniqueEmail = require("../errors/NotUniqueEmail");
 const { v4: uuid } = require("uuid");
 const controller = require("../socketInit");
-const utilFunctions = require("../utils/functions");
 const userQueries = require("./queries/userQueries");
 const bankQueries = require("./queries/bankQueries");
 const ratingQueries = require("./queries/ratingQueries");
 const { logger } = require("../log");
-
-module.exports.login = async (req, res, next) => {
-  try {
-    const foundUser = await userQueries.findUser({ email: req.body.email });
-    await userQueries.passwordCompare(req.body.password, foundUser.password);
-    const accessToken = utilFunctions.getJwtToken(
-      foundUser,
-      CONSTANTS.ACCESS_TOKEN_TIME
-    );
-    const refreshToken = utilFunctions.getJwtToken(
-      foundUser,
-      CONSTANTS.REFRESH_TOKEN_TIME
-    );
-    await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({
-      tokensPair: { accessToken, refreshToken },
-    });
-  } catch (error) {
-    logger.error(error);
-    next(error);
-  }
-};
-
-module.exports.registration = async (req, res, next) => {
-  try {
-    const newUser = await userQueries.userCreation(
-      Object.assign(req.body, { password: req.hashPass })
-    );
-    const accessToken = utilFunctions.getJwtToken(
-      newUser,
-      CONSTANTS.ACCESS_TOKEN_TIME
-    );
-    const refreshToken = utilFunctions.getJwtToken(
-      newUser,
-      CONSTANTS.REFRESH_TOKEN_TIME
-    );
-    await userQueries.updateUser({ accessToken }, newUser.id);
-    res.send({
-      tokensPair: { accessToken, refreshToken },
-    });
-  } catch (err) {
-    if (err.name === "SequelizeUniqueConstraintError") {
-      next(new NotUniqueEmail());
-    } else {
-      logger.error(err);
-      next(err);
-    }
-  }
-};
-
-module.exports.refreshToken = async (req, res, next) => {
-  try {
-    const foundUser = await userQueries.findUser({ id: req.tokenData.userId });
-    const accessToken = utilFunctions.getJwtToken(
-      foundUser,
-      CONSTANTS.ACCESS_TOKEN_TIME
-    );
-    const refreshToken = utilFunctions.getJwtToken(
-      foundUser,
-      CONSTANTS.REFRESH_TOKEN_TIME
-    );
-    await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({
-      tokensPair: { accessToken, refreshToken },
-    });
-  } catch (error) {
-    logger.error(error);
-    next(error);
-  }
-}
 
 function getQuery(offerId, userId, mark, isFirst, transaction) {
   const getCreateQuery = () =>

@@ -1,8 +1,9 @@
 "use strict";
 const CONSTANTS = Object.freeze({
-  JWT_SECRET: "asdasdasd4as5d4as8d7a8sd4as65d4a8sd7asd4as56d4",
+  JWT_SECRET_ACCESS: "asdasdasd4as5d4as8d7a8sd4as65d4a8sd7asd4as56d4",
+  JWT_SECRET_REFRESH: "4d65sa4dsa7ds8a4d56sa4ds8a7d8sa4d5sa4dsadsadsa",
   ACCESS_TOKEN_TIME: 60 * 5,
-  REFRESH_TOKEN_TIME: '30d',
+  REFRESH_TOKEN_TIME: "30d",
   SALT_ROUNDS: 5,
   SQUADHELP_BANK_NUMBER: "4564654564564564",
   SQUADHELP_BANK_NAME: "SquadHelp",
