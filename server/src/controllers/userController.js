@@ -1,10 +1,10 @@
 "use strict";
-const jwt = require("jsonwebtoken");
 const CONSTANTS = require("../constants");
 const { Sequelize, sequelize, Contest, Offer, Rating } = require("../models");
 const NotUniqueEmail = require("../errors/NotUniqueEmail");
 const { v4: uuid } = require("uuid");
 const controller = require("../socketInit");
+const utilFunctions = require("../utils/functions");
 const userQueries = require("./queries/userQueries");
 const bankQueries = require("./queries/bankQueries");
 const ratingQueries = require("./queries/ratingQueries");
@@ -14,50 +14,41 @@ module.exports.login = async (req, res, next) => {
   try {
     const foundUser = await userQueries.findUser({ email: req.body.email });
     await userQueries.passwordCompare(req.body.password, foundUser.password);
-    const accessToken = jwt.sign(
-      {
-        firstName: foundUser.firstName,
-        userId: foundUser.id,
-        role: foundUser.role,
-        lastName: foundUser.lastName,
-        avatar: foundUser.avatar,
-        displayName: foundUser.displayName,
-        balance: foundUser.balance,
-        email: foundUser.email,
-        rating: foundUser.rating,
-      },
-      CONSTANTS.JWT_SECRET,
-      { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME }
+    const accessToken = utilFunctions.getJwtToken(
+      foundUser,
+      CONSTANTS.ACCESS_TOKEN_TIME
+    );
+    const refreshToken = utilFunctions.getJwtToken(
+      foundUser,
+      CONSTANTS.REFRESH_TOKEN_TIME
     );
     await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({ token: accessToken });
+    res.send({
+      tokensPair: { accessToken, refreshToken },
+    });
   } catch (error) {
     logger.error(error);
     next(error);
   }
 };
+
 module.exports.registration = async (req, res, next) => {
   try {
     const newUser = await userQueries.userCreation(
       Object.assign(req.body, { password: req.hashPass })
     );
-    const accessToken = jwt.sign(
-      {
-        firstName: newUser.firstName,
-        userId: newUser.id,
-        role: newUser.role,
-        lastName: newUser.lastName,
-        avatar: newUser.avatar,
-        displayName: newUser.displayName,
-        balance: newUser.balance,
-        email: newUser.email,
-        rating: newUser.rating,
-      },
-      CONSTANTS.JWT_SECRET,
-      { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME }
+    const accessToken = utilFunctions.getJwtToken(
+      newUser,
+      CONSTANTS.ACCESS_TOKEN_TIME
+    );
+    const refreshToken = utilFunctions.getJwtToken(
+      newUser,
+      CONSTANTS.REFRESH_TOKEN_TIME
     );
     await userQueries.updateUser({ accessToken }, newUser.id);
-    res.send({ token: accessToken });
+    res.send({
+      tokensPair: { accessToken, refreshToken },
+    });
   } catch (err) {
     if (err.name === "SequelizeUniqueConstraintError") {
       next(new NotUniqueEmail());
@@ -67,6 +58,27 @@ module.exports.registration = async (req, res, next) => {
     }
   }
 };
+
+module.exports.refreshToken = async (req, res, next) => {
+  try {
+    const foundUser = await userQueries.findUser({ id: req.tokenData.userId });
+    const accessToken = utilFunctions.getJwtToken(
+      foundUser,
+      CONSTANTS.ACCESS_TOKEN_TIME
+    );
+    const refreshToken = utilFunctions.getJwtToken(
+      foundUser,
+      CONSTANTS.REFRESH_TOKEN_TIME
+    );
+    await userQueries.updateUser({ accessToken }, foundUser.id);
+    res.send({
+      tokensPair: { accessToken, refreshToken },
+    });
+  } catch (error) {
+    logger.error(error);
+    next(error);
+  }
+}
 
 function getQuery(offerId, userId, mark, isFirst, transaction) {
   const getCreateQuery = () =>

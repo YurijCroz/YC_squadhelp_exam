@@ -42,3 +42,17 @@ module.exports.checkToken = async (req, res, next) => {
     next(new TokenError());
   }
 };
+
+module.exports.checkRefreshToken = async (req, res, next) => {
+  const refreshToken = req.headers.authorization;
+  if (!refreshToken) {
+    return next(new TokenError("need token"));
+  }
+  try {
+    req.tokenData = jwt.verify(refreshToken, CONSTANTS.JWT_SECRET);
+    next();
+  } catch (error) {
+    logger.error(error);
+    next(new TokenError());
+  }
+};

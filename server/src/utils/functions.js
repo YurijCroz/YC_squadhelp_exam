@@ -1,5 +1,6 @@
 "use strict";
 const bd = require("../models");
+const jwt = require("jsonwebtoken");
 const CONSTANTS = require("../constants");
 
 module.exports.createWhereForAllContests = (
@@ -64,4 +65,23 @@ module.exports.whereHelper = (typeFilter) => {
     return { passedModeration: true, banned: true };
   }
   return {};
+};
+
+module.exports.getJwtToken = (userData, expiresIn) => {
+  const token = jwt.sign(
+    {
+      firstName: userData.firstName,
+      userId: userData.id,
+      role: userData.role,
+      lastName: userData.lastName,
+      avatar: userData.avatar,
+      displayName: userData.displayName,
+      balance: userData.balance,
+      email: userData.email,
+      rating: userData.rating,
+    },
+    CONSTANTS.JWT_SECRET,
+    { expiresIn }
+  );
+  return token;
 };

@@ -1,16 +1,35 @@
 import axios from "axios";
 import CONSTANTS from "../constants";
 import history from "../browserHistory";
+import {
+  checkToken,
+  refreshTokenHandler,
+  equalsUrlToRefresh,
+  notSignTokenForRequest,
+} from "../utils/utils";
 
 const instance = axios.create({
   baseURL: CONSTANTS.BASE_URL,
 });
 
 instance.interceptors.request.use(
-  (config) => {
-    const token = window.localStorage.getItem(CONSTANTS.ACCESS_TOKEN);
-    if (token) {
-      config.headers = { ...config.headers, Authorization: token };
+  async (config) => {
+    const isRefresh = equalsUrlToRefresh(config.url);
+    const accessToken = window.localStorage.getItem(CONSTANTS.ACCESS_TOKEN);
+    const refreshToken = window.localStorage.getItem(CONSTANTS.REFRESH_TOKEN);
+    const tokenIsValid = accessToken ? checkToken(accessToken) : null;
+    if (notSignTokenForRequest(config.url)) {
+      return config;
+    }
+    if (accessToken && !isRefresh && !tokenIsValid) {
+      const newAccessToken = await refreshTokenHandler();
+      config.headers = { ...config.headers, authorization: newAccessToken };
+    }
+    if (refreshToken && isRefresh) {
+      config.headers = { ...config.headers, authorization: refreshToken };
+    }
+    if (accessToken && !isRefresh && tokenIsValid) {
+      config.headers = { ...config.headers, authorization: accessToken };
     }
     return config;
   },
@@ -19,8 +38,15 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    if (response.data.token) {
-      window.localStorage.setItem(CONSTANTS.ACCESS_TOKEN, response.data.token);
+    if (response.data.tokensPair) {
+      window.localStorage.setItem(
+        CONSTANTS.ACCESS_TOKEN,
+        response.data.tokensPair.accessToken
+      );
+      window.localStorage.setItem(
+        CONSTANTS.REFRESH_TOKEN,
+        response.data.tokensPair.refreshToken
+      );
     }
     return response;
   },

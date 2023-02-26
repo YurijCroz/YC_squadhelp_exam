@@ -9,7 +9,6 @@ const contestRouter = Router();
 
 contestRouter.post(
   "/dataForContest",
-  checkToken.checkToken,
   contestController.dataForContest
 );
 

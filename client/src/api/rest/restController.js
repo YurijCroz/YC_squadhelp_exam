@@ -1,7 +1,16 @@
 import http from '../interceptor';
+import CONSTANTS from "../../constants";
 
-export const registerRequest = (data) => http.post('/api/auth/registration', data);
-export const loginRequest = (data) => http.post('/api/auth/login', data);
+const {
+  URL_REGISTRATION,
+  URL_LOGIN,
+  URL_DATA_FOR_CONTEST,
+  URL_REFRESH_TOKEN,
+} = CONSTANTS;
+
+export const registerRequest = (data) => http.post(URL_REGISTRATION, data);
+export const loginRequest = (data) => http.post(URL_LOGIN, data);
+export const refreshTokenRequest = () => http.post(URL_REFRESH_TOKEN);
 export const getUser = () => http.post('/api/users/getUser');
 export const updateContest = (data) => http.post('/api/contests/updateContest', data);
 export const setNewOffer = (data) => http.post('/api/users/setNewOffer', data);
@@ -11,7 +20,7 @@ export const payMent = (data) => http.post('/api/pay/pay', data.formData);
 export const changeMark = (data) => http.post('/api/users/changeMark', data);
 export const getPreviewChat = () => http.post('/api/chatSQL/getPreview');
 export const getDialog = (data) => http.post('/api/chatSQL/getChat', data);
-export const dataForContest = (data) => http.post('/api/contests/dataForContest', data);
+export const dataForContest = (data) => http.post(URL_DATA_FOR_CONTEST, data);
 export const cashOut = (data) => http.post('/api/pay/cashout', data);
 export const updateUser = (data) => http.post('/api/users/updateUser', data);
 export const newMessage = (data) => http.post('/api/chatSQL/newMessage', data);

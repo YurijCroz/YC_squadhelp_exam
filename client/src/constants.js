@@ -28,6 +28,12 @@ export default Object.freeze({
   ANONYM_IMAGE_PATH: "/staticImages/anonym.png",
   BASE_URL: `http://${serverIP}:${serverPort}/`,
   ACCESS_TOKEN: "accessToken",
+  REFRESH_TOKEN: "refreshToken",
+  MIN_LIFE_TIME_TOKEN: 60,
+  URL_REFRESH_TOKEN: "/api/auth/refresh",
+  URL_DATA_FOR_CONTEST: "/api/contests/dataForContest",
+  URL_REGISTRATION: "/api/auth/registration",
+  URL_LOGIN: "/api/auth/login",
   PUBLIC_URL:
     env === "production"
       ? `http://${serverIP}:80/`

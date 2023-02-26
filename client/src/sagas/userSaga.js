@@ -1,7 +1,6 @@
 import { put } from "redux-saga/effects";
 import ACTION from "../actions/actionTypes";
 import * as restController from "../api/rest/restController";
-import { controller } from "../api/ws/socketController";
 
 export function* privateSaga(action) {
   yield put({ type: ACTION.GET_USER_REQUEST });
