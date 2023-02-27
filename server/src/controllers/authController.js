@@ -26,7 +26,7 @@ module.exports.login = async (req, res, next) => {
       JWT_SECRET_REFRESH,
       REFRESH_TOKEN_TIME
     );
-    await userQueries.updateUser({ accessToken }, foundUser.id);
+    await userQueries.updateUser({ refreshToken }, foundUser.id);
     res.send({
       tokensPair: { accessToken, refreshToken },
     });
@@ -51,7 +51,7 @@ module.exports.registration = async (req, res, next) => {
       JWT_SECRET_REFRESH,
       REFRESH_TOKEN_TIME
     );
-    await userQueries.updateUser({ accessToken }, newUser.id);
+    await userQueries.updateUser({ refreshToken }, newUser.id);
     res.send({
       tokensPair: { accessToken, refreshToken },
     });
@@ -68,20 +68,24 @@ module.exports.registration = async (req, res, next) => {
 module.exports.refreshToken = async (req, res, next) => {
   try {
     const foundUser = await userQueries.findUser({ id: req.tokenData.userId });
-    const accessToken = utilFunctions.getJwtToken(
-      foundUser,
-      JWT_SECRET_ACCESS,
-      ACCESS_TOKEN_TIME
-    );
-    const refreshToken = utilFunctions.getJwtToken(
-      foundUser,
-      JWT_SECRET_REFRESH,
-      REFRESH_TOKEN_TIME
-    );
-    await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({
-      tokensPair: { accessToken, refreshToken },
-    });
+    if (foundUser.refreshToken === req.headers.authorization) {
+      const accessToken = utilFunctions.getJwtToken(
+        foundUser,
+        JWT_SECRET_ACCESS,
+        ACCESS_TOKEN_TIME
+      );
+      const refreshToken = utilFunctions.getJwtToken(
+        foundUser,
+        JWT_SECRET_REFRESH,
+        REFRESH_TOKEN_TIME
+      );
+      await userQueries.updateUser({ refreshToken }, foundUser.id);
+      res.send({
+        tokensPair: { accessToken, refreshToken },
+      });
+    } else {
+      res.status(403).end()
+    }
   } catch (error) {
     logger.error(error);
     next(error);

@@ -23,6 +23,7 @@ instance.interceptors.request.use(
     }
     if (accessToken && !isRefresh && !tokenIsValid) {
       const newAccessToken = await refreshTokenHandler();
+      if (!newAccessToken) return;
       config.headers = { ...config.headers, authorization: newAccessToken };
     }
     if (refreshToken && isRefresh) {
@@ -51,6 +52,14 @@ instance.interceptors.response.use(
     return response;
   },
   (err) => {
+    if (
+      err.response.config.url === CONSTANTS.URL_REFRESH_TOKEN &&
+      err.response.status === 403
+    ) {
+      window.localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
+      window.localStorage.removeItem(CONSTANTS.REFRESH_TOKEN);
+      document.location.reload();
+    }
     if (
       err.response.status === 408 &&
       history.location.pathname !== "/login" &&
