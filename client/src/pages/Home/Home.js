@@ -18,7 +18,7 @@ const Home = (props) => {
   const { isFetching, data, history } = props;
 
   useEffect(() => {
-    if (data && data.role === CONSTANTS.MODER) history.push("/dashboard");
+    if (data?.role === CONSTANTS.MODER) history.push("/dashboard");
   }, [data]);
 
   return (

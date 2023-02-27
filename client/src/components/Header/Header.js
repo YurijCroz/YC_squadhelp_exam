@@ -55,8 +55,7 @@ class Header extends React.Component {
                   <span>My Account</span>
                 </Link>
               </li>
-              {this.props.data &&
-                this.props.data.role === CONSTANTS.CUSTOMER && (
+              {this.props.data?.role === CONSTANTS.CUSTOMER && (
                   <li>
                     <Link to="/events">
                       <span>Events</span>
@@ -122,7 +121,7 @@ class Header extends React.Component {
             {this.renderLoginButtons()}
           </section>
         </section>
-        {this.props.data && this.props.data.role === CONSTANTS.MODER ? null : (
+        {this.props.data?.role === CONSTANTS.MODER ? null : (
           <section className={styles.navContainer}>
             <div className={styles.logo}>
               <Logo />
@@ -268,8 +267,7 @@ class Header extends React.Component {
                   </li>
                 </ul>
               </nav>
-              {this.props.data &&
-                this.props.data.role === CONSTANTS.CUSTOMER && (
+              {this.props.data?.role === CONSTANTS.CUSTOMER && (
                   <section
                     className={styles.startContestBtn}
                     onClick={this.startContests}
