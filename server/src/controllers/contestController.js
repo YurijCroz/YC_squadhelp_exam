@@ -219,13 +219,15 @@ const resolveOffer = async (
       winningOffer.push(offer);
     }
   });
-  controller
-    .getNotificationController()
-    .emitChangeOfferStatus(
-      [...new Set(arrayRoomsId)],
-      "Someone of yours offers was rejected",
-      contestId
-    );
+  if (arrayRoomsId.length > 0) {
+    controller
+      .getNotificationController()
+      .emitChangeOfferStatus(
+        [...new Set(arrayRoomsId)],
+        "Someone of yours offers was rejected",
+        contestId
+      );
+  }
   controller
     .getNotificationController()
     .emitChangeOfferStatus(creatorId, "Someone of your offers WIN", contestId);

@@ -1,9 +1,9 @@
 "use strict";
 const { Router } = require("express");
-const basicMiddlewares = require("../middlewares/basicMiddlewares");
+const basicMiddleware = require("../middleware/basicMiddleware");
 const userController = require("../controllers/userController");
 const contestController = require("../controllers/contestController");
-const checkToken = require("../middlewares/checkToken");
+const checkToken = require("../middleware/checkToken");
 const upload = require("../utils/fileUpload");
 
 const usersRouter = Router();
@@ -20,21 +20,21 @@ usersRouter.post(
   "/setNewOffer",
   checkToken.checkToken,
   upload.uploadLogoFiles,
-  basicMiddlewares.canSendOffer,
+  basicMiddleware.canSendOffer,
   contestController.setNewOffer
 );
 
 usersRouter.post(
   "/setOfferStatus",
   checkToken.checkToken,
-  basicMiddlewares.onlyForCustomerWhoCreateContest,
+  basicMiddleware.onlyForCustomerWhoCreateContest,
   contestController.setOfferStatus
 );
 
 usersRouter.post(
   "/changeMark",
   checkToken.checkToken,
-  basicMiddlewares.onlyForCustomer,
+  basicMiddleware.onlyForCustomer,
   userController.changeMark
 );
 

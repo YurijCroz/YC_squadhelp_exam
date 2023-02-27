@@ -1,6 +1,6 @@
 "use strict";
 const { Router } = require("express");
-const checkToken = require("../middlewares/checkToken");
+const checkToken = require("../middleware/checkToken");
 const chatController = require("../controllers/chatController");
 
 const chatRouter = Router();

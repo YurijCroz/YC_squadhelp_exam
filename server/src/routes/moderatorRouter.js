@@ -1,7 +1,7 @@
 "use strict";
 const { Router } = require("express");
 const moderatorController = require("../controllers/moderatorController");
-const checkToken = require("../middlewares/checkToken");
+const checkToken = require("../middleware/checkToken");
 
 const moderatorRouter = Router();
 

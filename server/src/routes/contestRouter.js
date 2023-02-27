@@ -1,8 +1,8 @@
 "use strict";
 const { Router } = require("express");
-const basicMiddlewares = require("../middlewares/basicMiddlewares");
+const basicMiddleware = require("../middleware/basicMiddleware");
 const contestController = require("../controllers/contestController");
-const checkToken = require("../middlewares/checkToken");
+const checkToken = require("../middleware/checkToken");
 const upload = require("../utils/fileUpload");
 
 const contestRouter = Router();
@@ -21,14 +21,14 @@ contestRouter.post(
 contestRouter.get(
   "/getContestById",
   checkToken.checkToken,
-  basicMiddlewares.canGetContest,
+  basicMiddleware.canGetContest,
   contestController.getContestById
 );
 
 contestRouter.post(
   "/getAllContests",
   checkToken.checkToken,
-  basicMiddlewares.onlyForCreative,
+  basicMiddleware.onlyForCreative,
   contestController.getContests
 );
 

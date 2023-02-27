@@ -16,12 +16,12 @@ export const updateContest = (data) => http.post('/api/contests/updateContest', 
 export const setNewOffer = (data) => http.post('/api/users/setNewOffer', data);
 export const setOfferStatus = (data) => http.post('/api/users/setOfferStatus', data);
 export const downloadContestFile = (data) => http.get(`/api/users/downloadFile/${data.fileName}`);
-export const payMent = (data) => http.post('/api/pay/pay', data.formData);
+export const payMent = (data) => http.post('/api/payment/pay', data.formData);
 export const changeMark = (data) => http.post('/api/users/changeMark', data);
 export const getPreviewChat = () => http.post('/api/chatSQL/getPreview');
 export const getDialog = (data) => http.post('/api/chatSQL/getChat', data);
 export const dataForContest = (data) => http.post(URL_DATA_FOR_CONTEST, data);
-export const cashOut = (data) => http.post('/api/pay/cashout', data);
+export const cashOut = (data) => http.post('/api/payment/cashOut', data);
 export const updateUser = (data) => http.post('/api/users/updateUser', data);
 export const newMessage = (data) => http.post('/api/chatSQL/newMessage', data);
 export const changeChatFavorite = (data) => http.post('/api/chatSQL/favorite', data);

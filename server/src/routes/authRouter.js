@@ -1,9 +1,9 @@
 "use strict";
 const { Router } = require("express");
 const authController = require("./../controllers/authController.js");
-const checkToken = require("../middlewares/checkToken");
-const hashPass = require("../middlewares/hashPassMiddle");
-const validators = require("../middlewares/validators");
+const checkToken = require("../middleware/checkToken");
+const hashPass = require("../middleware/hashPassMiddle");
+const validators = require("../middleware/validators");
 
 const authRouter = Router();
 
