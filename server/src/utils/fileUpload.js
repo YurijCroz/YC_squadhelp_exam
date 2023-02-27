@@ -6,6 +6,11 @@ const ServerError = require("../errors/ServerError");
 const env = process.env.NODE_ENV || "development";
 const devFilePath = path.resolve(__dirname, "../../public");
 const { logger } = require("../log");
+const {
+  AVATAR_DIR,
+  OFFER_IMAGES_DIR,
+  CONTEST_FILE_DIR,
+} = require("../constants");
 
 const filePath = env === "production" ? "/var/www/html" : devFilePath;
 
@@ -13,24 +18,33 @@ if (!fs.existsSync(filePath)) {
   fs.mkdirSync(filePath, {
     recursive: true,
   });
-  fs.mkdirSync(`${filePath}/images_avatar`, {
+}
+
+if (!fs.existsSync(`${filePath}/${AVATAR_DIR}`)) {
+  fs.mkdirSync(`${filePath}/${AVATAR_DIR}`, {
     recursive: true,
   });
-  fs.mkdirSync(`${filePath}/images_logo`, {
+}
+
+if (!fs.existsSync(`${filePath}/${OFFER_IMAGES_DIR}`)) {
+  fs.mkdirSync(`${filePath}/${OFFER_IMAGES_DIR}`, {
     recursive: true,
   });
-  fs.mkdirSync(`${filePath}/contest_files`, {
+}
+
+if (!fs.existsSync(`${filePath}/${CONTEST_FILE_DIR}`)) {
+  fs.mkdirSync(`${filePath}/${CONTEST_FILE_DIR}`, {
     recursive: true,
   });
 }
 
 const storageHandler = (req) => {
   if (req.url === "/updateUser") {
-    return `${filePath}/images_avatar`;
+    return `${filePath}/${AVATAR_DIR}`;
   } else if (req.url === "/setNewOffer") {
-    return `${filePath}/images_logo`;
+    return `${filePath}/${OFFER_IMAGES_DIR}`;
   } else if (req.url === "/updateContest" || req.url === "/pay") {
-    return `${filePath}/contest_files`;
+    return `${filePath}/${CONTEST_FILE_DIR}`;
   }
 };
 

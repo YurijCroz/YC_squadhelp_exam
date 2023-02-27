@@ -27,7 +27,7 @@ services:
       - db-dev
       - mongo-dev
     volumes:
-      - ./var/www/html/images:/var/www/html/images
+      - ./var/www/html:/var/www/html
       - ./server:/server
       - /server/node_modules
 
