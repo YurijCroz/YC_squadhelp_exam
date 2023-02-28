@@ -15,3 +15,5 @@
 .server/public/images
 **server/public/*
 *server/public/*
+
+var/

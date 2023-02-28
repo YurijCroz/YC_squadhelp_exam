@@ -5,6 +5,7 @@
   "scripts": {
     "babel-node": "babel-node",
     "start": "nodemon --exec babel-node ./src/server.js",
+    "server": "node ./src/server.js",
     "test": "jest",
     "build": "babel src -d dist"
   },

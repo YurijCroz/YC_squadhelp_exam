@@ -1,12 +1,12 @@
 {
   "development": {
-    "host": "localhost",
-    "port": 27117,
-    "database": "shm-chat-dev"
+    "database": "shm-chat",
+    "host": "mongo-dev",
+    "port": 27017
   },
   "production": {
     "database": "shm-chat",
-    "host": "localhost",
-    "port": 27117
+    "host": "mongo-prod",
+    "port": 27017
   }
 }

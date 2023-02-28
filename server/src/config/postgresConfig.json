@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "postgres",
-    "password": "postgres",
-    "database": "postgres",
-    "host": "127.0.0.1",
+    "password": "password",
+    "database": "todo-dev",
+    "host": "db-dev",
     "dialect": "postgres",
     "operatorsAliases": "Op",
     "seederStorage": "sequelize"
@@ -19,9 +19,9 @@
   },
   "production": {
     "username": "postgres",
-    "password": "admin",
+    "password": "password",
     "database": "todo-prod",
-    "host": "localhost",
+    "host": "db-prod",
     "dialect": "postgres",
     "operatorsAliases": "Op",
     "seederStorage": "sequelize"
