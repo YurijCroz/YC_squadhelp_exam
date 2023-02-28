@@ -1,22 +1,22 @@
 ## start project
   start-dev.sh
-# or
+### or
   sudo docker-compose --file docker-compose-dev.yaml up
 
 ## moderator account
-# login:
+### login:
   moderator@gmail.com
-# pass:
+### pass:
   moderator
 
 ## bank card
-# Name:
+### Name:
   yriy
-# Card Number:
+### Card Number:
   4111 1111 1111 1111
-# Expires:
+### Expires:
   09/23
-# CVC:
+### CVC:
   505
 
 ## Other accounts are created by hand :)
