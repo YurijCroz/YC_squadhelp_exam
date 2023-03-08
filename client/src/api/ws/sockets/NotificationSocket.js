@@ -37,6 +37,9 @@ class NotificationSocket extends WebSocket {
 
   connectError = () => {
     this.socket.on("connect_error", () => {
+      this.socket.off("changeMark");
+      this.socket.off("changeOfferStatus");
+      this.socket.off("onEntryCreated");
       setTimeout(() => {
         if (NotificationSocket.userId) {
           this.socket.emit("subscribe", NotificationSocket.userId);
@@ -52,6 +55,9 @@ class NotificationSocket extends WebSocket {
 
   unsubscribe = (id) => {
     NotificationSocket.userId = null;
+    this.socket.off("changeMark");
+    this.socket.off("changeOfferStatus");
+    this.socket.off("onEntryCreated");
     this.socket.emit("unsubscribe", id);
   };
 }

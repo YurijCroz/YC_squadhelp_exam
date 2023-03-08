@@ -55,6 +55,8 @@ class ChatSocket extends WebSocket {
 
   connectError = () => {
     this.socket.on("connect_error", () => {
+      this.socket.off(CONSTANTS.CHANGE_BLOCK_STATUS);
+      this.socket.off("newMessage");
       setTimeout(() => {
         if (ChatSocket.userId) {
           this.socket.emit("subscribeChat", ChatSocket.userId);
@@ -70,6 +72,8 @@ class ChatSocket extends WebSocket {
 
   unsubscribeChat = (id) => {
     ChatSocket.userId = null;
+    this.socket.off(CONSTANTS.CHANGE_BLOCK_STATUS);
+    this.socket.off("newMessage");
     this.socket.emit("unsubscribeChat", id);
   };
 }
