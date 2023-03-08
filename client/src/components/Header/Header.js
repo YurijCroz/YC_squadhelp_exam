@@ -32,11 +32,7 @@ class Header extends React.Component {
           <EventVerification />
           <section className={styles.userInfo}>
             <img
-              src={
-                this.props.data.avatar === "anon.png"
-                  ? CONSTANTS.ANONYM_IMAGE_PATH
-                  : `${CONSTANTS.PUBLIC_URL}images_avatar/${this.props.data.avatar}`
-              }
+              src={`${CONSTANTS.PUBLIC_URL}images_avatar/${this.props.data.avatar}`}
               alt="user"
             />
             <span>{`Hi, ${this.props.data.displayName}`}</span>
@@ -56,12 +52,12 @@ class Header extends React.Component {
                 </Link>
               </li>
               {this.props.data?.role === CONSTANTS.CUSTOMER && (
-                  <li>
-                    <Link to="/events">
-                      <span>Events</span>
-                    </Link>
-                  </li>
-                )}
+                <li>
+                  <Link to="/events">
+                    <span>Events</span>
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to="http:/www.google.com">
                   <span>Messages</span>
@@ -268,13 +264,13 @@ class Header extends React.Component {
                 </ul>
               </nav>
               {this.props.data?.role === CONSTANTS.CUSTOMER && (
-                  <section
-                    className={styles.startContestBtn}
-                    onClick={this.startContests}
-                  >
-                    Start Contest
-                  </section>
-                )}
+                <section
+                  className={styles.startContestBtn}
+                  onClick={this.startContests}
+                >
+                  Start Contest
+                </section>
+              )}
             </article>
           </section>
         )}

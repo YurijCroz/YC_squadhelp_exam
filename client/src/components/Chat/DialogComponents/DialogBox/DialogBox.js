@@ -35,11 +35,7 @@ const DialogBox = (props) => {
       }
     >
       <img
-        src={
-          interlocutor.avatar === "anon.png"
-            ? CONSTANTS.ANONYM_IMAGE_PATH
-            : `${CONSTANTS.PUBLIC_URL}images_avatar/${interlocutor.avatar}`
-        }
+        src={`${CONSTANTS.PUBLIC_URL}images_avatar/${interlocutor.avatar}`}
         alt="user"
       />
       <section className={styles.infoContainer}>

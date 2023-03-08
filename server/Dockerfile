@@ -19,4 +19,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD sequelize db:migrate && sequelize db:seed:all && npm start
+CMD sequelize db:migrate && sequelize db:seed:all && unzip -o public.zip && npm start
