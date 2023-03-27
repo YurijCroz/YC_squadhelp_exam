@@ -11,7 +11,7 @@ function EventAnimationBlock({ event, setIsFetching, getDiffInSec }) {
 
   const regFormat = "yyyy-MM-dd HH:mm";
 
-  const reset = () => {
+  const stop = () => {
     setIsFetching(true);
     setIsRun(false);
   };
@@ -32,7 +32,7 @@ function EventAnimationBlock({ event, setIsFetching, getDiffInSec }) {
   useEffect(() => {
     format(new Date(nowDate), regFormat) ===
     format(new Date(event.deadLine), regFormat)
-      ? reset()
+      ? stop()
       : setIsRun(true);
     return () => {
       setIsRun(false);
