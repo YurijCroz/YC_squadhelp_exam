@@ -7,45 +7,46 @@ import {
   deleteCatalog,
 } from "../../../../actions/actionCreator";
 
-const CatalogList = (props) => {
+const CatalogList = ({
+  catalogList,
+  changeShowModeCatalogAction,
+  deleteCatalogAction,
+}) => {
   const goToCatalog = (event, catalog) => {
-    props.changeShowModeCatalog(catalog);
+    changeShowModeCatalogAction(catalog);
     event.stopPropagation();
   };
 
-  const deleteCatalog = (event, catalogId) => {
-    props.deleteCatalog({ catalogId });
+  const removeCatalog = (event, catalogId) => {
+    deleteCatalogAction({ catalogId });
     event.stopPropagation();
   };
 
-  const getListCatalog = () => {
-    const { catalogList } = props;
-    const elementList = [];
-    catalogList.forEach((catalog) => {
-      elementList.push(
-        <Catalog
-          catalog={catalog}
-          key={catalog.id}
-          deleteCatalog={deleteCatalog}
-          goToCatalog={goToCatalog}
-        />
-      );
-    });
-    return elementList.length ? (
-      elementList
-    ) : (
-      <span className={styles.notFound}>
-        You have not created any directories.
-      </span>
-    );
-  };
+  const elementList = catalogList.map((catalog) => (
+    <Catalog
+      catalog={catalog}
+      key={catalog.id}
+      deleteCatalog={removeCatalog}
+      goToCatalog={goToCatalog}
+    />
+  ));
 
-  return <section className={styles.listContainer}>{getListCatalog()}</section>;
+  return (
+    <section className={styles.listContainer}>
+      {elementList.length ? (
+        elementList
+      ) : (
+        <span className={styles.notFound}>
+          You have not created any directories.
+        </span>
+      )}
+    </section>
+  );
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeShowModeCatalog: (data) => dispatch(changeShowModeCatalog(data)),
-  deleteCatalog: (data) => dispatch(deleteCatalog(data)),
+  changeShowModeCatalogAction: (data) => dispatch(changeShowModeCatalog(data)),
+  deleteCatalogAction: (data) => dispatch(deleteCatalog(data)),
 });
 
 export default connect(null, mapDispatchToProps)(CatalogList);

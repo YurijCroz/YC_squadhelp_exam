@@ -1,22 +1,24 @@
 import React from "react";
 import styles from "./Catalog.module.sass";
 
-const Catalog = (props) => {
-  const { deleteCatalog, goToCatalog } = props;
-  const { catalogName, chats, id } = props.catalog;
+const Catalog = ({ catalog, deleteCatalog, goToCatalog }) => {
+  const { catalogName, chats, id } = catalog;
+
+  const handleCatalogClick = (event) => {
+    goToCatalog(event, catalog);
+  };
+
+  const handleDeleteCatalogClick = (event) => {
+    deleteCatalog(event, id);
+  };
+
   return (
-    <article
-      className={styles.catalogContainer}
-      onClick={(event) => goToCatalog(event, props.catalog)}
-    >
+    <article className={styles.catalogContainer} onClick={handleCatalogClick}>
       <span className={styles.catalogName}>{catalogName}</span>
       <section className={styles.infoContainer}>
         <span>Chats number: </span>
         <span className={styles.numbers}>{chats.length}</span>
-        <i
-          className="fas fa-trash-alt"
-          onClick={(event) => deleteCatalog(event, id)}
-        />
+        <i className="fas fa-trash-alt" onClick={handleDeleteCatalogClick} />
       </section>
     </article>
   );

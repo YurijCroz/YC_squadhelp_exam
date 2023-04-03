@@ -11,6 +11,18 @@ import {
 import DialogBox from "../DialogBox/DialogBox";
 import styles from "./DialogList.module.sass";
 
+const getDefaultText = (mode) => {
+  if (mode === CONSTANTS.NORMAL_PREVIEW_CHAT_MODE) {
+    return "You don't have the people you started the dialogue with.";
+  }
+  if (mode === CONSTANTS.FAVORITE_PREVIEW_CHAT_MODE) {
+    return "You don't have any favorites";
+  }
+  if (mode === CONSTANTS.BLOCKED_PREVIEW_CHAT_MODE) {
+    return "You don't have people on the blacklist";
+  }
+};
+
 const DialogList = (props) => {
   const changeFavorite = (data, event) => {
     props.changeChatFavorite(data);
@@ -73,9 +85,7 @@ const DialogList = (props) => {
       arrayList
     ) : (
       <span className={styles.notFound}>
-        {chatMode === CONSTANTS.FAVORITE_PREVIEW_CHAT_MODE
-          ? "You don't have any favorites"
-          : "You don't have people on the blacklist"}
+        {getDefaultText(chatMode)}
       </span>
     );
   };

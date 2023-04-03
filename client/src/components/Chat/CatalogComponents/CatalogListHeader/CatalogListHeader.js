@@ -10,22 +10,25 @@ import styles from "./CatalogHeader.module.sass";
 import FormInput from "../../../FormInput/FormInput";
 import Schems from "../../../../validators/validationSchems";
 
-const CatalogListHeader = (props) => {
-  const changeCatalogName = (values) => {
-    const { changeCatalogName, id } = props;
+const CatalogHeader = ({
+  catalogName,
+  isRenameCatalog,
+  initialValues,
+  id,
+  changeShowModeCatalog,
+  changeRenameCatalogMode,
+  changeCatalogName,
+}) => {
+  const handleCatalogNameChange = (values) => {
     changeCatalogName({ catalogName: values.catalogName, catalogId: id });
   };
-  const {
-    catalogName,
-    changeShowModeCatalog,
-    changeRenameCatalogMode,
-    isRenameCatalog,
-  } = props;
+  
   return (
     <section className={styles.headerContainer}>
       <i
         className="fas fa-long-arrow-alt-left"
         onClick={() => changeShowModeCatalog()}
+        aria-label="Go to previous screen"
       />
       {!isRenameCatalog && (
         <section className={styles.infoContainer}>
@@ -33,14 +36,15 @@ const CatalogListHeader = (props) => {
           <i
             className="fas fa-edit"
             onClick={() => changeRenameCatalogMode()}
+            aria-label="Edit Catalog Name"
           />
         </section>
       )}
       {isRenameCatalog && (
         <section className={styles.changeContainer}>
           <Formik
-            onSubmit={changeCatalogName}
-            initialValues={props.initialValues}
+            onSubmit={handleCatalogNameChange}
+            initialValues={initialValues}
             validationSchema={Schems.CatalogSchema}
           >
             <Form>
@@ -65,8 +69,8 @@ const CatalogListHeader = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { isRenameCatalog } = state.chatStore;
-  const { catalogName, id } = state.chatStore.currentCatalog;
+  const { isRenameCatalog, currentCatalog } = state.chatStore;
+  const { catalogName, id } = currentCatalog;
   return {
     id,
     catalogName,
@@ -77,10 +81,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeShowModeCatalog: () => dispatch(changeShowModeCatalog()),
-  changeRenameCatalogMode: () => dispatch(changeRenameCatalogMode()),
-  changeCatalogName: (data) => dispatch(changeCatalogName(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CatalogListHeader);
+export default connect(mapStateToProps, { 
+  changeShowModeCatalog, 
+  changeRenameCatalogMode,
+  changeCatalogName
+})(CatalogHeader);

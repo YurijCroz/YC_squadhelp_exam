@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import classNames from "classnames";
+import classnames from "classnames";
 import {
   backToDialogList,
   changeChatFavorite,
@@ -9,14 +9,21 @@ import {
 import styles from "./ChatHeader.module.sass";
 import CONSTANTS from "../../../../constants";
 
-const ChatHeader = (props) => {
+const ChatHeader = ({
+  interlocutor,
+  backToDialogList,
+  chatData,
+  userId,
+  changeChatFavorite,
+  changeChatBlock,
+}) => {
   const changeFavorite = (data, event) => {
-    props.changeChatFavorite(data);
+    changeChatFavorite(data);
     event.stopPropagation();
   };
 
   const changeBlackList = (data, event) => {
-    props.changeChatBlock(data);
+    changeChatBlock(data);
     event.stopPropagation();
   };
 
@@ -30,8 +37,6 @@ const ChatHeader = (props) => {
     return blackList[participants.indexOf(userId)];
   };
 
-  const { avatar, firstName } = props.interlocutor;
-  const { backToDialogList, chatData, userId } = props;
   return (
     <section className={styles.chatHeader}>
       <div className={styles.buttonContainer}>
@@ -43,10 +48,10 @@ const ChatHeader = (props) => {
       <section className={styles.infoContainer}>
         <section>
           <img
-            src={`${CONSTANTS.PUBLIC_URL}images_avatar/${avatar}`}
+            src={`${CONSTANTS.PUBLIC_URL}images_avatar/${interlocutor.avatar}`}
             alt="user"
           />
-          <span>{firstName}</span>
+          <span>{interlocutor.firstName}</span>
         </section>
         {chatData && (
           <section>
@@ -60,7 +65,7 @@ const ChatHeader = (props) => {
                   event
                 )
               }
-              className={classNames({
+              className={classnames({
                 "far fa-heart": !isFavorite(chatData, userId),
                 "fas fa-heart": isFavorite(chatData, userId),
               })}
@@ -75,7 +80,7 @@ const ChatHeader = (props) => {
                   event
                 )
               }
-              className={classNames({
+              className={classnames({
                 "fas fa-user-lock": !isBlocked(chatData, userId),
                 "fas fa-unlock": isBlocked(chatData, userId),
               })}
@@ -87,10 +92,10 @@ const ChatHeader = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { interlocutor, chatData } = state.chatStore;
-  return { interlocutor, chatData };
-};
+const mapStateToProps = ({ chatStore: { interlocutor, chatData } }) => ({
+  interlocutor,
+  chatData,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   backToDialogList: () => dispatch(backToDialogList()),

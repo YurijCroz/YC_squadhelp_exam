@@ -5,34 +5,19 @@ import SelectInput from "../../../SelectInput/SelectInput";
 import { addChatToCatalog } from "../../../../actions/actionCreator";
 import styles from "./AddToCatalog.module.sass";
 
-const AddToCatalog = (props) => {
-  const getCatalogsNames = () => {
-    const { catalogList } = props;
-    const namesArray = [];
-    catalogList.forEach((catalog) => {
-      namesArray.push(catalog.catalogName);
-    });
-    return namesArray;
-  };
-
-  const getValueArray = () => {
-    const { catalogList } = props;
-    const valueArray = [];
-    catalogList.forEach((catalog) => {
-      valueArray.push(catalog.id);
-    });
-    return valueArray;
-  };
+const AddToCatalog = ({ catalogList, addChatToCatalog, addChatId }) => {
+  const catalogsArray = catalogList.map((catalog) => ({
+    label: catalog.catalogName,
+    value: catalog.id,
+  }));
 
   const click = (values) => {
-    const { addChatId } = props;
-    props.addChatToCatalog({ chatId: addChatId, catalogId: values.catalogId });
+    addChatToCatalog({ chatId: addChatId, catalogId: values.catalogId });
   };
 
-  const selectArray = getCatalogsNames();
   return (
     <>
-      {selectArray.length !== 0 ? (
+      {catalogsArray.length !== 0 ? (
         <Formik onSubmit={click} initialValues={{ catalogId: "" }}>
           <Form className={styles.form}>
             <SelectInput
@@ -43,8 +28,7 @@ const AddToCatalog = (props) => {
                 inputHeader: styles.selectHeader,
                 selectInput: styles.select,
               }}
-              optionsArray={selectArray}
-              valueArray={getValueArray()}
+              optionsArray={catalogsArray}
             />
             <button type="submit">Add</button>
           </Form>
@@ -58,10 +42,12 @@ const AddToCatalog = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state.chatStore;
-
-const mapDispatchToProps = (dispatch) => ({
-  addChatToCatalog: (data) => dispatch(addChatToCatalog(data)),
+const mapStateToProps = (state) => ({
+  catalogList: state.chatStore.catalogList,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddToCatalog);
+const mapDispatchToProps = {
+  addChatToCatalog,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddToCatalog); 

@@ -6,15 +6,14 @@ import styles from "./CreateCatalog.module.sass";
 import { createCatalog } from "../../../../actions/actionCreator";
 import Schems from "../../../../validators/validationSchems";
 
-const CreateCatalog = (props) => {
-  const click = (values) => {
-    const { createCatalog } = props;
-    const { addChatId } = props;
+const CreateCatalog = ({ createCatalog, addChatId }) => {
+  const handleSubmit = (values) => {
     createCatalog({ catalogName: values.catalogName, chatId: addChatId });
   };
+
   return (
     <Formik
-      onSubmit={click}
+      onSubmit={handleSubmit}
       initialValues={{ catalogName: "" }}
       validationSchema={Schems.CatalogSchema}
     >
@@ -27,7 +26,6 @@ const CreateCatalog = (props) => {
             container: styles.inputContainer,
             input: styles.input,
             warning: styles.fieldWarning,
-            notValid: styles.notValid,
           }}
         />
         <button type="submit">Create Catalog</button>
@@ -40,6 +38,7 @@ const mapDispatchToProps = (dispatch) => ({
   createCatalog: (data) => dispatch(createCatalog(data)),
 });
 
-const mapStateToProps = (state) => state.chatStore;
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCatalog);
+export default connect(
+  (state) => state.chatStore,
+  mapDispatchToProps
+)(CreateCatalog);
