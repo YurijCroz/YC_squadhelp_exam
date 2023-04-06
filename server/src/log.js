@@ -65,14 +65,10 @@ const backupLog = async () => {
   }
 };
 
+const regexObjSeparator = /(?<=\})\s*(?=\{)/gm;
+
 const getArrObjErrorLog = (log) =>
-  JSON.parse(
-    log
-      .slice(0, -1)
-      .replace(/(?<=})$/, "]")
-      .replace(/(?<=})$/gm, ",")
-      .replace(/^/, "[")
-  );
+  JSON.parse(`[${log.replace(regexObjSeparator, ",")}]`);
 
 const backupInFile = (log, fileName) => {
   try {
