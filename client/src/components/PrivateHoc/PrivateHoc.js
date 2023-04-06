@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getUserAction } from "../../actions/actionCreator";
@@ -11,29 +11,23 @@ const PrivateHoc = (Component, props) => {
     getUser: (data) => dispatch(getUserAction(data)),
   });
 
-  class Hoc extends React.Component {
-    componentDidMount() {
-      if (!this.props.data) {
-        this.props.getUser(this.props.history.replace);
+  const Hoc = ({ data, isFetching, getUser, history, match }) => {
+    useEffect(() => {
+      if (!data) {
+        getUser(history.replace);
       }
+    }, []);
+
+    if (isFetching) {
+      return <Spinner />;
     }
 
-    render() {
-      return (
-        <>
-          {this.props.isFetching ? (
-            ((<Spinner />), (<Redirect to="/login" />))
-          ) : (
-            <Component
-              history={this.props.history}
-              match={this.props.match}
-              {...props}
-            />
-          )}
-        </>
-      );
-    }
-  }
+    return data ? (
+      <Component history={history} match={match} {...props} />
+    ) : (
+      <Redirect to="/login" />
+    );
+  };
 
   return connect(mapStateToProps, mapDispatchToProps)(Hoc);
 };
