@@ -16,7 +16,7 @@ const initialState = {
   haveMore: true,
 };
 
-function getContestByIdReducer(state = initialState, action) {
+function getContestsReducer(state = initialState, action) {
   switch (action.type) {
     case ACTION.GET_CONTESTS_ACTION_REQUEST: {
       return {
@@ -68,4 +68,4 @@ function getContestByIdReducer(state = initialState, action) {
   }
 }
 
-export default getContestByIdReducer;
+export default getContestsReducer;

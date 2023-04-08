@@ -18,3 +18,4 @@
 
 var/
 docker-compose-dev-croz.yaml
+start-dev-croz.sh
