@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import {
@@ -18,63 +18,68 @@ const buttonName = {
   inactiveContests: "Inactive contests",
 };
 
-class CustomerDashboard extends React.Component {
-  loadMore = (startFrom) => {
-    this.props.getContests({
+function CustomerDashboard({
+  getContests,
+  customerFilter,
+  clearContestsList,
+  error,
+  haveMore,
+  newFilter,
+  history,
+  contests,
+  isFetching,
+}) {
+  const loadMore = (startFrom) => {
+    getContests({
       limit: 8,
       offset: startFrom,
-      contestStatus: this.props.customerFilter,
+      contestStatus: customerFilter,
     });
   };
 
-  componentDidMount() {
-    this.getContests();
-  }
-
-  getContests = () => {
-    this.props.getContests({
+  const getContestsHandler = () => {
+    getContests({
       limit: 8,
-      contestStatus: this.props.customerFilter,
+      contestStatus: customerFilter,
     });
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.customerFilter !== prevProps.customerFilter) {
-      this.getContests();
-    }
-  }
+  useEffect(() => {
+    getContestsHandler();
+    return () => {
+      clearContestsList();
+    };
+  }, []);
 
-  goToExtended = (contestid) => {
-    this.props.history.push(`/dashboard/contest/${contestid}`);
+  useEffect(() => {
+    getContestsHandler();
+  }, [customerFilter]);
+
+  const goToExtended = (contestId) => {
+    history.push(`/dashboard/contest/${contestId}`);
   };
 
-  setContestList = () => {
+  const setContestList = () => {
     const array = [];
-    const { contests } = this.props;
+
     for (let i = 0; i < contests.length; i++) {
       array.push(
         <ContestBox
           data={contests[i]}
           key={contests[i].id}
-          goToExtended={this.goToExtended}
+          goToExtended={goToExtended}
         />
       );
     }
     return array;
   };
 
-  componentWillUnmount() {
-    this.props.clearContestsList();
-  }
-
-  tryToGetContest = () => {
-    this.props.clearContestsList();
-    this.getContests();
+  const tryToGetContest = () => {
+    clearContestsList();
+    getContestsHandler();
   };
 
-  getButton() {
-    const { customerFilter, newFilter } = this.props;
-
+  const getButton = () => {
     return (
       <>
         {customerFilter === CONSTANTS.CONTEST_STATUS_ACTIVE ? (
@@ -115,31 +120,27 @@ class CustomerDashboard extends React.Component {
         )}
       </>
     );
-  }
+  };
 
-  render() {
-    const { error, haveMore } = this.props;
-
-    return (
-      <main className={styles.mainContainer}>
-        <aside className={styles.filterContainer}>{this.getButton()}</aside>
-        <section className={styles.contestsContainer}>
-          {error ? (
-            <TryAgain getData={this.tryToGetContest()} />
-          ) : (
-            <ContestsContainer
-              isFetching={this.props.isFetching}
-              loadMore={this.loadMore}
-              history={this.props.history}
-              haveMore={haveMore}
-            >
-              {this.setContestList()}
-            </ContestsContainer>
-          )}
-        </section>
-      </main>
-    );
-  }
+  return (
+    <main className={styles.mainContainer}>
+      <aside className={styles.filterContainer}>{getButton()}</aside>
+      <section className={styles.contestsContainer}>
+        {error ? (
+          <TryAgain getData={tryToGetContest()} />
+        ) : (
+          <ContestsContainer
+            isFetching={isFetching}
+            loadMore={loadMore}
+            history={history}
+            haveMore={haveMore}
+          >
+            {setContestList()}
+          </ContestsContainer>
+        )}
+      </section>
+    </main>
+  );
 }
 
 const mapStateToProps = (state) => state.contestsList;
