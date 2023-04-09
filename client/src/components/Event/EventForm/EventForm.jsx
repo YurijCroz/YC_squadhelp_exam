@@ -2,19 +2,18 @@ import React from "react";
 import { Field, Form, Formik } from "formik";
 import { format } from "date-fns";
 import styles from "./EventForm.module.sass";
-import CONSTANTS from "../../../constants.js";
 
 const dateNow = () => format(new Date(), "yyyy-MM-dd HH:mm").replace(/\s/, "T");
 
-function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
-  
+function EventForm({
+  setIsFetching,
+  getDiffInSec,
+  events,
+  setLocalStorageData,
+}) {
   const initialValues = {
     title: "",
     deadLine: dateNow(),
-  };
-
-  const sendLocalStorage = (newLocal) => {
-    localStorage.setItem(CONSTANTS.EVENT_KEY, JSON.stringify(newLocal));
   };
 
   const sortLocalByDate = (local) =>
@@ -27,12 +26,11 @@ function EventForm({ setIsFetching, getItemLocal, getDiffInSec }) {
     values.deadLine = new Date(values.deadLine);
     values.startDate = new Date();
     formikBag.resetForm();
-    if (getItemLocal()) {
-      const local = JSON.parse(getItemLocal());
-      const sortLocal = sortLocalByDate([...local, values]);
-      sendLocalStorage(sortLocal);
+    if (events) {
+      const sortLocal = sortLocalByDate([...events, values]);
+      setLocalStorageData(sortLocal);
     } else {
-      sendLocalStorage([values]);
+      setLocalStorageData([values]);
     }
     setIsFetching(true);
   };

@@ -12,6 +12,7 @@ import chatReducer from "./chatReducer";
 import userProfileReducer from "./userProfileReducer";
 import getModeratorReducer from "./getModeratorReducer";
 import getContestByIdForModeratorReducer from "./getContestByIdForModeratorReducer";
+import eventReducer from "./eventReducer";
 
 const appReducer = combineReducers({
   userStore: getUserReducer,
@@ -27,6 +28,7 @@ const appReducer = combineReducers({
   userProfile: userProfileReducer,
   moderatorList: getModeratorReducer,
   contestByIdForModeratorStore: getContestByIdForModeratorReducer,
+  eventsStore: eventReducer,
 });
 
 export default appReducer;

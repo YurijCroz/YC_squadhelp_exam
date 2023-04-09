@@ -3,13 +3,13 @@ import { format } from "date-fns";
 import moment from "moment";
 import styles from "./EventAnimationBlock.module.sass";
 
+const regFormat = "yyyy-MM-dd HH:mm";
+
 function EventAnimationBlock({ event, setIsFetching, getDiffInSec }) {
-  const totalSeconds = getDiffInSec(event.deadLine, new Date(event.startDate));
-
   const [nowDate, setNowDate] = useState(new Date());
-  const [isRun, setIsRun] = useState(false);
+  const [isRun, setIsRun] = useState(true);
 
-  const regFormat = "yyyy-MM-dd HH:mm";
+  const totalSeconds = getDiffInSec(event.deadLine, new Date(event.startDate));
 
   const stop = () => {
     setIsFetching(true);
@@ -26,17 +26,17 @@ function EventAnimationBlock({ event, setIsFetching, getDiffInSec }) {
         setNowDate(new Date());
       }, 1000);
     }
-    return () => clearInterval(interval);
-  });
+    return () => {
+      clearInterval(interval);
+      setIsRun(false);
+    };
+  }, []);
 
   useEffect(() => {
     format(new Date(nowDate), regFormat) ===
     format(new Date(event.deadLine), regFormat)
       ? stop()
       : setIsRun(true);
-    return () => {
-      setIsRun(false);
-    };
   });
 
   const percentWidth =

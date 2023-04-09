@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { setLocalStorageData } from "../../actions/actionCreator";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./EventPage.module.sass";
@@ -9,31 +10,34 @@ import EventAnimationBlock from "../../components/Event/EventAnimationBlock/Even
 import EventHappenedBlock from "../../components/Event/EventHappenedBlock/EventHappenedBlock.jsx";
 import CONSTANTS from "../../constants.js";
 
-const getItemLocal = () => localStorage.getItem(CONSTANTS.EVENT_KEY);
+const { CUSTOMER } = CONSTANTS;
 
 const getDiffInSec = (dateA, dateB = new Date()) =>
   differenceInSeconds(new Date(dateA), dateB);
 
-function EventPage({ role, history }) {
+function EventPage(props) {
+  const {
+    role,
+    history,
+    eventData: { events },
+    setLocalStorageData,
+  } = props;
+
   const [frustratedEvents, setFrustratedEvents] = useState(null);
   const [happenedEvents, setHappenedEvents] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    if (role !== CONSTANTS.CUSTOMER) history.push("/");
+    if (role !== CUSTOMER) history.push("/");
   }, []);
 
   useEffect(() => {
-    if (isFetching && getItemLocal()) {
+    if (isFetching && events) {
       setFrustratedEvents(
-        JSON.parse(getItemLocal()).filter(
-          (event) => getDiffInSec(event.deadLine) >= 1
-        )
+        events.filter((event) => getDiffInSec(event.deadLine) >= 1)
       );
       setHappenedEvents(
-        JSON.parse(getItemLocal()).filter(
-          (event) => getDiffInSec(event.deadLine) <= 1
-        )
+        events.filter((event) => getDiffInSec(event.deadLine) <= 1)
       );
     }
     setIsFetching(false);
@@ -45,8 +49,9 @@ function EventPage({ role, history }) {
       <main className={styles.eventMain}>
         <EventForm
           setIsFetching={setIsFetching}
-          getItemLocal={getItemLocal}
           getDiffInSec={getDiffInSec}
+          events={events}
+          setLocalStorageData={setLocalStorageData}
         />
         <section className={styles.eventContainer}>
           <section className={styles.headerDisplay}>
@@ -78,6 +83,14 @@ function EventPage({ role, history }) {
   );
 }
 
-const mapStateToProps = (state) => state.userStore.data;
+const mapStateToProps = (state) => {
+  const userData = state.userStore.data;
+  const eventData = state.eventsStore;
+  return { ...userData, eventData };
+};
 
-export default connect(mapStateToProps)(EventPage);
+const mapDispatchToProps = {
+  setLocalStorageData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

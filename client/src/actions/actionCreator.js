@@ -340,3 +340,8 @@ export const moderationOffer = (data) => ({
   type: ACTION.MODERATION_OFFER_ACTION,
   data,
 });
+
+export const setLocalStorageData = (data) => ({
+  type: ACTION.SET_LOCAL_STORAGE_DATA,
+  data,
+});
