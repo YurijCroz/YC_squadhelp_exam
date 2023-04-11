@@ -9,11 +9,11 @@ import {
   clearContestList,
   setNewCreatorFilter,
   getDataForContest,
-} from "../../actions/actionCreator";
-import ContestsContainer from "../ContestsContainer/ContestsContainer";
-import ContestBox from "../ContestBox/ContestBox";
+} from "../../../actions/actionCreator";
+import ContestsContainer from "../../ContestsContainer/ContestsContainer";
+import ContestBox from "../../ContestBox/ContestBox";
 import styles from "./CreatorDashboard.module.sass";
-import TryAgain from "../TryAgain/TryAgain";
+import TryAgain from "../../TryAgain/TryAgain";
 import RenderSelectType from "./RenderSelectType";
 import RenderIndustryType from "./RenderIndustryType";
 

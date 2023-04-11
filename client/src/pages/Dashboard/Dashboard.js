@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import CONSTANTS from "../../constants";
-import CustomerDashboard from "../../components/CustomerDashboard/CustomerDashboard";
-import CreatorDashboard from "../../components/CreatorDashboard/CreatorDashboard";
-import ModeratorDashboard from "../../components/ModeratorDashboard/ModeratorDashboard";
+import CustomerDashboard from "../../components/DashboardComponents/CustomerDashboard/CustomerDashboard";
+import CreatorDashboard from "../../components/DashboardComponents/CreatorDashboard/CreatorDashboard";
+import ModeratorDashboard from "../../components/DashboardComponents/ModeratorDashboard/ModeratorDashboard";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 

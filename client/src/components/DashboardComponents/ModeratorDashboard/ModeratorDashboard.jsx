@@ -9,14 +9,14 @@ import {
   setNewModerationFilter,
   changeShowImage,
   setStatusModerationFilter,
-} from "../../actions/actionCreator";
+} from "../../../actions/actionCreator";
 import styles from "./ModeratorDashboard.module.sass";
-import TryAgain from "../TryAgain/TryAgain";
+import TryAgain from "../../TryAgain/TryAgain";
 import classnames from "classnames";
-import CONSTANTS from "../../constants";
-import ContestsContainer from "../ContestsContainer/ContestsContainer";
-import ContestBoxForModerator from "../ContestBox/ContestBoxForModerator";
-import OfferBoxForModerator from "../OfferBox/OfferBoxForModerator";
+import CONSTANTS from "../../../constants";
+import ContestsContainer from "../../ContestsContainer/ContestsContainer";
+import ContestBoxForModerator from "../../ContestBox/ContestBoxForModerator";
+import OfferBoxForModerator from "../../OfferBox/OfferBoxForModerator";
 
 const buttonName = {
   contests: "Contests",
