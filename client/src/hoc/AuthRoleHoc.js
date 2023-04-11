@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getUserAction } from "../../actions/actionCreator";
-import Spinner from "../Spinner/Spinner";
+import { getUserAction } from "../actions/actionCreator";
+import Spinner from "../components/Spinner/Spinner";
 
-const PrivateHoc = (Component, props) => {
+const AuthRoleHoc = (Component, allowedRoles = [], props = {}) => {
   const mapStateToProps = (state) => state.userStore;
 
   const mapDispatchToProps = (dispatch) => ({
@@ -22,14 +22,18 @@ const PrivateHoc = (Component, props) => {
       return <Spinner />;
     }
 
-    return data ? (
-      <Component history={history} match={match} {...props} />
-    ) : (
-      <Redirect to="/login" />
-    );
+    if (!data) {
+      return <Redirect to="/login" />;
+    }
+
+    if (allowedRoles.includes(data?.role)) {
+      return <Component history={history} match={match} {...props} />;
+    } else {
+      return <Redirect to="/" />;
+    }
   };
 
   return connect(mapStateToProps, mapDispatchToProps)(Hoc);
 };
 
-export default PrivateHoc;
+export default AuthRoleHoc;

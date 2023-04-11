@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -6,10 +6,10 @@ import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import Payment from "./pages/Payment/Payment";
 import StartContestPage from "./pages/StartContestPage/StartContestPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import PrivateHoc from "./components/PrivateHoc/PrivateHoc";
+import AuthRoleHoc from "./hoc/AuthRoleHoc";
 import NotFound from "./components/NotFound/NotFound";
 import Home from "./pages/Home/Home";
-import OnlyNotAuthorizedUserHoc from "./components/OnlyNotAuthorizedUserHoc/OnlyNotAuthorizedUserHoc";
+import OnlyNotAuthorizedUserHoc from "./hoc/OnlyNotAuthorizedUserHoc";
 import ContestPage from "./pages/ContestPage/ContestPage";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,73 +22,96 @@ import HowItWorks from "./pages/HowItWorks/HowItWorks";
 import ContestPageForModerator from "./pages/ContestPage/ContestPageForModerator";
 import NotificationContainer from "./components/Notification/NotificationContainer";
 
-class App extends Component {
-  render() {
-    return (
-      <Router history={browserHistory}>
-        <NotificationContainer />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route
-            exact
-            path="/login"
-            component={OnlyNotAuthorizedUserHoc(LoginPage)}
-          />
-          <Route
-            exact
-            path="/registration"
-            component={OnlyNotAuthorizedUserHoc(RegistrationPage)}
-          />
-          <Route exact path="/payment" component={PrivateHoc(Payment)} />
-          <Route
-            exact
-            path="/startContest"
-            component={PrivateHoc(StartContestPage)}
-          />
-          <Route exact path="/events" component={PrivateHoc(EventPage)} />
-          <Route exact path="/how-it-works" component={HowItWorks} />
-          <Route
-            exact
-            path="/startContest/nameContest"
-            component={PrivateHoc(ContestCreationPage, {
-              contestType: CONSTANTS.NAME_CONTEST,
-              title: "Company Name",
-            })}
-          />
-          <Route
-            exact
-            path="/startContest/taglineContest"
-            component={PrivateHoc(ContestCreationPage, {
-              contestType: CONSTANTS.TAGLINE_CONTEST,
-              title: "TAGLINE",
-            })}
-          />
-          <Route
-            exact
-            path="/startContest/logoContest"
-            component={PrivateHoc(ContestCreationPage, {
-              contestType: CONSTANTS.LOGO_CONTEST,
-              title: "LOGO",
-            })}
-          />
-          <Route exact path="/dashboard" component={PrivateHoc(Dashboard)} />
-          <Route
-            exact
-            path="/dashboard/contest/:id"
-            component={PrivateHoc(ContestPage)}
-          />
-          <Route
-            exact
-            path="/dashboard/moderation-contest/:id"
-            component={PrivateHoc(ContestPageForModerator)}
-          />
-          <Route exact path="/account" component={PrivateHoc(UserProfile)} />
-          <Route component={NotFound} />
-        </Switch>
-        <ChatContainer />
-      </Router>
-    );
-  }
+const {
+  NAME_CONTEST,
+  TAGLINE_CONTEST,
+  LOGO_CONTEST,
+  CUSTOMER,
+  CREATOR,
+  MODER,
+} = CONSTANTS;
+
+function App() {
+  return (
+    <Router history={browserHistory}>
+      <NotificationContainer />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route
+          exact
+          path="/login"
+          component={OnlyNotAuthorizedUserHoc(LoginPage)}
+        />
+        <Route
+          exact
+          path="/registration"
+          component={OnlyNotAuthorizedUserHoc(RegistrationPage)}
+        />
+        <Route
+          exact
+          path="/payment"
+          component={AuthRoleHoc(Payment, [CUSTOMER])}
+        />
+        <Route
+          exact
+          path="/startContest"
+          component={AuthRoleHoc(StartContestPage, [CUSTOMER])}
+        />
+        <Route
+          exact
+          path="/events"
+          component={AuthRoleHoc(EventPage, [CUSTOMER])}
+        />
+        <Route exact path="/how-it-works" component={HowItWorks} />
+        <Route
+          exact
+          path="/startContest/nameContest"
+          component={AuthRoleHoc(ContestCreationPage, [CUSTOMER], {
+            contestType: NAME_CONTEST,
+            title: "Company Name",
+          })}
+        />
+        <Route
+          exact
+          path="/startContest/taglineContest"
+          component={AuthRoleHoc(ContestCreationPage, [CUSTOMER], {
+            contestType: TAGLINE_CONTEST,
+            title: "TAGLINE",
+          })}
+        />
+        <Route
+          exact
+          path="/startContest/logoContest"
+          component={AuthRoleHoc(ContestCreationPage, [CUSTOMER], {
+            contestType: LOGO_CONTEST,
+            title: "LOGO",
+          })}
+        />
+        <Route
+          exact
+          path="/dashboard"
+          component={AuthRoleHoc(Dashboard, [CUSTOMER, CREATOR, MODER])}
+        />
+        <Route
+          exact
+          path="/dashboard/contest/:id"
+          component={AuthRoleHoc(ContestPage, [CUSTOMER, CREATOR])}
+        />
+        <Route
+          exact
+          path="/dashboard/moderation-contest/:id"
+          component={AuthRoleHoc(ContestPageForModerator, [MODER])}
+        />
+        <Route
+          exact
+          path="/account"
+          component={AuthRoleHoc(UserProfile, [CUSTOMER, CREATOR, MODER])}
+        />
+        <Route component={NotFound} />
+      </Switch>
+      <ChatContainer />
+    </Router>
+  );
 }
 
 export default App;

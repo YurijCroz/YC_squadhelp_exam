@@ -8,17 +8,12 @@ import EventForm from "../../components/Event/EventForm/EventForm.jsx";
 import { differenceInSeconds } from "date-fns";
 import EventAnimationBlock from "../../components/Event/EventAnimationBlock/EventAnimationBlock.jsx";
 import EventHappenedBlock from "../../components/Event/EventHappenedBlock/EventHappenedBlock.jsx";
-import CONSTANTS from "../../constants.js";
-
-const { CUSTOMER } = CONSTANTS;
 
 const getDiffInSec = (dateA, dateB = new Date()) =>
   differenceInSeconds(new Date(dateA), dateB);
 
 function EventPage(props) {
   const {
-    role,
-    history,
     eventData: { events },
     setLocalStorageData,
   } = props;
@@ -26,10 +21,6 @@ function EventPage(props) {
   const [frustratedEvents, setFrustratedEvents] = useState(null);
   const [happenedEvents, setHappenedEvents] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-
-  useEffect(() => {
-    if (role !== CUSTOMER) history.push("/");
-  }, []);
 
   useEffect(() => {
     if (isFetching && events) {
@@ -84,9 +75,8 @@ function EventPage(props) {
 }
 
 const mapStateToProps = (state) => {
-  const userData = state.userStore.data;
   const eventData = state.eventsStore;
-  return { ...userData, eventData };
+  return { eventData };
 };
 
 const mapDispatchToProps = {
