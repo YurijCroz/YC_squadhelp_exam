@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { setLocalStorageData } from "../../actions/actionCreator";
+import { confirmAlert } from "react-confirm-alert";
+import {
+  setLocalStorageEvents,
+  getLocalStorageEvents,
+} from "../../actions/actionCreator";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./EventPage.module.sass";
@@ -14,13 +18,41 @@ const getDiffInSec = (dateA, dateB = new Date()) =>
 
 function EventPage(props) {
   const {
-    eventData: { events },
-    setLocalStorageData,
+    eventData: { events, isLoadingEvents },
+    setLocalStorageEvents,
   } = props;
 
   const [frustratedEvents, setFrustratedEvents] = useState(null);
   const [happenedEvents, setHappenedEvents] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+
+  const deleteEvent = (targetDate, title) => {
+    confirmAlert({
+      title: "confirm",
+      message: `Do you really want to delete ${title} event?`,
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => deleteEventHandler(targetDate),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
+
+  const deleteEventHandler = (targetDate) => {
+    const newEvents = events.filter(
+      ({ startDate }) => startDate !== targetDate
+    );
+    setLocalStorageEvents(newEvents);
+    setIsFetching(true);
+  };
+
+  useEffect(() => {
+    if (!isLoadingEvents) getLocalStorageEvents();
+  }, [isLoadingEvents]);
 
   useEffect(() => {
     if (isFetching && events) {
@@ -28,11 +60,11 @@ function EventPage(props) {
         events.filter((event) => getDiffInSec(event.deadLine) >= 1)
       );
       setHappenedEvents(
-        events.filter((event) => getDiffInSec(event.deadLine) <= 1)
+        events.filter((event) => getDiffInSec(event.deadLine) <= 0)
       );
     }
     setIsFetching(false);
-  }, [isFetching]);
+  }, [isFetching, events]);
 
   return (
     <>
@@ -42,7 +74,7 @@ function EventPage(props) {
           setIsFetching={setIsFetching}
           getDiffInSec={getDiffInSec}
           events={events}
-          setLocalStorageData={setLocalStorageData}
+          setLocalStorageEvents={setLocalStorageEvents}
         />
         <section className={styles.eventContainer}>
           <section className={styles.headerDisplay}>
@@ -55,7 +87,11 @@ function EventPage(props) {
           <section className={styles.eventDisplay}>
             {happenedEvents &&
               happenedEvents.map((event) => (
-                <EventHappenedBlock event={event} key={event.startDate} />
+                <EventHappenedBlock
+                  event={event}
+                  key={event.startDate}
+                  deleteEvent={deleteEvent}
+                />
               ))}
             {frustratedEvents &&
               frustratedEvents.map((event) => (
@@ -64,6 +100,7 @@ function EventPage(props) {
                   key={event.startDate}
                   setIsFetching={setIsFetching}
                   getDiffInSec={getDiffInSec}
+                  deleteEvent={deleteEvent}
                 />
               ))}
           </section>
@@ -80,7 +117,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setLocalStorageData,
+  setLocalStorageEvents,
+  getLocalStorageEvents,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

@@ -5,7 +5,12 @@ import styles from "./EventAnimationBlock.module.sass";
 
 const regFormat = "yyyy-MM-dd HH:mm";
 
-function EventAnimationBlock({ event, setIsFetching, getDiffInSec }) {
+function EventAnimationBlock({
+  event,
+  setIsFetching,
+  getDiffInSec,
+  deleteEvent,
+}) {
   const [nowDate, setNowDate] = useState(new Date());
   const [isRun, setIsRun] = useState(true);
 
@@ -45,7 +50,10 @@ function EventAnimationBlock({ event, setIsFetching, getDiffInSec }) {
   const timeDiff = getTimeFormatNew(nowDate);
 
   return (
-    <div className={styles.animationBlock}>
+    <div
+      className={styles.animationBlock}
+      onClick={() => deleteEvent(event.startDate, event.title)}
+    >
       <div className={styles.worm} style={{ width: `${percentWidth}%` }}></div>
       <p className={styles.title}>{event.title}</p>
       <p>

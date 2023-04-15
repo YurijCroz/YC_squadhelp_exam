@@ -9,7 +9,7 @@ function EventForm({
   setIsFetching,
   getDiffInSec,
   events,
-  setLocalStorageData,
+  setLocalStorageEvents,
 }) {
   const initialValues = {
     title: "",
@@ -28,9 +28,9 @@ function EventForm({
     formikBag.resetForm();
     if (events) {
       const sortLocal = sortLocalByDate([...events, values]);
-      setLocalStorageData(sortLocal);
+      setLocalStorageEvents(sortLocal);
     } else {
-      setLocalStorageData([values]);
+      setLocalStorageEvents([values]);
     }
     setIsFetching(true);
   };

@@ -341,7 +341,11 @@ export const moderationOffer = (data) => ({
   data,
 });
 
-export const setLocalStorageData = (data) => ({
-  type: ACTION.SET_LOCAL_STORAGE_DATA,
+export const setLocalStorageEvents = (data) => ({
+  type: ACTION.SET_LOCAL_STORAGE_EVENTS,
   data,
+});
+
+export const getLocalStorageEvents = () => ({
+  type: ACTION.GET_LOCAL_STORAGE_EVENTS,
 });
