@@ -37,7 +37,7 @@ import {
   moderationContestSaga,
   moderationOfferSaga,
 } from "./moderatorSaga";
-import { setLocalStorageDataSaga } from "./eventSaga";
+import { setLocalStorageEventsSaga, getLocalStorageEventsSaga } from "./eventSaga";
 
 function* rootSaga() {
   yield takeLatest(ACTION.AUTH_ACTION_REGISTER, registerSaga);
@@ -73,7 +73,8 @@ function* rootSaga() {
   yield takeLatest(ACTION.GET_CONTEST_BY_ID_FOR_MODERATOR_ACTION, getContestByIdForModeratorSaga);
   yield takeLatest(ACTION.MODERATION_CONTEST_ACTION, moderationContestSaga);
   yield takeLatest(ACTION.MODERATION_OFFER_ACTION, moderationOfferSaga);
-  yield takeEvery(ACTION.SET_LOCAL_STORAGE_DATA, setLocalStorageDataSaga);
+  yield takeEvery(ACTION.SET_LOCAL_STORAGE_EVENTS, setLocalStorageEventsSaga);
+  yield takeEvery(ACTION.GET_LOCAL_STORAGE_EVENTS, getLocalStorageEventsSaga);
 }
 
 export default rootSaga;

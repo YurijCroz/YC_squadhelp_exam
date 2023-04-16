@@ -6,7 +6,7 @@ import styles from "./Header.module.sass";
 import CONSTANTS from "../../constants";
 import { clearUserStore, headerRequest } from "../../actions/actionCreator";
 import Logo from "../Logo";
-import EventVerification from "../Event/EventVerification/EventVerification";
+import EventController from "../Event/EventController/EventController";
 import navElement from "./navElement.json";
 
 function Header(props) {
@@ -65,7 +65,7 @@ function Header(props) {
     if (props.data) {
       return (
         <>
-          <EventVerification />
+          {props.data?.role === CONSTANTS.CUSTOMER && <EventController />}
           <section className={styles.userInfo}>
             <img
               src={`${CONSTANTS.PUBLIC_URL}images_avatar/${props.data.avatar}`}
