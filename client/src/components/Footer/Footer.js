@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import styles from "./Footer.module.sass";
 import CONSTANTS from "../../constants";
 
-const Footer = () => {
+const Footer = (props) => {
+  // console.log("Footer")
   const topFooterItemsRender = (item) => (
     <nav key={item.title}>
       <h4>{item.title}</h4>
@@ -18,6 +20,10 @@ const Footer = () => {
     return CONSTANTS.FOOTER_ITEMS.map((item) => topFooterItemsRender(item));
   };
 
+  if (props.data?.role === CONSTANTS.MODER) {
+    return null;
+  }
+
   return (
     <footer className={styles.footerContainer}>
       <section className={styles.footerTop}>
@@ -27,4 +33,6 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+const mapStateToProps = (state) => state.userStore;
+
+export default connect(mapStateToProps)(Footer);

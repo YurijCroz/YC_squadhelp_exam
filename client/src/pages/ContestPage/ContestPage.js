@@ -146,7 +146,6 @@ function ContestPage({
           }
         />
       )}
-      <Header />
       {error ? (
         <section className={styles.tryContainer}>
           <TryAgain getData={getData} />

@@ -68,7 +68,6 @@ function EventPage(props) {
 
   return (
     <>
-      <Header />
       <main className={styles.eventMain}>
         <EventForm
           setIsFetching={setIsFetching}
@@ -106,7 +105,6 @@ function EventPage(props) {
           </section>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

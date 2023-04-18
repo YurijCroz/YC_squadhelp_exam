@@ -15,7 +15,6 @@ import classnames from "classnames";
 function HowItWorks() {
   return (
     <>
-      <Header />
       <main className={styles.mainContainer}>
         <section className={styles.heroBanner}>
           <HeroBanner />
@@ -104,7 +103,6 @@ function HowItWorks() {
           </section>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

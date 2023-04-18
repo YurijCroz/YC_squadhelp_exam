@@ -123,7 +123,6 @@ function ContestPageForModerator(props) {
 
   return (
     <>
-      <Header />
       {error ? (
         <section className={styles.tryContainer}>
           <TryAgain getData={getData} />

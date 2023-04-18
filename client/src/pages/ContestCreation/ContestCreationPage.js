@@ -37,7 +37,6 @@ const ContestCreationPage = (props) => {
 
   return (
     <>
-      <Header />
       <main>
         <section className={styles.startContestHeader}>
           <article className={styles.startContestInfo}>
@@ -68,7 +67,6 @@ const ContestCreationPage = (props) => {
           </section>
         </section>
       </main>
-      <Footer />
     </>
   );
 };

@@ -34,7 +34,6 @@ const UserProfile = (props) => {
   } = props;
   return (
     <>
-      <Header />
       <main className={styles.mainContainer}>
         <aside className={styles.aside}>
           <span className={styles.headerAside}>Select Option</span>

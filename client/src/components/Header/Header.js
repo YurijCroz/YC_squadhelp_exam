@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory, useLocation } from "react-router-dom";
 import classnames from "classnames";
 import styles from "./Header.module.sass";
 import CONSTANTS from "../../constants";
@@ -9,7 +9,13 @@ import Logo from "../Logo";
 import EventController from "../Event/EventController/EventController";
 import navElement from "./navElement.json";
 
+let isTest = true;
+const testLink = ["/login", "/registration", "/payment"];
+const testIncludes = (pathname) => testLink.includes(pathname);
+
 function Header(props) {
+  console.log("RERENDER");
+  console.log(props);
   useEffect(() => {
     if (!props.data) {
       props.getUser();
@@ -132,6 +138,12 @@ function Header(props) {
   if (props.isFetching) {
     return null;
   }
+
+  if (testIncludes(props.location.pathname)) {
+    // isTest = true;
+    return null;
+  }
+
   return (
     <header className={styles.headerContainer}>
       <section className={styles.fixedHeader}>
@@ -172,10 +184,31 @@ function Header(props) {
   );
 }
 
+function areEqual(prevProps, nextProps) {
+  const prevPathname = prevProps.location.pathname;
+  const nextPathname = nextProps.location.pathname;
+  // console.log(!testIncludes(nextPathname));
+  // console.log(nextProps);
+  // if (isTest) {
+  //   isTest = false;
+  //   return false;
+  // }
+  // Проверяем, соответствует ли пропс условию
+  // return !testIncludes(nextPathname);
+  return false;
+  // return prevProps.someProp === nextProps.someProp;
+}
+
 const mapStateToProps = (state) => state.userStore;
 const mapDispatchToProps = (dispatch) => ({
   getUser: () => dispatch(headerRequest()),
   clearUserStore: () => dispatch(clearUserStore()),
 });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+// export default withRouter(
+//   connect(mapStateToProps, mapDispatchToProps)(React.memo(Header, areEqual))
+// );
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

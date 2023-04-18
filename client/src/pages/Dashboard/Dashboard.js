@@ -28,9 +28,7 @@ const Dashboard = ({ role, history, match }) => {
 
   return (
     <>
-      <Header />
       {renderDashboard()}
-      {role !== CONSTANTS.MODER && <Footer />}
     </>
   );
 };

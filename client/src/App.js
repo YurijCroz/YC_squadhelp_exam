@@ -21,6 +21,8 @@ import EventPage from "./pages/EventPage/EventPage";
 import HowItWorks from "./pages/HowItWorks/HowItWorks";
 import ContestPageForModerator from "./pages/ContestPage/ContestPageForModerator";
 import NotificationContainer from "./components/Notification/NotificationContainer";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 const {
   NAME_CONTEST,
@@ -34,6 +36,7 @@ const {
 function App() {
   return (
     <Router history={browserHistory}>
+      <Header />
       <NotificationContainer />
       <Switch>
         <Route exact path="/" component={Home} />
@@ -110,6 +113,7 @@ function App() {
         <Route component={NotFound} />
       </Switch>
       <ChatContainer />
+      <Footer />
     </Router>
   );
 }

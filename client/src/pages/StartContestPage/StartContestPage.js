@@ -21,7 +21,6 @@ const StartContestPage = (props) => {
 
   return (
     <>
-      <Header />
       <main>
         <section className={styles.startContestHeader}>
           <article className={styles.startContestInfo}>
@@ -106,7 +105,6 @@ const StartContestPage = (props) => {
           </section>
         </section>
       </main>
-      <Footer />
     </>
   );
 };
