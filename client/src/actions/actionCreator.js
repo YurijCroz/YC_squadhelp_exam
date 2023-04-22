@@ -349,3 +349,13 @@ export const setLocalStorageEvents = (data) => ({
 export const getLocalStorageEvents = () => ({
   type: ACTION.GET_LOCAL_STORAGE_EVENTS,
 });
+
+export const setIsRenderHeader = (data) => ({
+  type: ACTION.SET_IS_RENDER_HEADER,
+  data,
+});
+
+export const setIsRenderFooter = (data) => ({
+  type: ACTION.SET_IS_RENDER_FOOTER,
+  data,
+});

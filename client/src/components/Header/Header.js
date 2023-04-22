@@ -1,36 +1,42 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter, useHistory, useLocation } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import classnames from "classnames";
 import styles from "./Header.module.sass";
 import CONSTANTS from "../../constants";
-import { clearUserStore, headerRequest } from "../../actions/actionCreator";
+import {
+  clearUserStore,
+  headerRequest,
+  // setIsRenderHeader,
+} from "../../actions/actionCreator";
+import { isPathExcluded } from "../../utils/utils";
 import Logo from "../Logo";
 import EventController from "../Event/EventController/EventController";
 import navElement from "./navElement.json";
 
-let isTest = true;
-const testLink = ["/login", "/registration", "/payment"];
-const testIncludes = (pathname) => testLink.includes(pathname);
+let isRenderHeader = true;
+
+const { HEADER: nonRenderRoutes } = CONSTANTS.NON_RENDER_ROUTES_FOR;
 
 function Header(props) {
-  console.log("RERENDER");
-  console.log(props);
+  const { getUser, location, clearUserStore, history, data, isFetching } =
+    props;
+
   useEffect(() => {
-    if (!props.data) {
-      props.getUser();
+    if (!data) {
+      getUser();
     }
-  }, []);
+  }, [location.pathname]);
 
   const logOut = () => {
     localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
     localStorage.removeItem(CONSTANTS.REFRESH_TOKEN);
-    props.clearUserStore();
-    props.history.replace("/login");
+    clearUserStore();
+    history.replace("/login");
   };
 
   const startContests = () => {
-    props.history.push("/startContest");
+    history.push("/startContest");
   };
 
   const renderNavPanel = () => {
@@ -68,16 +74,16 @@ function Header(props) {
   };
 
   const renderLoginButtons = () => {
-    if (props.data) {
+    if (data) {
       return (
         <>
-          {props.data?.role === CONSTANTS.CUSTOMER && <EventController />}
+          {data?.role === CONSTANTS.CUSTOMER && <EventController />}
           <section className={styles.userInfo}>
             <img
-              src={`${CONSTANTS.PUBLIC_URL}images_avatar/${props.data.avatar}`}
+              src={`${CONSTANTS.PUBLIC_URL}images_avatar/${data.avatar}`}
               alt="user"
             />
-            <span>{`Hi, ${props.data.displayName}`}</span>
+            <span>{`Hi, ${data.displayName}`}</span>
             <img
               src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
               alt="menu"
@@ -93,7 +99,7 @@ function Header(props) {
                   <span>My Account</span>
                 </Link>
               </li>
-              {props.data?.role === CONSTANTS.CUSTOMER && (
+              {data?.role === CONSTANTS.CUSTOMER && (
                 <li>
                   <Link to="/events">
                     <span>Events</span>
@@ -135,12 +141,7 @@ function Header(props) {
     );
   };
 
-  if (props.isFetching) {
-    return null;
-  }
-
-  if (testIncludes(props.location.pathname)) {
-    // isTest = true;
+  if (isFetching || isPathExcluded(location.pathname, nonRenderRoutes)) {
     return null;
   }
 
@@ -162,14 +163,14 @@ function Header(props) {
           {renderLoginButtons()}
         </section>
       </section>
-      {props.data?.role === CONSTANTS.MODER ? null : (
+      {data?.role === CONSTANTS.MODER ? null : (
         <section className={styles.navContainer}>
           <div className={styles.logo}>
             <Logo />
           </div>
           <article className={styles.leftNav}>
             {renderNavPanel()}
-            {props.data?.role === CONSTANTS.CUSTOMER && (
+            {data?.role === CONSTANTS.CUSTOMER && (
               <section
                 className={styles.startContestBtn}
                 onClick={startContests}
@@ -185,30 +186,33 @@ function Header(props) {
 }
 
 function areEqual(prevProps, nextProps) {
-  const prevPathname = prevProps.location.pathname;
-  const nextPathname = nextProps.location.pathname;
-  // console.log(!testIncludes(nextPathname));
-  // console.log(nextProps);
-  // if (isTest) {
-  //   isTest = false;
-  //   return false;
-  // }
-  // Проверяем, соответствует ли пропс условию
-  // return !testIncludes(nextPathname);
-  return false;
-  // return prevProps.someProp === nextProps.someProp;
+  if (isRenderHeader) {
+    isRenderHeader = false;
+    return false;
+  } else if (prevProps.data !== nextProps.data) {
+    return false;
+  }
+
+  const { pathname: prevPathname } = prevProps.location;
+  const { pathname: nextPathname } = nextProps.location;
+
+  return (
+    isPathExcluded(nextPathname, nonRenderRoutes) ===
+    isPathExcluded(prevPathname, nonRenderRoutes)
+  );
 }
 
-const mapStateToProps = (state) => state.userStore;
+const mapStateToProps = (state) => {
+  // const { isRenderHeader } = state.isRenderStore;
+  return { ...state.userStore /* isRenderHeader */ };
+};
+
 const mapDispatchToProps = (dispatch) => ({
   getUser: () => dispatch(headerRequest()),
   clearUserStore: () => dispatch(clearUserStore()),
+  // setIsRenderHeader: (data) => dispatch(setIsRenderHeader(data)),
 });
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Header);
-
-// export default withRouter(
-//   connect(mapStateToProps, mapDispatchToProps)(React.memo(Header, areEqual))
-// );
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(React.memo(Header, areEqual))
+);

@@ -1,5 +1,5 @@
 const env = process.env.NODE_ENV || "development";
-const serverIP = "localhost";
+const serverIP = "localhost"; //"192.168.1.51"
 const serverPort = 3000;
 export default Object.freeze({
   CONTACTS: {
@@ -96,4 +96,8 @@ export default Object.freeze({
   ],
   EVENT_KEY: "events",
   EVENT_INTERVAL: 10000,
+  NON_RENDER_ROUTES_FOR: {
+    HEADER: ["/login", "/registration", "/payment"],
+    FOOTER: ["/login", "/registration", "/payment", "/account", "/contest"],
+  },
 });

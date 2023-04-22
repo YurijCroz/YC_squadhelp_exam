@@ -33,3 +33,17 @@ const urlNotForSign = [URL_REGISTRATION, URL_LOGIN, URL_DATA_FOR_CONTEST];
 
 export const notSignTokenForRequest = (urlReq) =>
   urlNotForSign.some((url) => urlReq === url);
+
+const pathRegex = /\/[^/]*/g;
+
+export const isPathExcluded = (pathname, excludedList) => {
+  const paths = pathname.match(pathRegex);
+  let foundMatch = false;
+  for (let i = 0; i < paths.length; i++) {
+    if (excludedList.includes(paths[i])) {
+      foundMatch = true;
+      break;
+    }
+  }
+  return foundMatch;
+};

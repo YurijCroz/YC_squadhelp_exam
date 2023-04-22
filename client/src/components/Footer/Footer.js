@@ -1,10 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { isPathExcluded } from "../../utils/utils";
 import styles from "./Footer.module.sass";
 import CONSTANTS from "../../constants";
 
+let isRenderFooter = true;
+
+const { MODER, FOOTER_ITEMS, NON_RENDER_ROUTES_FOR } = CONSTANTS;
+const { FOOTER: nonRenderRoutes } = NON_RENDER_ROUTES_FOR;
+
 const Footer = (props) => {
-  // console.log("Footer")
+  const {
+    data,
+    location: { pathname },
+  } = props;
+
   const topFooterItemsRender = (item) => (
     <nav key={item.title}>
       <h4>{item.title}</h4>
@@ -17,10 +28,10 @@ const Footer = (props) => {
   );
 
   const topFooterRender = () => {
-    return CONSTANTS.FOOTER_ITEMS.map((item) => topFooterItemsRender(item));
+    return FOOTER_ITEMS.map((item) => topFooterItemsRender(item));
   };
 
-  if (props.data?.role === CONSTANTS.MODER) {
+  if (data?.role === MODER || isPathExcluded(pathname, nonRenderRoutes)) {
     return null;
   }
 
@@ -35,4 +46,23 @@ const Footer = (props) => {
 
 const mapStateToProps = (state) => state.userStore;
 
-export default connect(mapStateToProps)(Footer);
+function areEqual(prevProps, nextProps) {
+  if (isRenderFooter) {
+    isRenderFooter = false;
+    return false;
+  } else if (prevProps.data !== nextProps.data) {
+    return false;
+  }
+
+  const { pathname: prevPathname } = prevProps.location;
+  const { pathname: nextPathname } = nextProps.location;
+
+  return (
+    isPathExcluded(nextPathname, nonRenderRoutes) ===
+    isPathExcluded(prevPathname, nonRenderRoutes)
+  );
+}
+
+export default withRouter(
+  connect(mapStateToProps)(React.memo(Footer, areEqual))
+);

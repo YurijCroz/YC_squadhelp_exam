@@ -13,6 +13,7 @@ import userProfileReducer from "./userProfileReducer";
 import getModeratorReducer from "./getModeratorReducer";
 import getContestByIdForModeratorReducer from "./getContestByIdForModeratorReducer";
 import eventReducer from "./eventReducer";
+import renderComponentReducer from "./renderComponentReducer";
 
 const appReducer = combineReducers({
   userStore: getUserReducer,
@@ -29,6 +30,7 @@ const appReducer = combineReducers({
   moderatorList: getModeratorReducer,
   contestByIdForModeratorStore: getContestByIdForModeratorReducer,
   eventsStore: eventReducer,
+  isRenderStore: renderComponentReducer,
 });
 
 export default appReducer;
