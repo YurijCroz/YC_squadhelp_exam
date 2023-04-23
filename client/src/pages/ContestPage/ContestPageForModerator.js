@@ -13,6 +13,7 @@ import styles from "./ContestPage.module.sass";
 import Brief from "../../components/Brief/Brief";
 import Spinner from "../../components/Spinner/Spinner";
 import TryAgain from "../../components/TryAgain/TryAgain";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import "../../components/OfferBox/confirmStyle.css";
 
 const buttonName = {

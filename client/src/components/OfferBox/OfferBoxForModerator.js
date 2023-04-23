@@ -5,9 +5,9 @@ import { confirmAlert } from "react-confirm-alert";
 import { changeShowImage, moderationOffer } from "../../actions/actionCreator";
 import CONSTANTS from "../../constants";
 import classnames from "classnames";
-import styles from "./OfferBox.module.sass";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./confirmStyle.css";
+import styles from "./OfferBox.module.sass";
 
 const buttonName = {
   accept: "Accept",

@@ -5,6 +5,8 @@ import {
   setLocalStorageEvents,
   getLocalStorageEvents,
 } from "../../actions/actionCreator";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import "../../components/OfferBox/confirmStyle.css";
 import styles from "./EventPage.module.sass";
 import EventForm from "../../components/Event/EventForm/EventForm.jsx";
 import { differenceInSeconds } from "date-fns";
