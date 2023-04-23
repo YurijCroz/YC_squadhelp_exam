@@ -17,8 +17,7 @@ function Header(props) {
   }, []);
 
   const logOut = () => {
-    localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
-    localStorage.removeItem(CONSTANTS.REFRESH_TOKEN);
+    localStorage.clear();
     props.clearUserStore();
     props.history.replace("/login");
   };
