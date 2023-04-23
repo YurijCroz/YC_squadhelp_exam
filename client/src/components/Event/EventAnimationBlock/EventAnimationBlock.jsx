@@ -7,7 +7,7 @@ const regFormat = "yyyy-MM-dd HH:mm";
 
 function EventAnimationBlock({
   event,
-  setIsFetching,
+  setRebuild,
   getDiffInSec,
   deleteEvent,
 }) {
@@ -17,7 +17,7 @@ function EventAnimationBlock({
   const totalSeconds = getDiffInSec(event.deadLine, new Date(event.startDate));
 
   const stop = () => {
-    setIsFetching(true);
+    setRebuild(true);
     setIsRun(false);
   };
 

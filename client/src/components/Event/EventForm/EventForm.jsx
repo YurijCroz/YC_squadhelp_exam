@@ -5,12 +5,7 @@ import styles from "./EventForm.module.sass";
 
 const dateNow = () => format(new Date(), "yyyy-MM-dd HH:mm").replace(/\s/, "T");
 
-function EventForm({
-  setIsFetching,
-  getDiffInSec,
-  events,
-  setLocalStorageEvents,
-}) {
+function EventForm({ getDiffInSec, events, setLocalStorageEvents }) {
   const initialValues = {
     title: "",
     deadLine: dateNow(),
@@ -32,7 +27,6 @@ function EventForm({
     } else {
       setLocalStorageEvents([values]);
     }
-    setIsFetching(true);
   };
 
   return (

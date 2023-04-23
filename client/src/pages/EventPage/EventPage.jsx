@@ -24,7 +24,7 @@ function EventPage(props) {
 
   const [frustratedEvents, setFrustratedEvents] = useState(null);
   const [happenedEvents, setHappenedEvents] = useState(null);
-  const [isFetching, setIsFetching] = useState(true);
+  const [rebuild, setRebuild] = useState(false);
 
   const deleteEvent = (targetDate, title) => {
     confirmAlert({
@@ -47,7 +47,6 @@ function EventPage(props) {
       ({ startDate }) => startDate !== targetDate
     );
     setLocalStorageEvents(newEvents);
-    setIsFetching(true);
   };
 
   useEffect(() => {
@@ -55,22 +54,21 @@ function EventPage(props) {
   }, [isLoadingEvents]);
 
   useEffect(() => {
-    if (isFetching && events) {
+    if (events || (rebuild && events)) {
       setFrustratedEvents(
         events.filter((event) => getDiffInSec(event.deadLine) >= 1)
       );
       setHappenedEvents(
         events.filter((event) => getDiffInSec(event.deadLine) <= 0)
       );
+      setRebuild(false);
     }
-    setIsFetching(false);
-  }, [isFetching, events]);
+  }, [rebuild, events]);
 
   return (
     <>
       <main className={styles.eventMain}>
         <EventForm
-          setIsFetching={setIsFetching}
           getDiffInSec={getDiffInSec}
           events={events}
           setLocalStorageEvents={setLocalStorageEvents}
@@ -97,7 +95,7 @@ function EventPage(props) {
                 <EventAnimationBlock
                   event={event}
                   key={event.startDate}
-                  setIsFetching={setIsFetching}
+                  setRebuild={setRebuild}
                   getDiffInSec={getDiffInSec}
                   deleteEvent={deleteEvent}
                 />

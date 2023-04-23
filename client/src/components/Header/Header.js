@@ -29,10 +29,9 @@ function Header(props) {
   }, [location.pathname]);
 
   const logOut = () => {
-    localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
-    localStorage.removeItem(CONSTANTS.REFRESH_TOKEN);
-    clearUserStore();
-    history.replace("/login");
+    localStorage.clear();
+    props.clearUserStore();
+    props.history.replace("/login");
   };
 
   const startContests = () => {
