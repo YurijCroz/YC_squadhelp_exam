@@ -5,8 +5,6 @@ import CONSTANTS from "../../constants";
 import CustomerDashboard from "../../components/DashboardComponents/CustomerDashboard/CustomerDashboard";
 import CreatorDashboard from "../../components/DashboardComponents/CreatorDashboard/CreatorDashboard";
 import ModeratorDashboard from "../../components/DashboardComponents/ModeratorDashboard/ModeratorDashboard";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 
 const Dashboard = ({ role, history, match }) => {
   const renderDashboard = () => {

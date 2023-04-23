@@ -1,6 +1,4 @@
 import React from "react";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import styles from "./HowItWorks.module.sass";
 import CONSTANTS from "../../constants";
 import HeroBanner from "../../components/HowItWorksComponents/HeroBanner/HeroBanner";

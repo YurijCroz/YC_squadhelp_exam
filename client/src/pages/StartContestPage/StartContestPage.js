@@ -3,9 +3,7 @@ import { connect } from "react-redux";
 import { selectBundle } from "../../actions/actionCreator";
 import BundleBox from "../../components/BundleBox/BundleBox";
 import styles from "./StartContestPage.module.sass";
-import Footer from "../../components/Footer/Footer";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
-import Header from "../../components/Header/Header";
 
 const StartContestPage = (props) => {
   const setBundle = (bundleStr) => {

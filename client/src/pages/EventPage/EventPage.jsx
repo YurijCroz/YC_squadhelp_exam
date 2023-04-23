@@ -5,8 +5,6 @@ import {
   setLocalStorageEvents,
   getLocalStorageEvents,
 } from "../../actions/actionCreator";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import styles from "./EventPage.module.sass";
 import EventForm from "../../components/Event/EventForm/EventForm.jsx";
 import { differenceInSeconds } from "date-fns";

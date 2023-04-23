@@ -8,7 +8,6 @@ import {
   moderationContest,
   backToModerationList,
 } from "../../actions/actionCreator";
-import Header from "../../components/Header/Header";
 import ContestSideBar from "../../components/ContestSideBar/ContestSideBar";
 import styles from "./ContestPage.module.sass";
 import Brief from "../../components/Brief/Brief";

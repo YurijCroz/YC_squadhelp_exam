@@ -4,11 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import classnames from "classnames";
 import styles from "./Header.module.sass";
 import CONSTANTS from "../../constants";
-import {
-  clearUserStore,
-  headerRequest,
-  // setIsRenderHeader,
-} from "../../actions/actionCreator";
+import { clearUserStore, headerRequest } from "../../actions/actionCreator";
 import { isPathExcluded } from "../../utils/utils";
 import Logo from "../Logo";
 import EventController from "../Event/EventController/EventController";
@@ -30,8 +26,8 @@ function Header(props) {
 
   const logOut = () => {
     localStorage.clear();
-    props.clearUserStore();
-    props.history.replace("/login");
+    clearUserStore();
+    history.replace("/login");
   };
 
   const startContests = () => {
@@ -202,14 +198,12 @@ function areEqual(prevProps, nextProps) {
 }
 
 const mapStateToProps = (state) => {
-  // const { isRenderHeader } = state.isRenderStore;
-  return { ...state.userStore /* isRenderHeader */ };
+  return { ...state.userStore };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   getUser: () => dispatch(headerRequest()),
   clearUserStore: () => dispatch(clearUserStore()),
-  // setIsRenderHeader: (data) => dispatch(setIsRenderHeader(data)),
 });
 
 export default withRouter(
