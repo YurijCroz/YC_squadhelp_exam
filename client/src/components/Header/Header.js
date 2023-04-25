@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
-import classnames from "classnames";
+import { withRouter } from "react-router-dom";
 import styles from "./Header.module.sass";
 import CONSTANTS from "../../constants";
 import { clearUserStore, headerRequest } from "../../actions/actionCreator";
 import { isPathExcluded } from "../../utils/utils";
 import Logo from "../Logo";
-import EventController from "../Event/EventController/EventController";
+import NavPanel from "./NavPanel";
 import navElement from "./navElement.json";
+import LoginButtons from "./LoginButtons";
 
 let isRenderHeader = true;
 
@@ -39,100 +39,10 @@ function Header(props) {
       <nav className={styles.nav}>
         <ul>
           {navElement.map((part) => (
-            <li key={part.section}>
-              <span>{part.section}</span>
-              <img
-                src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                alt="menu"
-              />
-              <ul>
-                {part.links.map((li, i) => (
-                  <li
-                    className={classnames({
-                      [styles.last]: i === part.links.length - 1,
-                    })}
-                    key={li.name}
-                  >
-                    {li.link ? (
-                      <Link to={li.link}>{li.name}</Link>
-                    ) : (
-                      <a href="http://www.google.com">{li.name}</a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </li>
+            <NavPanel key={part.section} part={part} />
           ))}
         </ul>
       </nav>
-    );
-  };
-
-  const renderLoginButtons = () => {
-    if (data) {
-      return (
-        <>
-          {data?.role === CONSTANTS.CUSTOMER && <EventController />}
-          <section className={styles.userInfo}>
-            <img
-              src={`${CONSTANTS.PUBLIC_URL}images_avatar/${data.avatar}`}
-              alt="user"
-            />
-            <span>{`Hi, ${data.displayName}`}</span>
-            <img
-              src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-              alt="menu"
-            />
-            <ul>
-              <li>
-                <Link to="/dashboard">
-                  <span>View Dashboard</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/account">
-                  <span>My Account</span>
-                </Link>
-              </li>
-              {data?.role === CONSTANTS.CUSTOMER && (
-                <li>
-                  <Link to="/events">
-                    <span>Events</span>
-                  </Link>
-                </li>
-              )}
-              <li>
-                <Link to="http:/www.google.com">
-                  <span>Messages</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="http:/www.google.com">
-                  <span>Affiliate Dashboard</span>
-                </Link>
-              </li>
-              <li>
-                <span onClick={logOut}>Logout</span>
-              </li>
-            </ul>
-          </section>
-          <img
-            src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`}
-            className={styles.emailIcon}
-            alt="email"
-          />
-        </>
-      );
-    }
-    return (
-      <>
-        <Link to="/login">
-          <span className={styles.btn}>LOGIN</span>
-        </Link>
-        <Link to="/registration">
-          <span className={styles.btn}>SIGN UP</span>
-        </Link>
-      </>
     );
   };
 
@@ -155,7 +65,7 @@ function Header(props) {
           <a href={`tel:${CONSTANTS.CONTACTS.TEL}`}>{CONSTANTS.CONTACTS.TEL}</a>
         </section>
         <section className={styles.userButtonsContainer}>
-          {renderLoginButtons()}
+          <LoginButtons data={data} logOut={logOut} />
         </section>
       </section>
       {data?.role === CONSTANTS.MODER ? null : (

@@ -81,18 +81,6 @@
               span
                 color: #f27e51
 
-              ul
-                display: block
-                position: absolute
-                border: 1px solid #eee
-                z-index: 1000
-                top: 35px
-                left: -15px
-                background-color: white
-                @media(max-width: 700px)
-                  top: -5px
-                  left: 145px
-
             ul
               padding: 0
               margin: 0
@@ -125,6 +113,18 @@
 
                   &:hover
                     color: #f27e51
+
+            .openLinks
+              display: block
+              position: absolute
+              border: 1px solid #eee
+              z-index: 1000
+              top: 35px
+              left: -15px
+              background-color: white
+              @media(max-width: 700px)
+                top: -5px
+                left: 145px
 
             span
               color: #495d8b
@@ -170,11 +170,10 @@
         @media(max-width: 400px)
           padding: 9px 0
 
-        &:hover
-          ul
-            display: block
-            position: absolute
-            top: 35px
+        .menu
+          display: block
+          position: absolute
+          top: 35px
 
         ul
           border: 1px solid #eee
@@ -189,7 +188,7 @@
             text-align: left
 
             &:hover
-              background: #f9fafb
+              background: #f3f3f3
 
             span
               display: inline-block
@@ -197,6 +196,7 @@
               color: #333
               font-size: 16px
               cursor: pointer
+              width: 145px
 
         img
           width: 20px
