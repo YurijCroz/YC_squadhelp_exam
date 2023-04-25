@@ -18,14 +18,14 @@ function GetFaqSlider({ card, index, isAllCollapsed, setIsAllCollapsed }) {
       setIsOpen(false);
       setIsAllCollapsed(false);
     }
-  });
+  }, [isAllCollapsed]);
 
   useEffect(() => {
     if (handlerHelper) {
       setIsOpen(!isOpen);
       setHandlerHelper(false);
     }
-  });
+  }, [handlerHelper]);
 
   const activeHandler = () => {
     setIsAllCollapsed(true);
