@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 import styles from "./Header.module.sass";
 import CONSTANTS from "../../constants";
+import { useNavigationDrawer } from "../../hook/";
 
 function NavPanel({ part: { section, links } }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const closeMenu = () => {
-    setTimeout(() => {
-      setIsMenuOpen(false);
-    }, 0);
-  };
+  const [isMenuOpen, setIsMenuOpen, closeMenu] = useNavigationDrawer(false);
 
   return (
     <li
@@ -28,7 +23,7 @@ function NavPanel({ part: { section, links } }) {
       >
         {links.map((li, i) => (
           <li
-            onClick={closeMenu}
+            onClick={() => closeMenu(false)}
             className={classnames({
               [styles.last]: i === links.length - 1,
             })}
