@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import moment from "moment";
+import { getDiffInSec } from "../../../utils/utils";
 import styles from "./EventAnimationBlock.module.sass";
 
 const regFormat = "yyyy-MM-dd HH:mm";
 
-function EventAnimationBlock({
-  event,
-  setRebuild,
-  getDiffInSec,
-  deleteEvent,
-}) {
+function EventAnimationBlock({ event, setRebuild, deleteEvent }) {
   const [nowDate, setNowDate] = useState(new Date());
   const [isRun, setIsRun] = useState(true);
 

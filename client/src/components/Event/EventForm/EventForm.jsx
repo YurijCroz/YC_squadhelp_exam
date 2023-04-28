@@ -1,11 +1,12 @@
 import React from "react";
 import { Field, Form, Formik } from "formik";
 import { format } from "date-fns";
+import { getDiffInSec } from "../../../utils/utils";
 import styles from "./EventForm.module.sass";
 
 const dateNow = () => format(new Date(), "yyyy-MM-dd HH:mm").replace(/\s/, "T");
 
-function EventForm({ getDiffInSec, events, setLocalStorageEvents }) {
+function EventForm({ events, setLocalStorageEvents }) {
   const initialValues = {
     title: "",
     deadLine: dateNow(),

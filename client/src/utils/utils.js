@@ -1,3 +1,4 @@
+import { differenceInSeconds } from "date-fns";
 import CONSTANTS from "../constants";
 import { refreshTokenRequest } from "../api/rest/restController";
 const {
@@ -47,3 +48,6 @@ export const isPathExcluded = (pathname, excludedList) => {
   }
   return foundMatch;
 };
+
+export const getDiffInSec = (dateA, dateB = new Date()) =>
+  differenceInSeconds(new Date(dateA), dateB);

@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getLocalStorageEvents } from "../../../actions/actionCreator";
 import CONSTANTS from "../../../constants";
-import { differenceInSeconds } from "date-fns";
 import EventBadge from "../EventBadge/EventBadge.jsx";
+import { getDiffInSec } from "../../../utils/utils";
 
 const { EVENT_INTERVAL } = CONSTANTS;
-
-const getDiffInSec = (dateA, dateB = new Date()) =>
-  differenceInSeconds(new Date(dateA), dateB);
 
 const EventController = ({
   eventData: { events, isLoadingEvents },

@@ -9,12 +9,9 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import "../../components/OfferBox/confirmStyle.css";
 import styles from "./EventPage.module.sass";
 import EventForm from "../../components/Event/EventForm/EventForm.jsx";
-import { differenceInSeconds } from "date-fns";
+import { getDiffInSec } from "../../utils/utils";
 import EventAnimationBlock from "../../components/Event/EventAnimationBlock/EventAnimationBlock.jsx";
 import EventHappenedBlock from "../../components/Event/EventHappenedBlock/EventHappenedBlock.jsx";
-
-const getDiffInSec = (dateA, dateB = new Date()) =>
-  differenceInSeconds(new Date(dateA), dateB);
 
 function EventPage(props) {
   const {
@@ -69,7 +66,6 @@ function EventPage(props) {
     <>
       <main className={styles.eventMain}>
         <EventForm
-          getDiffInSec={getDiffInSec}
           events={events}
           setLocalStorageEvents={setLocalStorageEvents}
         />
@@ -96,7 +92,6 @@ function EventPage(props) {
                   event={event}
                   key={event.startDate}
                   setRebuild={setRebuild}
-                  getDiffInSec={getDiffInSec}
                   deleteEvent={deleteEvent}
                 />
               ))}
