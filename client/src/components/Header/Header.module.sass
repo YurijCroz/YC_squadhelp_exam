@@ -13,10 +13,13 @@
     justify-content: space-around
     align-items: center
     border-bottom: 1px solid #ebebeb
+    position: relative
+    min-height: 58px
     @media(max-width: 920px)
       justify-content: center
     @media(max-width: 700px)
       justify-content: flex-start
+      min-height: 58px
 
     a
       align-self: flex-end
@@ -43,9 +46,14 @@
 
     .leftNav
       display: flex
+      align-items: center
       @media(max-width: 750px)
-        align-items: center
         flex-direction: column
+
+      .collapse
+        position: relative
+        overflow: hidden
+        transition: height 0.35s ease
 
       .nav
         display: flex

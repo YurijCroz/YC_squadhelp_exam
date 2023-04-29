@@ -1,43 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import classnames from "classnames";
+import React, { useEffect, useState } from "react";
+import { Collapse } from "react-collapse";
+import { useMediaQuery } from "@material-ui/core";
+import navElement from "./navElement.json";
+import NavPanelList from "./NavPanelList";
+import BurgerMenu from "./BurgerMenu";
 import styles from "./Header.module.sass";
-import CONSTANTS from "../../constants";
-import { useNavigationDrawer } from "../../hook/";
 
-function NavPanel({ part: { section, links } }) {
-  const [isMenuOpen, setIsMenuOpen, closeMenu] = useNavigationDrawer(false);
+function NavPanel() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const matches = useMediaQuery('(min-width: 700px)');
+
+  useEffect(() => {
+    setIsOpen(matches);
+  }, [matches]);
 
   return (
-    <li
-      onMouseEnter={() => setIsMenuOpen(true)}
-      onMouseLeave={() => setIsMenuOpen(false)}
-      onTouchStart={() => setIsMenuOpen(true)}
-    >
-      <span>{section}</span>
-      <img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`} alt="menu" />
-      <ul
-        className={classnames({
-          [styles.openLinks]: isMenuOpen,
-        })}
-      >
-        {links.map((li, i) => (
-          <li
-            onClick={() => closeMenu(false)}
-            className={classnames({
-              [styles.last]: i === links.length - 1,
-            })}
-            key={li.name}
-          >
-            {li.link ? (
-              <Link to={li.link}>{li.name}</Link>
-            ) : (
-              <a href="http://www.google.com">{li.name}</a>
-            )}
-          </li>
-        ))}
-      </ul>
-    </li>
+    <>
+      <BurgerMenu isOpen={isOpen} handleClick={handleClick} />
+      <Collapse isOpened={isOpen} theme={{ collapse: styles.collapse }}>
+        <nav className={styles.nav}>
+          <ul>
+            {navElement.map((part) => (
+              <NavPanelList key={part.section} part={part} />
+            ))}
+          </ul>
+        </nav>
+      </Collapse>
+    </>
   );
 }
 

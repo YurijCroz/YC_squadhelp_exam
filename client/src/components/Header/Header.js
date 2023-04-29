@@ -6,9 +6,8 @@ import CONSTANTS from "../../constants";
 import { clearUserStore, headerRequest } from "../../actions/actionCreator";
 import { isPathExcluded } from "../../utils/utils";
 import Logo from "../Logo";
-import NavPanel from "./NavPanel";
-import navElement from "./navElement.json";
 import LoginButtons from "./LoginButtons";
+import NavPanel from "./NavPanel";
 
 let isRenderHeader = true;
 
@@ -32,18 +31,6 @@ function Header(props) {
 
   const startContests = () => {
     history.push("/startContest");
-  };
-
-  const renderNavPanel = () => {
-    return (
-      <nav className={styles.nav}>
-        <ul>
-          {navElement.map((part) => (
-            <NavPanel key={part.section} part={part} />
-          ))}
-        </ul>
-      </nav>
-    );
   };
 
   if (isFetching || isPathExcluded(location.pathname, nonRenderRoutes)) {
@@ -74,7 +61,7 @@ function Header(props) {
             <Logo />
           </div>
           <article className={styles.leftNav}>
-            {renderNavPanel()}
+            <NavPanel />
             {data?.role === CONSTANTS.CUSTOMER && (
               <section
                 className={styles.startContestBtn}

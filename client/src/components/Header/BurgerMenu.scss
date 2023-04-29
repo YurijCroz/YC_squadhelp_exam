@@ -1,0 +1,36 @@
+.burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 18px;
+
+  @media(min-width: 701px){
+    display: none;
+  }
+
+  &__line {
+    width: 100%;
+    height: 2px;
+    background-color: #28d2d0;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &.open {
+    .burger__line:first-child {
+      transform: rotate(45deg) translate(6.5px, 6px);
+    }
+
+    .burger__line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger__line:last-child {
+      transform: rotate(-45deg) translate(6.5px, -6px);
+    }
+  }
+}
