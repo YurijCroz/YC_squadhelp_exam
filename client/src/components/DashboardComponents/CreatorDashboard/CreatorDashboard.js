@@ -78,7 +78,7 @@ function CreatorDashboard(props) {
     Object.keys(creatorFilter).forEach((el) => {
       if (creatorFilter[el]) obj[el] = creatorFilter[el];
     });
-    history.push(`/Dashboard?${queryString.stringify(obj)}`);
+    history.push(`/dashboard?${queryString.stringify(obj)}`);
   };
 
   const parseUrlForParams = (search) => {

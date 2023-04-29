@@ -60,18 +60,9 @@ function CustomerDashboard({
   };
 
   const setContestList = () => {
-    const array = [];
-
-    for (let i = 0; i < contests.length; i++) {
-      array.push(
-        <ContestBox
-          data={contests[i]}
-          key={contests[i].id}
-          goToExtended={goToExtended}
-        />
-      );
-    }
-    return array;
+    return contests.map((contest) => (
+      <ContestBox data={contest} key={contest.id} goToExtended={goToExtended} />
+    ));
   };
 
   const tryToGetContest = () => {

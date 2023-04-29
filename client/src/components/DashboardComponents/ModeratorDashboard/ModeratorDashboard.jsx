@@ -32,26 +32,20 @@ function ModeratorDashboard(props) {
     { refresh, filterStatus, setFilterStatus } = props;
 
   const setModerationList = () => {
-    const array = [];
     const { moderData } = props;
     if (moderatorFilter === MODER_STATUS_CONTESTS) {
-      for (let i = 0; i < moderData.length; i++) {
-        array.push(
-          <ContestBoxForModerator
-            data={moderData[i]}
-            key={moderData[i].id}
-            goToExtended={goToExtended}
-          />
-        );
-      }
+      return moderData.map((contest) => (
+        <ContestBoxForModerator
+          data={contest}
+          key={contest.id}
+          goToExtended={goToExtended}
+        />
+      ));
     } else if (moderatorFilter === MODER_STATUS_OFFERS) {
-      for (let i = 0; i < moderData.length; i++) {
-        array.push(
-          <OfferBoxForModerator data={moderData[i]} key={moderData[i].id} />
-        );
-      }
+      return moderData.map((offer) => (
+        <OfferBoxForModerator data={offer} key={offer.id} />
+      ));
     }
-    return array;
   };
 
   const filterStatusHandler = () => {
