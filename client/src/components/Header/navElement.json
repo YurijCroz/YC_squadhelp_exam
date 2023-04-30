@@ -3,6 +3,10 @@
     "section": "Name Ideas",
     "links": [
       {
+        "name": "Home",
+        "link": "/"
+      },
+      {
         "name": "Beauty",
         "link": null
       },
