@@ -5,12 +5,11 @@ import Spinner from "../Spinner/Spinner";
 const ContestsContainer = ({ haveMore, isFetching, children, loadMore }) => {
   const scrollHandler = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
+      window.innerHeight + window.pageYOffset >=
+        document.documentElement.offsetHeight - 20 &&
+      haveMore
     ) {
-      if (haveMore) {
-        loadMore(children.length);
-      }
+      loadMore(children.length);
     }
   };
 

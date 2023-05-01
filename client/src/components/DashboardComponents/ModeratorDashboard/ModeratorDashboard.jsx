@@ -147,14 +147,17 @@ function ModeratorDashboard(props) {
         {error ? (
           <TryAgain getData={tryToGetModerationList()} />
         ) : (
-          <ContestsContainer
-            isFetching={props.isFetching}
-            loadMore={getModerationList}
-            history={props.history}
-            haveMore={haveMore}
-          >
-            {setModerationList()}
-          </ContestsContainer>
+          <>
+            <ContestsContainer
+              isFetching={props.isFetching}
+              loadMore={getModerationList}
+              history={props.history}
+              haveMore={haveMore}
+            >
+              {setModerationList()}
+            </ContestsContainer>
+            {haveMore && <section className={styles.footer}></section>}
+          </>
         )}
       </section>
     </main>
