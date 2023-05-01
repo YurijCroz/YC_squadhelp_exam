@@ -61,6 +61,14 @@ module.exports.onlyForCustomer = (req, res, next) => {
   }
 };
 
+module.exports.onlyForModerator = (req, res, next) => {
+  if (req.tokenData.role === CONSTANTS.MODER) {
+    next();
+  } else {
+    return next(new RightsError("this page only for moderator"));
+  }
+};
+
 module.exports.canSendOffer = async (req, res, next) => {
   if (req.tokenData.role === CONSTANTS.CUSTOMER) {
     return next(new RightsError());

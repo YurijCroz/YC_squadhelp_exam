@@ -51,3 +51,16 @@ export const isPathExcluded = (pathname, excludedList) => {
 
 export const getDiffInSec = (dateA, dateB = new Date()) =>
   differenceInSeconds(new Date(dateA), dateB);
+
+export const objectToQueryString = (obj) => {
+  const keyValuePairs = [];
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      keyValuePairs.push(
+        encodeURIComponent(key) + "=" + encodeURIComponent(value)
+      );
+    }
+  }
+  return "?" + keyValuePairs.join("&");
+}

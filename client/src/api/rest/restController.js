@@ -50,12 +50,9 @@ export const getContestById = (data) => http.get('/api/contests/getContestById',
   },
 });
 
-export const getModeratorContests = (data) => http.post('/api/moderation/get-contests', data);
-export const getModeratorOffers = (data) => http.post('/api/moderation/get-offers', data);
-export const getContestByIdForModerator = (data) => http.get('/api/moderation/getContestByIdForModerator', {
-  headers: {
-    contestId: data.contestId,
-  },
-});
-export const moderationContest = (data) => http.post('/api/moderation/moderation-contestId', data);
-export const moderationOffer = (data) => http.post('/api/moderation/moderation-offerId', data);
+//true requests
+export const getModeratorContests = (query) => http.get(`/api/moderation/get-contests${query}`);
+export const getModeratorOffers = (query) => http.get(`/api/moderation/get-offers${query}`);
+export const getContestByIdForModerator = (data) => http.get(`/api/moderation/getContestByIdForModerator/${data.contestId}`);
+export const moderationContest = (data) => http.patch(`/api/moderation/moderation-contestId/${data.contestId}`, data.newStatus);
+export const moderationOffer = (data) => http.patch(`/api/moderation/moderation-offerId/${data.offerId}`, data.body);

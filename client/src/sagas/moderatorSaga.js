@@ -1,11 +1,13 @@
 import { put } from "redux-saga/effects";
 import ACTION from "../actions/actionTypes";
+import { objectToQueryString } from "../utils/utils";
 import * as restController from "../api/rest/restController";
 
 export function* moderatorGetContestsSaga(action) {
   yield put({ type: ACTION.GET_MODERATION_ACTION_REQUEST });
   try {
-    const { data } = yield restController.getModeratorContests(action.data);
+    const query = objectToQueryString(action.data)
+    const { data } = yield restController.getModeratorContests(query);
     yield put({ type: ACTION.GET_MODERATION_ACTION_SUCCESS, data });
   } catch (e) {
     yield put({ type: ACTION.GET_MODERATION_ACTION_ERROR, error: e.response });
@@ -15,7 +17,8 @@ export function* moderatorGetContestsSaga(action) {
 export function* moderatorGetOffersSaga(action) {
   yield put({ type: ACTION.GET_MODERATION_ACTION_REQUEST });
   try {
-    const { data } = yield restController.getModeratorOffers(action.data);
+    const query = objectToQueryString(action.data)
+    const { data } = yield restController.getModeratorOffers(query);
     yield put({ type: ACTION.GET_MODERATION_ACTION_SUCCESS, data });
   } catch (e) {
     yield put({ type: ACTION.GET_MODERATION_ACTION_ERROR, error: e.response });

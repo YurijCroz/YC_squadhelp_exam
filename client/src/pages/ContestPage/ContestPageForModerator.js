@@ -21,6 +21,16 @@ const buttonName = {
   reject: "Reject",
 };
 
+const moderationHelper = (contestId, value) => {
+  const data = {
+    contestId,
+    newStatus: {
+      banned: value,
+    },
+  };
+  return data;
+};
+
 function ContestPageForModerator(props) {
   const { role } = props.userStore.data;
   const { getData, history, moderationContest, backPageAction } = props;
@@ -40,50 +50,19 @@ function ContestPageForModerator(props) {
     if (backPage) history.goBack();
   }, [backPage]);
 
-  const moderationHelper = () => {
-    const data = {
-      contestId: contestData.id,
-      passedModeration: true,
-    };
-    return data;
+  const moderationHandler = (value) => {
+    const result = moderationHelper(contestData.id, value);
+    moderationContest(result);
   };
 
-  const moderationAcceptHandler = () => {
-    const data = moderationHelper();
-    data.banned = false;
-    moderationContest(data);
-  };
-
-  const moderationRejectHandler = () => {
-    const data = moderationHelper();
-    data.banned = true;
-    moderationContest(data);
-  };
-
-  const acceptContest = () => {
+  const confirmHelper = (result) => {
     confirmAlert({
       title: "confirm",
-      message: "Are you sure you want to accept?",
+      message: `Are you sure you want to ${result ? "reject" : "accept"}?`,
       buttons: [
         {
           label: "Yes",
-          onClick: () => moderationAcceptHandler(),
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
-  };
-
-  const rejectContest = () => {
-    confirmAlert({
-      title: "confirm",
-      message: "Are you sure you want to reject?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => moderationRejectHandler(),
+          onClick: () => moderationHandler(result),
         },
         {
           label: "No",
@@ -96,7 +75,10 @@ function ContestPageForModerator(props) {
     return (
       <>
         {!contestData.passedModeration || contestData.banned ? (
-          <button onClick={acceptContest} className={styles.acceptBtn}>
+          <button
+            onClick={() => confirmHelper(false)}
+            className={styles.acceptBtn}
+          >
             {buttonName.accept}
           </button>
         ) : (
@@ -107,7 +89,10 @@ function ContestPageForModerator(props) {
           </button>
         )}
         {!contestData.banned ? (
-          <button onClick={rejectContest} className={styles.rejectBtn}>
+          <button
+            onClick={() => confirmHelper(true)}
+            className={styles.rejectBtn}
+          >
             {buttonName.reject}
           </button>
         ) : (

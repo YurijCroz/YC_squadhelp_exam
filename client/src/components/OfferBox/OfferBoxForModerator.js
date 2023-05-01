@@ -14,55 +14,34 @@ const buttonName = {
   reject: "Reject",
 };
 
+const moderationHelper = (offerId, customerUserId, value) => {
+  const data = {
+    offerId,
+    body: {
+      customerUserId,
+      banned: value,
+    },
+  };
+  return data;
+};
+
 const OfferBoxForModerator = (props) => {
   const { data, moderationOffer } = props;
-  const { firstName, lastName, email } = props.data.User;
+  const { firstName, lastName, email } = data.User;
 
-  const moderationHelper = () => {
-    const data = {
-      offerId: props.data.id,
-      customerUserId: props.data.Contest.userId,
-      passedModeration: true,
-    };
-    return data;
+  const moderationHandler = (value) => {
+    const newData = moderationHelper(data.id, data.Contest.userId, value);
+    moderationOffer(newData);
   };
 
-  const moderationAcceptHandler = () => {
-    const data = moderationHelper();
-    data.banned = false;
-    moderationOffer(data);
-  };
-
-  const moderationRejectHandler = () => {
-    const data = moderationHelper();
-    data.banned = true;
-    moderationOffer(data);
-  };
-
-  const acceptOffer = () => {
+  const confirmHelper = (result) => {
     confirmAlert({
       title: "confirm",
-      message: "Are you sure you want to accept?",
+      message: `Are you sure you want to ${result ? "reject" : "accept"}?`,
       buttons: [
         {
           label: "Yes",
-          onClick: () => moderationAcceptHandler(),
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
-  };
-
-  const rejectOffer = () => {
-    confirmAlert({
-      title: "confirm",
-      message: "Are you sure you want to reject?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => moderationRejectHandler(),
+          onClick: () => moderationHandler(result),
         },
         {
           label: "No",
@@ -104,7 +83,7 @@ const OfferBoxForModerator = (props) => {
     return (
       <>
         {!data.passedModeration || data.banned ? (
-          <button onClick={acceptOffer} className={styles.resolveBtn}>
+          <button onClick={() => confirmHelper(false)} className={styles.resolveBtn}>
             {buttonName.accept}
           </button>
         ) : (
@@ -115,7 +94,7 @@ const OfferBoxForModerator = (props) => {
           </button>
         )}
         {!data.banned ? (
-          <button onClick={rejectOffer} className={styles.rejectBtn}>
+          <button onClick={() => confirmHelper(true)} className={styles.rejectBtn}>
             {buttonName.reject}
           </button>
         ) : (
@@ -164,9 +143,7 @@ const OfferBoxForModerator = (props) => {
           )}
         </section>
       </article>
-      <section className={styles.btnsContainer}>
-        {getButton()}
-      </section>
+      <section className={styles.btnsContainer}>{getButton()}</section>
     </section>
   );
 };
