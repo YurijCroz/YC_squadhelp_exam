@@ -98,12 +98,8 @@ function ContestPage({
     clearSetOfferStatusError();
     const { id, orderId, priority } = contestData;
     const obj = {
-      command,
       offerId,
-      creatorId,
-      orderId,
-      priority,
-      contestId: id,
+      body: { command, creatorId, orderId, priority, contestId: id },
     };
     setOfferStatus(obj);
   };

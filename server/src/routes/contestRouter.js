@@ -7,36 +7,61 @@ const upload = require("../utils/fileUpload");
 
 const contestRouter = Router();
 
-contestRouter.post(
+contestRouter.get(
   "/dataForContest",
   contestController.dataForContest
 );
 
-contestRouter.post(
+contestRouter.get(
   "/getCustomersContests",
   checkToken.checkToken,
+  basicMiddleware.onlyForCustomer,
   contestController.getCustomersContests
 );
 
 contestRouter.get(
-  "/getContestById",
+  "/getContestById/:contestId",
   checkToken.checkToken,
-  basicMiddleware.canGetContest,
+  // basicMiddleware.canGetContest, // зачем?
+  basicMiddleware.onlyForCustomerOrCreative,
   contestController.getContestById
 );
 
-contestRouter.post(
+contestRouter.get(
   "/getAllContests",
   checkToken.checkToken,
   basicMiddleware.onlyForCreative,
   contestController.getContests
 );
 
-contestRouter.post(
-  "/updateContest",
+contestRouter.patch(
+  "/updateContest/:contestId",
   checkToken.checkToken,
+  basicMiddleware.onlyForCustomer,
   upload.updateContestFile,
   contestController.updateContest
+);
+
+contestRouter.get(
+  "/downloadFile/:fileName",
+  checkToken.checkToken,
+  contestController.downloadFile
+);
+
+contestRouter.post(
+  "/setNewOffer",
+  checkToken.checkToken,
+  basicMiddleware.onlyForCreative,
+  upload.uploadLogoFiles,
+  basicMiddleware.canSendOffer,
+  contestController.setNewOffer
+);
+
+contestRouter.patch(
+  "/setOfferStatus/:offerId",
+  checkToken.checkToken,
+  basicMiddleware.onlyForCustomerWhoCreateContest,
+  contestController.setOfferStatus
 );
 
 module.exports = contestRouter;

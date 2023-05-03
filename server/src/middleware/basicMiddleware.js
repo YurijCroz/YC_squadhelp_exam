@@ -23,12 +23,12 @@ module.exports.canGetContest = async (req, res, next) => {
   try {
     if (req.tokenData.role === CONSTANTS.CUSTOMER) {
       result = await Contest.findOne({
-        where: { id: req.headers.contestid, userId: req.tokenData.userId },
+        where: { id: req.params.contestId, userId: req.tokenData.userId },
       });
     } else if (req.tokenData.role === CONSTANTS.CREATOR) {
       result = await Contest.findOne({
         where: {
-          id: req.headers.contestid,
+          id: req.params.contestId,
           status: {
             [Sequelize.Op.or]: [
               CONSTANTS.CONTEST_STATUS_ACTIVE,
@@ -61,6 +61,17 @@ module.exports.onlyForCustomer = (req, res, next) => {
   }
 };
 
+module.exports.onlyForCustomerOrCreative = (req, res, next) => {
+  if (
+    req.tokenData.role === CONSTANTS.CUSTOMER ||
+    req.tokenData.role === CONSTANTS.CREATOR
+  ) {
+    next();
+  } else {
+    return next(new RightsError("this page only for customer or creative"));
+  }
+};
+
 module.exports.onlyForModerator = (req, res, next) => {
   if (req.tokenData.role === CONSTANTS.MODER) {
     next();
@@ -70,9 +81,9 @@ module.exports.onlyForModerator = (req, res, next) => {
 };
 
 module.exports.canSendOffer = async (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CUSTOMER) {
-    return next(new RightsError());
-  }
+  // if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+  //   return next(new RightsError());
+  // }
   try {
     const result = await Contest.findOne({
       where: {

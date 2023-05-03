@@ -1,11 +1,13 @@
 import { put } from "redux-saga/effects";
 import ACTION from "../actions/actionTypes";
+import { objectToQueryString } from "../utils/utils";
 import * as restController from "../api/rest/restController";
 
 export function* activeContestsSaga(action) {
   yield put({ type: ACTION.GET_CONTESTS_ACTION_REQUEST });
   try {
-    const { data } = yield restController.getActiveContests(action.data);
+    const query = objectToQueryString(action.data);
+    const { data } = yield restController.getActiveContests(query);
     yield put({ type: ACTION.GET_CONTESTS_ACTION_SUCCESS, data });
   } catch (e) {
     yield put({ type: ACTION.GET_CONTESTS_ACTION_ERROR, error: e.response });
@@ -15,7 +17,8 @@ export function* activeContestsSaga(action) {
 export function* customerContestsSaga(action) {
   yield put({ type: ACTION.GET_CONTESTS_ACTION_REQUEST });
   try {
-    const { data } = yield restController.getCustomersContests(action.data);
+    const query = objectToQueryString(action.data);
+    const { data } = yield restController.getCustomersContests(query);
     yield put({ type: ACTION.GET_CONTESTS_ACTION_SUCCESS, data });
   } catch (e) {
     yield put({ type: ACTION.GET_CONTESTS_ACTION_ERROR, error: e.response });
@@ -35,7 +38,8 @@ export function* updateContestSaga(action) {
 export function* dataForContestSaga(action) {
   yield put({ type: ACTION.GET_DATA_FOR_CONTEST_ACTION_REQUEST });
   try {
-    const { data } = yield restController.dataForContest(action.data);
+    const typeContest = objectToQueryString(action.data);
+    const { data } = yield restController.dataForContest(typeContest);
     yield put({ type: ACTION.GET_DATA_FOR_CONTEST_ACTION_SUCCESS, data });
   } catch (e) {
     yield put({

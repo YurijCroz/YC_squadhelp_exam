@@ -33,7 +33,7 @@ export const equalsUrlToRefresh = (url) => url === URL_REFRESH_TOKEN;
 const urlNotForSign = [URL_REGISTRATION, URL_LOGIN, URL_DATA_FOR_CONTEST];
 
 export const notSignTokenForRequest = (urlReq) =>
-  urlNotForSign.some((url) => urlReq === url);
+  urlNotForSign.some((url) => urlReq.includes(url));
 
 const pathRegex = /\/[^/]*/g;
 
@@ -53,6 +53,7 @@ export const getDiffInSec = (dateA, dateB = new Date()) =>
   differenceInSeconds(new Date(dateA), dateB);
 
 export const objectToQueryString = (obj) => {
+  if (!obj) return "";
   const keyValuePairs = [];
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
@@ -63,4 +64,4 @@ export const objectToQueryString = (obj) => {
     }
   }
   return "?" + keyValuePairs.join("&");
-}
+};

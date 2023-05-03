@@ -75,16 +75,12 @@ module.exports.getPreview = async (req, res, next) => {
 };
 
 module.exports.addMessage = async (req, res, next) => {
-  const firstUser =
+  const [firstUser, secondUser] =
     req.tokenData.userId <= req.body.recipient
-      ? req.tokenData.userId
-      : req.body.recipient;
-  const secondUser =
-    req.body.recipient >= req.tokenData.userId
-      ? req.body.recipient
-      : req.tokenData.userId;
+      ? [req.tokenData.userId, req.body.recipient]
+      : [req.body.recipient, req.tokenData.userId];
   try {
-    const conversation = await Conversation.findOrCreate({
+    const [conversation] = await Conversation.findOrCreate({
       where: {
         participant0: firstUser,
         participant1: secondUser,
@@ -101,7 +97,7 @@ module.exports.addMessage = async (req, res, next) => {
         "participant1",
       ],
     });
-    const conversationId = conversation[0].dataValues.id;
+    const conversationId = conversation.dataValues.id;
     const message = await Message.create(
       {
         sender: req.tokenData.userId,
@@ -115,24 +111,24 @@ module.exports.addMessage = async (req, res, next) => {
     );
     message.dataValues.participants = [firstUser, secondUser];
     const preview = {
-      id: conversation[0].dataValues.id,
+      id: conversation.dataValues.id,
       sender: req.tokenData.userId,
       text: req.body.messageBody,
       createAt: message.dataValues.createdAt,
       participants: [firstUser, secondUser],
-      blackList: conversation[0].dataValues.blackList,
-      favoriteList: conversation[0].dataValues.favoriteList,
+      blackList: conversation.dataValues.blackList,
+      favoriteList: conversation.dataValues.favoriteList,
     };
     controller.getChatController().emitNewMessage(req.body.recipient, {
       message,
       preview: {
-        id: conversation[0].dataValues.id,
+        id: conversation.dataValues.id,
         sender: req.tokenData.userId,
         text: req.body.messageBody,
         createAt: message.dataValues.createdAt,
         participants: [firstUser, secondUser],
-        blackList: conversation[0].dataValues.blackList,
-        favoriteList: conversation[0].dataValues.favoriteList,
+        blackList: conversation.dataValues.blackList,
+        favoriteList: conversation.dataValues.favoriteList,
         interlocutor: {
           id: req.tokenData.userId,
           firstName: req.tokenData.firstName,
@@ -154,14 +150,10 @@ module.exports.addMessage = async (req, res, next) => {
 };
 
 module.exports.getChat = async (req, res, next) => {
-  const firstUser =
+  const [firstUser, secondUser] =
     req.tokenData.userId <= req.body.interlocutorId
-      ? req.tokenData.userId
-      : req.body.interlocutorId;
-  const secondUser =
-    req.body.interlocutorId >= req.tokenData.userId
-      ? req.body.interlocutorId
-      : req.tokenData.userId;
+      ? [req.tokenData.userId, req.body.interlocutorId]
+      : [req.body.interlocutorId, req.tokenData.userId];
   try {
     const conversation = await Conversation.findOne({
       where: {

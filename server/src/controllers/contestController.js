@@ -20,7 +20,7 @@ module.exports.dataForContest = async (req, res, next) => {
   const response = {};
   try {
     const {
-      body: { characteristic1, characteristic2 },
+      query: { characteristic1, characteristic2 },
     } = req;
     const types = [characteristic1, characteristic2, "industry"].filter(
       Boolean
@@ -52,7 +52,7 @@ module.exports.dataForContest = async (req, res, next) => {
 module.exports.getContestById = async (req, res, next) => {
   try {
     let contestInfo = await Contest.findOne({
-      where: { id: req.headers.contestid },
+      where: { id: req.params.contestId },
       order: [[Offer, "id", "asc"]],
       include: [
         {
@@ -112,8 +112,7 @@ module.exports.updateContest = async (req, res, next) => {
     req.body.fileName = req.file.filename;
     req.body.originalFileName = req.file.originalname;
   }
-  const contestId = req.body.contestId;
-  delete req.body.contestId;
+  const contestId = req.params.contestId;
   try {
     const updatedContest = await contestQueries.updateContest(req.body, {
       id: contestId,
@@ -127,16 +126,17 @@ module.exports.updateContest = async (req, res, next) => {
 };
 
 module.exports.setNewOffer = async (req, res, next) => {
-  const obj = {};
-  if (req.body.contestType === CONSTANTS.LOGO_CONTEST) {
-    obj.fileName = req.file.filename;
-    obj.originalFileName = req.file.originalname;
-  } else {
-    obj.text = req.body.offerData;
-  }
-  obj.userId = req.tokenData.userId;
-  obj.contestId = req.body.contestId;
   try {
+    const obj = {
+      userId: req.tokenData.userId,
+      contestId: req.body.contestId,
+    };
+    if (req.body.contestType === CONSTANTS.LOGO_CONTEST) {
+      obj.fileName = req.file.filename;
+      obj.originalFileName = req.file.originalname;
+    } else {
+      obj.text = req.body.offerData;
+    }
     const result = await contestQueries.createOffer(obj);
     delete result.contestId;
     delete result.userId;
@@ -239,7 +239,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
   if (req.body.command === "reject") {
     try {
       const offer = await rejectOffer(
-        req.body.offerId,
+        req.params.offerId,
         req.body.creatorId,
         req.body.contestId
       );
@@ -255,7 +255,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
         req.body.contestId,
         req.body.creatorId,
         req.body.orderId,
-        req.body.offerId,
+        req.params.offerId,
         req.body.priority,
         transaction
       );
@@ -269,86 +269,82 @@ module.exports.setOfferStatus = async (req, res, next) => {
 };
 
 module.exports.getCustomersContests = async (req, res, next) => {
-  await Contest.findAll({
-    where: { status: req.headers.status, userId: req.tokenData.userId },
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
-    order: [["id", "DESC"]],
-    include: [
-      {
-        model: Offer,
-        required: false,
-        attributes: ["id"],
-        where: {
-          passedModeration: true,
-          banned: false,
-        },
+  try {
+    const contests = await Contest.findAll({
+      where: {
+        status: req.query.contestStatus || CONSTANTS.CONTEST_STATUS_ACTIVE,
+        userId: req.tokenData.userId,
       },
-    ],
-  })
-    .then((contests) => {
-      contests.forEach(
-        (contest) =>
-          (contest.dataValues.count = contest.dataValues.Offers.length)
-      );
-      let haveMore = true;
-      if (contests.length === 0) {
-        haveMore = false;
-      }
-      res.send({ contests, haveMore });
-    })
-    .catch((error) => {
-      logger.error(error);
-      next(new ServerError(error));
+      limit: req.query.limit || 8,
+      offset: req.query.offset || 0,
+      order: [["id", "DESC"]],
+      include: [
+        {
+          model: Offer,
+          required: false,
+          attributes: ["id"],
+          where: {
+            passedModeration: true,
+            banned: false,
+          },
+        },
+      ],
     });
+    contests.forEach((contest) => {
+      contest.dataValues.count = contest.dataValues.Offers.length;
+      delete contest.dataValues.Offers;
+    });
+    const haveMore = contests.length > 0;
+    res.send({ contests, haveMore });
+  } catch (error) {
+    logger.error(error);
+    next(new ServerError(error));
+  }
 };
 
 module.exports.getContests = async (req, res, next) => {
-  const predicates = UtilFunctions.createWhereForAllContests(
-    req.body.typeIndex,
-    req.body.contestId,
-    req.body.industry,
-    req.body.awardSort
-  );
-  await Contest.findAll({
-    where: {
-      ...predicates.where,
-      // status: "active",
-      passedModeration: true,
-      banned: false,
-    },
-    order: predicates.order,
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
-    include: [
-      {
-        model: Offer,
-        required: req.body.ownEntries,
-        where: req.body.ownEntries
-          ? {
-              userId: req.tokenData.userId,
-            }
-          : {
-              passedModeration: true,
-              banned: false,
-            },
-        attributes: ["id"],
+  try {
+    const predicates = UtilFunctions.createWhereForAllContests(
+      req.query.typeIndex,
+      req.query.contestId,
+      req.query.industry,
+      req.query.awardSort
+    );
+    const ownEntries = JSON.parse(req.query.ownEntries) || false;
+    const contests = await Contest.findAll({
+      where: {
+        ...predicates.where,
+        // status: "active",
+        passedModeration: true,
+        banned: false,
       },
-    ],
-  })
-    .then((contests) => {
-      contests.forEach(
-        (contest) =>
-          (contest.dataValues.count = contest.dataValues.Offers.length)
-      );
-      let haveMore = true;
-      if (contests.length === 0) {
-        haveMore = false;
-      }
-      res.send({ contests, haveMore });
-    })
-    .catch((error) => {
-      logger.error(error);
-      next(new ServerError(error));
+      order: predicates.order,
+      limit: req.query.limit || 8,
+      offset: req.query.offset || 0,
+      include: [
+        {
+          model: Offer,
+          required: ownEntries,
+          where: ownEntries
+            ? {
+                userId: req.tokenData.userId,
+              }
+            : {
+                passedModeration: true,
+                banned: false,
+              },
+          attributes: ["id"],
+        },
+      ],
     });
+    contests.forEach((contest) => {
+      contest.dataValues.count = contest.dataValues.Offers.length;
+      delete contest.dataValues.Offers;
+    });
+    const haveMore = contests.length > 0;
+    res.send({ contests, haveMore });
+  } catch (error) {
+    logger.error(error);
+    next(new ServerError(error));
+  }
 };
