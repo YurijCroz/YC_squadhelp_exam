@@ -6,13 +6,14 @@ const mailerHandler = require("../utils/mailer.js");
 const { logger } = require("../log");
 const controller = require("../socketInit");
 
-const { CONTEST, OFFER } = CONSTANTS;
+const { CONTEST, OFFER, CONTEST_STATUS_ACTIVE, OFFER_STATUS_PENDING } =
+  CONSTANTS;
 
 module.exports.getContests = async (req, res, next) => {
   try {
     const where = utilFunctions.whereHelper(req.query.filter);
     const moderData = await Contest.findAll({
-      where: { ...where },
+      where: { ...where, status: CONTEST_STATUS_ACTIVE },
       attributes: ["id", "title", "updatedAt", "contestType"],
       order: [["updatedAt", "ASC"]],
       include: {
@@ -22,10 +23,7 @@ module.exports.getContests = async (req, res, next) => {
       limit: req.query.limit,
       offset: req.query.offset,
     });
-    let haveMore = true;
-    if (moderData.length === 0) {
-      haveMore = false;
-    }
+    const haveMore = moderData.length > 0;
     res.status(200).send({ moderData, haveMore });
   } catch (error) {
     logger.error(error);
@@ -63,7 +61,7 @@ module.exports.getContestById = async (req, res, next) => {
 
 module.exports.moderationContestById = async (req, res, next) => {
   try {
-    const newState = await Contest.update(
+    const [updatedCount] = await Contest.update(
       {
         passedModeration: true,
         banned: req.body.banned,
@@ -71,12 +69,15 @@ module.exports.moderationContestById = async (req, res, next) => {
       {
         where: {
           id: req.params.contestId,
+          status: CONTEST_STATUS_ACTIVE,
         },
-        returning: true,
       }
     );
+    if (updatedCount === 0) {
+      return res.status(404).send("No contest was updated.");
+    }
     mailerHandler(CONTEST, req.params.contestId);
-    res.status(200).send(newState);
+    res.status(200).send("Success");
   } catch (error) {
     logger.error(error);
     next(error);
@@ -87,7 +88,7 @@ module.exports.getOffers = async (req, res, next) => {
   try {
     const where = utilFunctions.whereHelper(req.query.filter);
     const moderData = await Offer.findAll({
-      where: { ...where },
+      where: { ...where, status: OFFER_STATUS_PENDING },
       attributes: [
         "id",
         "text",
@@ -112,10 +113,7 @@ module.exports.getOffers = async (req, res, next) => {
       limit: req.query.limit,
       offset: req.query.offset,
     });
-    let haveMore = true;
-    if (moderData.length === 0) {
-      haveMore = false;
-    }
+    const haveMore = moderData.length > 0;
     res.status(200).send({ moderData, haveMore });
   } catch (error) {
     logger.error(error);
@@ -125,7 +123,7 @@ module.exports.getOffers = async (req, res, next) => {
 
 module.exports.moderationOfferById = async (req, res, next) => {
   try {
-    const newState = await Offer.update(
+    const [updatedCount] = await Offer.update(
       {
         passedModeration: true,
         banned: req.body.banned,
@@ -133,17 +131,20 @@ module.exports.moderationOfferById = async (req, res, next) => {
       {
         where: {
           id: req.params.offerId,
+          status: OFFER_STATUS_PENDING,
         },
-        returning: true,
       }
     );
+    if (updatedCount === 0) {
+      return res.status(404).send("No offer was updated.");
+    }
     if (!req.body.banned) {
       controller
         .getNotificationController()
         .emitEntryCreated(req.body.customerUserId);
     }
     mailerHandler(OFFER, req.params.offerId);
-    res.status(200).send(newState);
+    res.status(200).send("Success");
   } catch (error) {
     logger.error(error);
     next(error);

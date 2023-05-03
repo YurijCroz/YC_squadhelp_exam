@@ -110,7 +110,7 @@ function ContestPageForModerator(props) {
     <>
       {error ? (
         <section className={styles.tryContainer}>
-          <TryAgain getData={getData} />
+          <TryAgain getData={getDataHandler} />
         </section>
       ) : isFetching ? (
         <section className={styles.containerSpinner}>
