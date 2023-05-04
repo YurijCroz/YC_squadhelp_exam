@@ -1,6 +1,7 @@
-import useNavigationDrawer from './useNavigationDrawer';
+import useNavigationDrawer from "./useNavigationDrawer";
+import useEventsFilter from "./useEventsFilter";
 
 export {
   useNavigationDrawer,
-  // другие хуки, если есть
+  useEventsFilter,
 };

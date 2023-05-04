@@ -6,11 +6,11 @@ import {
   getLocalStorageEvents,
 } from "../../actions/actionCreator";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { useEventsFilter } from "../../hook";
 import "../../components/OfferBox/confirmStyle.css";
 import styles from "./EventPage.module.sass";
 import EventForm from "../../components/Event/EventForm/EventForm.jsx";
-import { getDiffInSec } from "../../utils/utils";
-import EventAnimationBlock from "../../components/Event/EventAnimationBlock/EventAnimationBlock.jsx";
+import UpcomingEventsController from "../../components/Event/UpcomingEventsController/UpcomingEventsController";
 import EventHappenedBlock from "../../components/Event/EventHappenedBlock/EventHappenedBlock.jsx";
 
 function EventPage(props) {
@@ -19,9 +19,12 @@ function EventPage(props) {
     setLocalStorageEvents,
   } = props;
 
-  const [frustratedEvents, setFrustratedEvents] = useState(null);
-  const [happenedEvents, setHappenedEvents] = useState(null);
   const [rebuild, setRebuild] = useState(false);
+  const [overdueEvents, upcomingEvents] = useEventsFilter(
+    events,
+    rebuild,
+    setRebuild
+  );
 
   const deleteEvent = (targetDate, title) => {
     confirmAlert({
@@ -50,18 +53,6 @@ function EventPage(props) {
     if (!isLoadingEvents) getLocalStorageEvents();
   }, [isLoadingEvents]);
 
-  useEffect(() => {
-    if (events || (rebuild && events)) {
-      setFrustratedEvents(
-        events.filter((event) => getDiffInSec(event.deadLine) >= 1)
-      );
-      setHappenedEvents(
-        events.filter((event) => getDiffInSec(event.deadLine) <= 0)
-      );
-      setRebuild(false);
-    }
-  }, [rebuild, events]);
-
   return (
     <>
       <main className={styles.eventMain}>
@@ -78,23 +69,21 @@ function EventPage(props) {
             </div>
           </section>
           <section className={styles.eventDisplay}>
-            {happenedEvents &&
-              happenedEvents.map((event) => (
+            {overdueEvents &&
+              overdueEvents.map((event) => (
                 <EventHappenedBlock
                   event={event}
                   key={event.startDate}
                   deleteEvent={deleteEvent}
                 />
               ))}
-            {frustratedEvents &&
-              frustratedEvents.map((event) => (
-                <EventAnimationBlock
-                  event={event}
-                  key={event.startDate}
-                  setRebuild={setRebuild}
-                  deleteEvent={deleteEvent}
-                />
-              ))}
+            {upcomingEvents && (
+              <UpcomingEventsController
+                upcomingEvents={upcomingEvents}
+                setRebuild={setRebuild}
+                deleteEvent={deleteEvent}
+              />
+            )}
           </section>
         </section>
       </main>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { format } from "date-fns";
 import moment from "moment";
 import { getDiffInSec } from "../../../utils/utils";
@@ -6,39 +6,20 @@ import styles from "./EventAnimationBlock.module.sass";
 
 const regFormat = "yyyy-MM-dd HH:mm";
 
-function EventAnimationBlock({ event, setRebuild, deleteEvent }) {
-  const [nowDate, setNowDate] = useState(new Date());
-  const [isRun, setIsRun] = useState(true);
-
+function EventAnimationBlock({ event, nowDate, setRebuild, deleteEvent }) {
   const totalSeconds = getDiffInSec(event.deadLine, new Date(event.startDate));
-
-  const stop = () => {
-    setRebuild(true);
-    setIsRun(false);
-  };
 
   const getTimeFormatNew = (date) =>
     moment.duration(moment(event.deadLine).diff(moment(date)))._data;
 
   useEffect(() => {
-    let interval;
-    if (isRun) {
-      interval = setInterval(() => {
-        setNowDate(new Date());
-      }, 1000);
+    if (
+      format(new Date(nowDate), regFormat) ===
+      format(new Date(event.deadLine), regFormat)
+    ) {
+      setRebuild(true);
     }
-    return () => {
-      clearInterval(interval);
-      setIsRun(false);
-    };
-  }, []);
-
-  useEffect(() => {
-    format(new Date(nowDate), regFormat) ===
-    format(new Date(event.deadLine), regFormat)
-      ? stop()
-      : setIsRun(true);
-  });
+  }, [nowDate]);
 
   const percentWidth =
     (100 / totalSeconds) * getDiffInSec(event.deadLine, nowDate);

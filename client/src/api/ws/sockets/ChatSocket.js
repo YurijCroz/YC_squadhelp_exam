@@ -7,16 +7,15 @@ import {
 } from "../../../actions/actionCreator";
 
 class ChatSocket extends WebSocket {
-  static userId = null;
-
   constructor(dispatch, getState, room) {
     super(dispatch, getState, room);
+    this.userId = null;
   }
 
   anotherSubscribes = () => {
     this.onNewMessage();
     this.onChangeBlockStatus();
-    this.connectError();
+    this.onConnectError();
   };
 
   onChangeBlockStatus = () => {
@@ -53,25 +52,25 @@ class ChatSocket extends WebSocket {
     });
   };
 
-  connectError = () => {
+  onConnectError = () => {
     this.socket.on("connect_error", () => {
       this.socket.off(CONSTANTS.CHANGE_BLOCK_STATUS);
       this.socket.off("newMessage");
       setTimeout(() => {
-        if (ChatSocket.userId) {
-          this.socket.emit("subscribeChat", ChatSocket.userId);
+        if (this.userId) {
+          this.socket.emit("subscribeChat", this.userId);
         }
       }, 5000);
     });
   };
 
   subscribeChat = (id) => {
-    ChatSocket.userId = id;
+    this.userId = id;
     this.socket.emit("subscribeChat", id);
   };
 
   unsubscribeChat = (id) => {
-    ChatSocket.userId = null;
+    this.userId = null;
     this.socket.off(CONSTANTS.CHANGE_BLOCK_STATUS);
     this.socket.off("newMessage");
     this.socket.emit("unsubscribeChat", id);
