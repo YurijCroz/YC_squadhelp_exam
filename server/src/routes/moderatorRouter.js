@@ -1,44 +1,26 @@
 "use strict";
 const { Router } = require("express");
-const basicMiddleware = require("../middleware/basicMiddleware");
-const moderatorController = require("../controllers/moderatorController");
-const checkToken = require("../middleware/checkToken");
+const {
+  getContests,
+  getContestById,
+  moderationContestById,
+  getOffers,
+  moderationOfferById,
+} = require("../controllers/moderatorController");
 
 const moderatorRouter = Router();
 
-moderatorRouter.get(
-  "/get-contests",
-  checkToken.checkToken,
-  basicMiddleware.onlyForModerator,
-  moderatorController.getContests
-);
+moderatorRouter.get("/get-contests", getContests);
 
-moderatorRouter.get(
-  "/getContestByIdForModerator/:contestId",
-  checkToken.checkToken,
-  basicMiddleware.onlyForModerator,
-  moderatorController.getContestById
-);
+moderatorRouter.get("/getContestByIdForModerator/:contestId", getContestById);
 
 moderatorRouter.patch(
   "/moderation-contestId/:contestId",
-  checkToken.checkToken,
-  basicMiddleware.onlyForModerator,
-  moderatorController.moderationContestById
+  moderationContestById
 );
 
-moderatorRouter.get(
-  "/get-offers",
-  checkToken.checkToken,
-  basicMiddleware.onlyForModerator,
-  moderatorController.getOffers
-);
+moderatorRouter.get("/get-offers", getOffers);
 
-moderatorRouter.patch(
-  "/moderation-offerId/:offerId",
-  checkToken.checkToken,
-  basicMiddleware.onlyForModerator,
-  moderatorController.moderationOfferById
-);
+moderatorRouter.patch("/moderation-offerId/:offerId", moderationOfferById);
 
 module.exports = moderatorRouter;
