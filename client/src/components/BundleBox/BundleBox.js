@@ -1,49 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./BundleBox.module.sass";
 import CONSTANTS from "../../constants";
 
 const BundleBox = (props) => {
+  const { setBundle, header, describe, path } = props;
+  const [showBlueImage, setShowBlueImage] = useState(false);
   const defaultPathToImages = `${CONSTANTS.STATIC_IMAGES_PATH}contestLabels/`;
 
-  const renderImage = () => {
-    const array = [];
-    for (let i = 0; i < props.path.length; i++) {
-      array.push(
+  const renderImage = () =>
+    path.map((pathItem, i) => (
+      <div key={i} className={styles.imgContainer}>
         <img
-          src={defaultPathToImages + props.path[i]}
-          key={i}
-          className={styles.imgContainer}
-          alt={props.path[i].replace(/.png/g, "Contest")}
+          src={defaultPathToImages + pathItem}
+          alt={pathItem.replace(/.png/g, "Contest")}
+          style={{ display: !showBlueImage ? "block" : "none" }}
         />
-      );
-    }
-    return array;
-  };
+        <img
+          src={`${defaultPathToImages}blue_${pathItem}`}
+          alt={pathItem.replace(/.png/g, "Contest")}
+          style={{ display: showBlueImage ? "block" : "none" }}
+        />
+      </div>
+    ));
 
-  const mouseOverHandler = () => {
-    const element = document.getElementById(props.header);
-    for (let i = 0; i < element.children[0].children.length; i++) {
-      element.children[0].children[
-        i
-      ].src = `${defaultPathToImages}blue_${props.path[i]}`;
-    }
-  };
-
-  const mouseOutHandler = () => {
-    const element = document.getElementById(props.header);
-    for (let i = 0; i < element.children[0].children.length; i++) {
-      element.children[0].children[i].src = defaultPathToImages + props.path[i];
+  const handleImageChange = (event) => {
+    const element = document.getElementById(header);
+    if (!element.contains(event.relatedTarget)) {
+      setShowBlueImage(!showBlueImage);
     }
   };
 
   const getBackClass = () =>
-    props.path.length === 1 ? " " : ` ${styles.combinedBundle}`;
+    path.length === 1 ? " " : ` ${styles.combinedBundle}`;
 
-  const { setBundle, header, describe } = props;
   return (
     <section
-      onMouseOver={mouseOverHandler}
-      onMouseOut={mouseOutHandler}
+      onMouseOver={handleImageChange}
+      onMouseOut={handleImageChange}
       onClick={() => setBundle(header)}
       id={header}
       className={styles.bundleContainer + getBackClass()}
