@@ -1,6 +1,6 @@
 "use strict";
 const { Router } = require("express");
-const basicMiddleware = require("../middleware/basicMiddleware");
+const checkRoles = require("../middleware/checkRoles");
 const userController = require("../controllers/userController");
 const checkToken = require("../middleware/checkToken");
 const upload = require("../utils/fileUpload");
@@ -12,7 +12,7 @@ usersRouter.post("/getUser", checkToken.checkAuth);
 usersRouter.post(
   "/changeMark",
   checkToken.checkToken,
-  basicMiddleware.onlyForCustomer,
+  checkRoles.onlyForCustomer,
   userController.changeMark
 );
 

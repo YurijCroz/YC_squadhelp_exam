@@ -1,19 +1,20 @@
 "use strict";
 const { Contest, Offer, User } = require("../models");
+const { Op } = require("sequelize");
 const CONSTANTS = require("../constants");
 const utilFunctions = require("../utils/functions");
 const mailerHandler = require("../utils/mailer.js");
 const { logger } = require("../log");
 const controller = require("../socketInit");
 
-const { CONTEST, OFFER, CONTEST_STATUS_ACTIVE, OFFER_STATUS_PENDING } =
+const { CONTEST, OFFER, OFFER_STATUS_PENDING, CONTEST_STATUS_FINISHED } =
   CONSTANTS;
 
 module.exports.getContests = async (req, res, next) => {
   try {
     const where = utilFunctions.whereHelper(req.query.filter);
     const moderData = await Contest.findAll({
-      where: { ...where, status: CONTEST_STATUS_ACTIVE },
+      where: { ...where, status: { [Op.not]: CONTEST_STATUS_FINISHED } },
       attributes: ["id", "title", "updatedAt", "contestType"],
       order: [["updatedAt", "ASC"]],
       include: {
@@ -34,7 +35,10 @@ module.exports.getContests = async (req, res, next) => {
 module.exports.getContestById = async (req, res, next) => {
   try {
     const contestInfo = await Contest.findOne({
-      where: { id: req.params.contestId },
+      where: {
+        id: req.params.contestId,
+        status: { [Op.not]: CONTEST_STATUS_FINISHED },
+      },
       attributes: {
         exclude: [
           "orderId",
@@ -69,7 +73,7 @@ module.exports.moderationContestById = async (req, res, next) => {
       {
         where: {
           id: req.params.contestId,
-          status: CONTEST_STATUS_ACTIVE,
+          status: { [Op.not]: CONTEST_STATUS_FINISHED },
         },
       }
     );

@@ -1,6 +1,7 @@
 "use strict";
 const { Router } = require("express");
 const basicMiddleware = require("../middleware/basicMiddleware");
+const checkRoles = require("../middleware/checkRoles");
 const contestController = require("../controllers/contestController");
 const checkToken = require("../middleware/checkToken");
 const upload = require("../utils/fileUpload");
@@ -15,29 +16,29 @@ contestRouter.get(
 contestRouter.get(
   "/getCustomersContests",
   checkToken.checkToken,
-  basicMiddleware.onlyForCustomer,
+  checkRoles.onlyForCustomer,
   contestController.getCustomersContests
 );
 
 contestRouter.get(
   "/getContestById/:contestId",
   checkToken.checkToken,
-  // basicMiddleware.canGetContest, // зачем?
-  basicMiddleware.onlyForCustomerOrCreative,
+  checkRoles.onlyForCustomerOrCreative,
+  basicMiddleware.canGetContest, // зачем?
   contestController.getContestById
 );
 
 contestRouter.get(
   "/getAllContests",
   checkToken.checkToken,
-  basicMiddleware.onlyForCreative,
+  checkRoles.onlyForCreative,
   contestController.getContests
 );
 
 contestRouter.patch(
   "/updateContest/:contestId",
   checkToken.checkToken,
-  basicMiddleware.onlyForCustomer,
+  checkRoles.onlyForCustomer,
   upload.updateContestFile,
   contestController.updateContest
 );
@@ -51,7 +52,7 @@ contestRouter.get(
 contestRouter.post(
   "/setNewOffer",
   checkToken.checkToken,
-  basicMiddleware.onlyForCreative,
+  checkRoles.onlyForCreative,
   upload.uploadLogoFiles,
   basicMiddleware.canSendOffer,
   contestController.setNewOffer
