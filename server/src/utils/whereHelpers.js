@@ -1,6 +1,5 @@
 "use strict";
-const bd = require("../models");
-const jwt = require("jsonwebtoken");
+const db = require("../models");
 const CONSTANTS = require("../constants");
 
 module.exports.createWhereForAllContests = (
@@ -27,7 +26,7 @@ module.exports.createWhereForAllContests = (
   }
   Object.assign(object.where, {
     status: {
-      [bd.Sequelize.Op.or]: [
+      [db.Sequelize.Op.or]: [
         CONSTANTS.CONTEST_STATUS_FINISHED,
         CONSTANTS.CONTEST_STATUS_ACTIVE,
       ],
@@ -38,7 +37,7 @@ module.exports.createWhereForAllContests = (
 };
 
 function getPredicateTypes(index) {
-  return { [bd.Sequelize.Op.or]: [types[index].split(",")] };
+  return { [db.Sequelize.Op.or]: [types[index].split(",")] };
 }
 
 const types = [
@@ -54,7 +53,7 @@ const types = [
 
 const { INSPECTION, PASSED, BANNED } = CONSTANTS.STATUS_MODERATION;
 
-module.exports.whereHelper = (typeFilter) => {
+module.exports.createWhereForModerator = (typeFilter) => {
   if (typeFilter === INSPECTION) {
     return { passedModeration: false, banned: false };
   }
@@ -65,23 +64,4 @@ module.exports.whereHelper = (typeFilter) => {
     return { passedModeration: true, banned: true };
   }
   return {};
-};
-
-module.exports.getJwtToken = (userData, secret, expiresIn) => {
-  const token = jwt.sign(
-    {
-      firstName: userData.firstName,
-      userId: userData.id,
-      role: userData.role,
-      lastName: userData.lastName,
-      avatar: userData.avatar,
-      displayName: userData.displayName,
-      balance: userData.balance,
-      email: userData.email,
-      rating: userData.rating,
-    },
-    secret,
-    { expiresIn }
-  );
-  return token;
 };

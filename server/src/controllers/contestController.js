@@ -12,7 +12,7 @@ const ServerError = require("../errors/ServerError");
 const contestQueries = require("./queries/contestQueries");
 const userQueries = require("./queries/userQueries");
 const controller = require("../socketInit");
-const UtilFunctions = require("../utils/functions");
+const { createWhereForAllContests } = require("../utils/whereHelpers");
 const CONSTANTS = require("../constants");
 const { logger } = require("../log");
 
@@ -304,7 +304,7 @@ module.exports.getCustomersContests = async (req, res, next) => {
 
 module.exports.getContests = async (req, res, next) => {
   try {
-    const predicates = UtilFunctions.createWhereForAllContests(
+    const predicates = createWhereForAllContests(
       req.query.typeIndex,
       req.query.contestId,
       req.query.industry,

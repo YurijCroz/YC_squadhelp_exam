@@ -2,7 +2,7 @@
 const { Contest, Offer, User } = require("../models");
 const { Op } = require("sequelize");
 const CONSTANTS = require("../constants");
-const utilFunctions = require("../utils/functions");
+const { createWhereForModerator } = require("../utils/whereHelpers");
 const mailerHandler = require("../utils/mailer.js");
 const { logger } = require("../log");
 const controller = require("../socketInit");
@@ -12,7 +12,7 @@ const { CONTEST, OFFER, OFFER_STATUS_PENDING, CONTEST_STATUS_FINISHED } =
 
 module.exports.getContests = async (req, res, next) => {
   try {
-    const where = utilFunctions.whereHelper(req.query.filter);
+    const where = createWhereForModerator(req.query.filter);
     const moderData = await Contest.findAll({
       where: { ...where, status: { [Op.not]: CONTEST_STATUS_FINISHED } },
       attributes: ["id", "title", "updatedAt", "contestType"],
@@ -90,7 +90,7 @@ module.exports.moderationContestById = async (req, res, next) => {
 
 module.exports.getOffers = async (req, res, next) => {
   try {
-    const where = utilFunctions.whereHelper(req.query.filter);
+    const where = createWhereForModerator(req.query.filter);
     const moderData = await Offer.findAll({
       where: { ...where, status: OFFER_STATUS_PENDING },
       attributes: [

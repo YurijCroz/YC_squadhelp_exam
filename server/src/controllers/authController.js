@@ -1,7 +1,7 @@
 "use strict";
 const CONSTANTS = require("../constants");
 const NotUniqueEmail = require("../errors/NotUniqueEmail");
-const utilFunctions = require("../utils/functions");
+const getJwtToken = require("../utils/getJwtToken");
 const userQueries = require("./queries/userQueries");
 const { logger } = require("../log");
 
@@ -16,12 +16,12 @@ module.exports.login = async (req, res, next) => {
   try {
     const foundUser = await userQueries.findUser({ email: req.body.email });
     await userQueries.passwordCompare(req.body.password, foundUser.password);
-    const accessToken = utilFunctions.getJwtToken(
+    const accessToken = getJwtToken(
       foundUser,
       JWT_SECRET_ACCESS,
       ACCESS_TOKEN_TIME
     );
-    const refreshToken = utilFunctions.getJwtToken(
+    const refreshToken = getJwtToken(
       foundUser,
       JWT_SECRET_REFRESH,
       REFRESH_TOKEN_TIME
@@ -41,12 +41,12 @@ module.exports.registration = async (req, res, next) => {
     const newUser = await userQueries.userCreation(
       Object.assign(req.body, { password: req.hashPass })
     );
-    const accessToken = utilFunctions.getJwtToken(
+    const accessToken = getJwtToken(
       newUser,
       JWT_SECRET_ACCESS,
       ACCESS_TOKEN_TIME
     );
-    const refreshToken = utilFunctions.getJwtToken(
+    const refreshToken = getJwtToken(
       newUser,
       JWT_SECRET_REFRESH,
       REFRESH_TOKEN_TIME
@@ -69,12 +69,12 @@ module.exports.refreshToken = async (req, res, next) => {
   try {
     const foundUser = await userQueries.findUser({ id: req.tokenData.userId });
     if (foundUser.refreshToken === req.headers.authorization) {
-      const accessToken = utilFunctions.getJwtToken(
+      const accessToken = getJwtToken(
         foundUser,
         JWT_SECRET_ACCESS,
         ACCESS_TOKEN_TIME
       );
-      const refreshToken = utilFunctions.getJwtToken(
+      const refreshToken = getJwtToken(
         foundUser,
         JWT_SECRET_REFRESH,
         REFRESH_TOKEN_TIME
@@ -84,7 +84,7 @@ module.exports.refreshToken = async (req, res, next) => {
         tokensPair: { accessToken, refreshToken },
       });
     } else {
-      res.status(403).end()
+      res.status(403).end();
     }
   } catch (error) {
     logger.error(error);
