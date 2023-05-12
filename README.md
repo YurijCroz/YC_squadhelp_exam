@@ -40,7 +40,7 @@ yriy
 + Utilized ready-made components as much as possible and edited them
   to remove unnecessary features for moderators.
   Moderator decisions are sent to the user's email.
-+ Moving the chat from PostgreSQL to MongoDB and creating controllers
++ Moving the chat from MongoDB to PostgreSQL and creating controllers
   so that the client-side code didn't need to be extensively rewritten.
 + Fixing websocket functionality.
 + Implementing refreshToken. The token is stored in the Users table
