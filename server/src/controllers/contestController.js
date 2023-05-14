@@ -13,6 +13,7 @@ const contestQueries = require("./queries/contestQueries");
 const userQueries = require("./queries/userQueries");
 const controller = require("../socketInit");
 const { createWhereForAllContests } = require("../utils/whereHelpers");
+const { pickAllowedColumnsForContest } = require("../utils/allowedColumns");
 const CONSTANTS = require("../constants");
 const { logger } = require("../log");
 
@@ -112,9 +113,10 @@ module.exports.updateContest = async (req, res, next) => {
     req.body.fileName = req.file.filename;
     req.body.originalFileName = req.file.originalname;
   }
-  const contestId = req.params.contestId;
+  const contestId = req.body.contestId;
+  const data = pickAllowedColumnsForContest(req.body);
   try {
-    const updatedContest = await contestQueries.updateContest(req.body, {
+    const updatedContest = await contestQueries.updateContest(data, {
       id: contestId,
       userId: req.tokenData.userId,
     });

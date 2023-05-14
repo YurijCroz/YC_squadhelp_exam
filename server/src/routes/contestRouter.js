@@ -36,7 +36,7 @@ contestRouter.get(
 );
 
 contestRouter.patch(
-  "/updateContest/:contestId",
+  "/updateContest",
   checkToken.checkToken,
   checkRoles.onlyForCustomer,
   upload.updateContestFile,

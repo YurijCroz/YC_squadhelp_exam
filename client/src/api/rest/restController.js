@@ -34,7 +34,7 @@ export const changeCatalogName = (data) => http.post('/api/chatSQL/updateNameCat
 //CONTEST REQUESTS
 export const getContestById = ({contestId}) => http.get(`/api/contests/getContestById/${contestId}`);
 export const dataForContest = (query) => http.get(URL_DATA_FOR_CONTEST + query);
-export const updateContest = ({contestId, body}) => http.patch(`/api/contests/updateContest/${contestId}`, body);
+export const updateContest = (data) => http.patch('/api/contests/updateContest', data);
 export const getActiveContests = (query) => http.get(`/api/contests/getAllContests${query}`);
 export const getCustomersContests = (query) => http.get(`/api/contests/getCustomersContests${query}`);
 export const downloadContestFile = ({fileName}) => http.get(`/api/contests/downloadFile/${fileName}`);

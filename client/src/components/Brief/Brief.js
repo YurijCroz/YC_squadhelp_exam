@@ -23,20 +23,17 @@ const Brief = ({
   goChat,
 }) => {
   const setNewContestData = (values) => {
-    const body = new FormData();
+    const data = new FormData();
     for (let [key, value] of Object.entries(values)) {
-      if (key !== "file" && value) {
-        body.append(key, value);
+      if (key !== "file" && value && value !== contestData[key]) {
+        data.append(key, value);
       }
     }
     if (values.file instanceof File) {
-      body.append("file", values.file);
+      data.append("file", values.file);
     }
-    const data = {
-      body,
-      contestId: contestData.id
-    }
-    update(data);
+    data.append("contestId", contestData.id);
+    if (Array.from(data.entries()).length > 1) update(data);
   };
 
   const getContestObjInfo = () => {
