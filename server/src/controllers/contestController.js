@@ -175,16 +175,15 @@ const resolveOffer = async (
 ) => {
   const finishedContest = await contestQueries.updateContestStatus(
     {
-      status: sequelize.literal(`   CASE
-            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${
-        CONSTANTS.CONTEST_STATUS_FINISHED
-      }'
-            WHEN "orderId"='${orderId}' AND "priority"=${priority + 1}  THEN '${
-        CONSTANTS.CONTEST_STATUS_ACTIVE
-      }'
-            ELSE '${CONSTANTS.CONTEST_STATUS_PENDING}'
-            END
-    `),
+      status: sequelize.literal(`
+        CASE WHEN "id"=${contestId}
+        AND "orderId"='${orderId}'
+        THEN '${CONSTANTS.CONTEST_STATUS_FINISHED}'
+        WHEN "orderId"='${orderId}'
+        AND "priority"=${priority + 1}
+        THEN '${CONSTANTS.CONTEST_STATUS_ACTIVE}'
+        ELSE '${CONSTANTS.CONTEST_STATUS_PENDING}' END
+      `),
     },
     { orderId },
     transaction
@@ -196,11 +195,11 @@ const resolveOffer = async (
   );
   const updatedOffers = await contestQueries.updateOfferStatus(
     {
-      status: sequelize.literal(` CASE
-            WHEN "id"=${offerId} THEN '${CONSTANTS.OFFER_STATUS_WON}'
-            ELSE '${CONSTANTS.OFFER_STATUS_REJECTED}'
-            END
-    `),
+      status: sequelize.literal(`
+        CASE WHEN "id"=${offerId}
+        THEN '${CONSTANTS.OFFER_STATUS_WON}'
+        ELSE '${CONSTANTS.OFFER_STATUS_REJECTED}' END
+      `),
     },
     {
       contestId,

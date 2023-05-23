@@ -1,5 +1,12 @@
 "use strict";
-const { Catalog, Conversation, sequelize } = require("../../models");
+const {
+  Catalog,
+  Conversation,
+  User,
+  Message,
+  sequelize,
+} = require("../../models");
+const NotFound = require("../../errors/UserNotFoundError");
 const { Op } = require("sequelize");
 const { logger } = require("../../log");
 
@@ -61,20 +68,128 @@ module.exports.updateColumnArray = async (
   secondUser
 ) => {
   try {
-    const state = await sequelize.query(
+    const [state] = await sequelize.query(
       `
-      UPDATE "Conversations"
-      SET "${columnName}"[${index + 1}] = ${flag}
-      WHERE "participant0" = ${firstUser}
-      AND "participant1" = ${secondUser}
-      RETURNING *;
-    `,
+        UPDATE "Conversations"
+        SET "${columnName}"[${index + 1}] = ${flag}
+        WHERE "participant0" = ${firstUser}
+        AND "participant1" = ${secondUser}
+        RETURNING *;
+      `,
       { nest: true, raw: true }
     );
-    state[0].participants = [state[0].participant0, state[0].participant1];
-    delete state[0].participant0;
-    delete state[0].participant1;
-    return state[0];
+    state.participants = [state.participant0, state.participant1];
+    delete state.participant0;
+    delete state.participant1;
+    return state;
+  } catch (error) {
+    logger.error(error);
+  }
+};
+
+module.exports.findLastMsgAndDetails = async (userId) => {
+  try {
+    const conversations = JSON.stringify(
+      await Conversation.findAll({
+        where: {
+          [Op.or]: [{ participant0: userId }, { participant1: userId }],
+        },
+        attributes: [
+          "id",
+          "blackList",
+          "favoriteList",
+          "participant0",
+          "participant1",
+        ],
+        order: [["createdAt", "ASC"]],
+        include: [
+          {
+            model: User,
+            as: "userFirst",
+            attributes: [
+              "id",
+              "firstName",
+              "lastName",
+              "displayName",
+              "avatar",
+            ],
+          },
+          {
+            model: User,
+            as: "userSecond",
+            attributes: [
+              "id",
+              "firstName",
+              "lastName",
+              "displayName",
+              "avatar",
+            ],
+          },
+          {
+            model: Message,
+            as: "messages",
+            attributes: ["sender", ["body", "text"], "createdAt"],
+            order: [["createdAt", "DESC"]],
+            limit: 1,
+          },
+        ],
+      })
+    );
+    return JSON.parse(conversations);
+  } catch (error) {
+    logger.error(error);
+  }
+};
+
+module.exports.findInterlocutorAndMessages = async (
+  interlocutorId,
+  tokenUserId
+) => {
+  const [firstUser, secondUser] =
+    tokenUserId <= interlocutorId
+      ? [tokenUserId, interlocutorId]
+      : [interlocutorId, tokenUserId];
+  try {
+    const conversation = JSON.stringify(
+      await User.findOne({
+        where: {
+          id: interlocutorId,
+        },
+        attributes: ["id", "firstName", "lastName", "displayName", "avatar"],
+        include: [
+          {
+            model: Conversation,
+            where: {
+              participant0: firstUser,
+              participant1: secondUser,
+            },
+            attributes: ["participant0", "participant1"],
+            include: [
+              {
+                model: Message,
+                as: "messages",
+                attributes: [
+                  "id",
+                  "sender",
+                  "body",
+                  "conversation",
+                  "createdAt",
+                  "updatedAt",
+                ],
+                order: [["createdAt", "ASC"]],
+                required: false,
+              },
+            ],
+            required: false,
+          },
+        ],
+      })
+    );
+    if (conversation) {
+      return JSON.parse(conversation);
+    } else {
+      throw new NotFound("user with this data didn`t exist");
+    }
   } catch (error) {
     logger.error(error);
   }

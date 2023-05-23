@@ -1,73 +1,38 @@
 "use strict";
 const {
-  User,
   Message,
   Catalog,
   Conversation,
   ConversationToCatalog,
   sequelize,
 } = require("../models");
-const { Op } = require("sequelize");
 const chatQueries = require("./queries/chatQueries.js");
-const userQueries = require("./queries/userQueries");
 const controller = require("../socketInit");
 const _ = require("lodash");
 const { logger } = require("../log");
 
 module.exports.getPreview = async (req, res, next) => {
   try {
-    const conversations = await Conversation.findAll({
-      where: {
-        [Op.or]: [
-          { participant0: req.tokenData.userId },
-          { participant1: req.tokenData.userId },
-        ],
-      },
-      attributes: [
-        "id",
-        "blackList",
-        "favoriteList",
-        "participant0",
-        "participant1",
-      ],
-      order: [["createdAt", "ASC"]],
-      include: [
-        {
-          model: User,
-          as: "userFirst",
-          attributes: ["id", "firstName", "lastName", "displayName", "avatar"],
-        },
-        {
-          model: User,
-          as: "userSecond",
-          attributes: ["id", "firstName", "lastName", "displayName", "avatar"],
-        },
-        {
-          model: Message,
-          as: "messages",
-          attributes: ["sender", ["body", "text"], "createdAt"],
-          order: [["createdAt", "DESC"]],
-          limit: 1,
-        },
-      ],
-    });
-    conversations.forEach((chat) => {
-      chat.dataValues.participants = [
-        chat.dataValues.participant0,
-        chat.dataValues.participant1,
-      ];
-      chat.dataValues.participant0 === req.tokenData.userId
-        ? (chat.dataValues.interlocutor = chat.dataValues.userSecond)
-        : (chat.dataValues.interlocutor = chat.dataValues.userFirst);
-      const message = chat.dataValues.messages.map((el) => el.dataValues);
-      delete chat.dataValues.messages;
-      delete chat.dataValues.userFirst;
-      delete chat.dataValues.userSecond;
-      delete chat.dataValues.participant0;
-      delete chat.dataValues.participant1;
-      chat.dataValues = { ...message["0"], ...chat.dataValues };
-    });
-    res.status(200).send(conversations);
+    const conversations = await chatQueries.findLastMsgAndDetails(
+      req.tokenData.userId
+    );
+    const preview = conversations.map(
+      ({
+        userFirst,
+        userSecond,
+        participant0,
+        participant1,
+        messages: [message],
+        ...other
+      }) => ({
+        ...message,
+        ...other,
+        participants: [participant0, participant1],
+        interlocutor:
+          userFirst.id === req.tokenData.userId ? userSecond : userFirst,
+      })
+    );
+    res.status(200).send(preview);
   } catch (error) {
     logger.error(error);
     next(error);
@@ -122,13 +87,7 @@ module.exports.addMessage = async (req, res, next) => {
     controller.getChatController().emitNewMessage(req.body.recipient, {
       message,
       preview: {
-        id: conversation.dataValues.id,
-        sender: req.tokenData.userId,
-        text: req.body.messageBody,
-        createAt: message.dataValues.createdAt,
-        participants: [firstUser, secondUser],
-        blackList: conversation.dataValues.blackList,
-        favoriteList: conversation.dataValues.favoriteList,
+        ...preview,
         interlocutor: {
           id: req.tokenData.userId,
           firstName: req.tokenData.firstName,
@@ -141,7 +100,7 @@ module.exports.addMessage = async (req, res, next) => {
     });
     res.status(201).send({
       message,
-      preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
+      preview: { ...preview, interlocutor: req.body.interlocutor },
     });
   } catch (error) {
     logger.error(error);
@@ -150,69 +109,16 @@ module.exports.addMessage = async (req, res, next) => {
 };
 
 module.exports.getChat = async (req, res, next) => {
-  const [firstUser, secondUser] =
-    req.tokenData.userId <= req.body.interlocutorId
-      ? [req.tokenData.userId, req.body.interlocutorId]
-      : [req.body.interlocutorId, req.tokenData.userId];
   try {
-    const conversation = await Conversation.findOne({
-      where: {
-        participant0: firstUser,
-        participant1: secondUser,
-      },
-      attributes: ["participant0", "participant1"],
-      include: [
-        {
-          model: Message,
-          as: "messages",
-          attributes: [
-            "id",
-            "sender",
-            "body",
-            "conversation",
-            "createdAt",
-            "updatedAt",
-          ],
-          order: [["createdAt", "ASC"]],
-        },
-        {
-          model: User,
-          as: "userFirst",
-          attributes: ["id", "firstName", "lastName", "displayName", "avatar"],
-        },
-        {
-          model: User,
-          as: "userSecond",
-          attributes: ["id", "firstName", "lastName", "displayName", "avatar"],
-        },
-      ],
+    const userDataAndChat = await chatQueries.findInterlocutorAndMessages(
+      req.body.interlocutorId,
+      req.tokenData.userId
+    );
+    const formatChatResponse = ({ Conversations, ...other }) => ({
+      messages: Conversations[0]?.messages || [],
+      interlocutor: other,
     });
-    if (conversation) {
-      conversation.dataValues.participant0 === req.tokenData.userId
-        ? (conversation.dataValues.interlocutor =
-            conversation.dataValues.userSecond)
-        : (conversation.dataValues.interlocutor =
-            conversation.dataValues.userFirst);
-      delete conversation.dataValues.userFirst;
-      delete conversation.dataValues.userSecond;
-      delete conversation.dataValues.participant0;
-      delete conversation.dataValues.participant1;
-      res.status(200).send(conversation);
-    } else {
-      const interlocutor = await userQueries.findUser({
-        id: req.body.interlocutorId,
-      });
-      res.status(200).send({
-        messages: [],
-        interlocutor: {
-          firstName: interlocutor.firstName,
-          lastName: interlocutor.lastName,
-          displayName: interlocutor.displayName,
-          id: interlocutor.id,
-          avatar: interlocutor.avatar,
-        },
-      });
-    }
+    res.status(200).send(formatChatResponse(userDataAndChat));
   } catch (error) {
     logger.error(error);
     next(error);
