@@ -6,10 +6,8 @@ import { addChatToCatalog } from "../../../../actions/actionCreator";
 import styles from "./AddToCatalog.module.sass";
 
 const AddToCatalog = ({ catalogList, addChatToCatalog, addChatId }) => {
-  const catalogsArray = catalogList.map((catalog) => ({
-    label: catalog.catalogName,
-    value: catalog.id,
-  }));
+  const selectArray = catalogList.map((catalog) => catalog.catalogName);
+  const valueArray = catalogList.map((catalog) => catalog.id);
 
   const click = (values) => {
     addChatToCatalog({ chatId: addChatId, catalogId: values.catalogId });
@@ -17,7 +15,7 @@ const AddToCatalog = ({ catalogList, addChatToCatalog, addChatId }) => {
 
   return (
     <>
-      {catalogsArray.length !== 0 ? (
+      {selectArray.length !== 0 ? (
         <Formik onSubmit={click} initialValues={{ catalogId: "" }}>
           <Form className={styles.form}>
             <SelectInput
@@ -28,7 +26,8 @@ const AddToCatalog = ({ catalogList, addChatToCatalog, addChatId }) => {
                 inputHeader: styles.selectHeader,
                 selectInput: styles.select,
               }}
-              optionsArray={catalogsArray}
+              optionsArray={selectArray}
+              valueArray={valueArray}
             />
             <button type="submit">Add</button>
           </Form>
@@ -42,12 +41,10 @@ const AddToCatalog = ({ catalogList, addChatToCatalog, addChatId }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  catalogList: state.chatStore.catalogList,
+const mapStateToProps = (state) => state.chatStore;
+
+const mapDispatchToProps = (dispatch) => ({
+  addChatToCatalog: (data) => dispatch(addChatToCatalog(data)),
 });
 
-const mapDispatchToProps = {
-  addChatToCatalog,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddToCatalog); 
+export default connect(mapStateToProps, mapDispatchToProps)(AddToCatalog);
