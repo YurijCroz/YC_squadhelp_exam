@@ -10,20 +10,22 @@ import ChatHeader from "../../ChatComponents/ChatHeader/ChatHeader";
 import styles from "./Dialog.module.sass";
 import ChatInput from "../../ChatComponents/ChatInput/ChatInput";
 
-const Dialog = ({
-  chatData,
-  interlocutor,
-  messages,
-  userId,
-  getDialog,
-  clearMessageList,
-}) => {
+const Dialog = (props) => {
+  const {
+    interlocutor,
+    messages,
+    userId,
+    chatData,
+    getDialog,
+    clearMessageList,
+  } = props;
+
   const messagesEnd = useRef(null);
 
   useEffect(() => {
     getDialog({ interlocutorId: interlocutor.id });
     scrollToBottom();
-  }, [getDialog, interlocutor.id]);
+  }, []);
 
   useEffect(() => {
     if (messagesEnd.current) scrollToBottom();
@@ -74,6 +76,7 @@ const Dialog = ({
           <span className={styles.messageTime}>
             {moment(message.createdAt).format("HH:mm")}
           </span>
+          <div ref={messagesEnd} />
         </div>
       );
     });

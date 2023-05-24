@@ -62,12 +62,19 @@ module.exports.getCatalog = async (catalogId, userId) => {
 
 module.exports.updateColumnArray = async (
   columnName,
-  index,
   flag,
-  firstUser,
-  secondUser
+  participants,
+  tokenUserId
 ) => {
+  const sortParticipants = participants.sort(
+    (participant1, participant2) => participant1 - participant2
+  );
+  const index = sortParticipants.indexOf(tokenUserId);
+  const [firstUser, secondUser] = sortParticipants;
   try {
+    if (index < 0) {
+      throw new NotFound("user with this data didn`t exist");
+    }
     const [state] = await sequelize.query(
       `
         UPDATE "Conversations"
@@ -149,8 +156,10 @@ module.exports.findInterlocutorAndMessages = async (
     tokenUserId <= interlocutorId
       ? [tokenUserId, interlocutorId]
       : [interlocutorId, tokenUserId];
+  const alias =
+    firstUser === tokenUserId ? "conversationSecond" : "conversationFirst";
   try {
-    const conversation = JSON.stringify(
+    const data = JSON.stringify(
       await User.findOne({
         where: {
           id: interlocutorId,
@@ -159,6 +168,7 @@ module.exports.findInterlocutorAndMessages = async (
         include: [
           {
             model: Conversation,
+            as: alias,
             where: {
               participant0: firstUser,
               participant1: secondUser,
@@ -185,8 +195,11 @@ module.exports.findInterlocutorAndMessages = async (
         ],
       })
     );
-    if (conversation) {
-      return JSON.parse(conversation);
+    if (data) {
+      const interlocutorAndMessages = JSON.parse(data);
+      interlocutorAndMessages.conversation = interlocutorAndMessages[alias];
+      delete interlocutorAndMessages[alias];
+      return interlocutorAndMessages;
     } else {
       throw new NotFound("user with this data didn`t exist");
     }

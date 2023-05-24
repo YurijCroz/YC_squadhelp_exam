@@ -114,8 +114,8 @@ module.exports.getChat = async (req, res, next) => {
       req.body.interlocutorId,
       req.tokenData.userId
     );
-    const formatChatResponse = ({ Conversations, ...other }) => ({
-      messages: Conversations[0]?.messages || [],
+    const formatChatResponse = ({ conversation, ...other }) => ({
+      messages: conversation[0]?.messages || [],
       interlocutor: other,
     });
     res.status(200).send(formatChatResponse(userDataAndChat));
@@ -126,19 +126,13 @@ module.exports.getChat = async (req, res, next) => {
 };
 
 module.exports.blackList = async (req, res, next) => {
-  const participants = req.body.participants.sort(
-    (participant1, participant2) => participant1 - participant2
-  );
-  const index = participants.indexOf(req.tokenData.userId);
-  if (index < 0) return;
   const columnName = "blackList";
   try {
     const chat = await chatQueries.updateColumnArray(
       columnName,
-      index,
       req.body.blackListFlag,
-      req.body.participants[0],
-      req.body.participants[1]
+      req.body.participants,
+      req.tokenData.userId
     );
     const interlocutorId = req.body.participants.filter(
       (participant) => participant !== req.tokenData.userId
@@ -152,19 +146,13 @@ module.exports.blackList = async (req, res, next) => {
 };
 
 module.exports.favoriteChat = async (req, res, next) => {
-  const participants = req.body.participants.sort(
-    (participant1, participant2) => participant1 - participant2
-  );
-  const index = participants.indexOf(req.tokenData.userId);
-  if (index < 0) return;
   const columnName = "favoriteList";
   try {
     const state = await chatQueries.updateColumnArray(
       columnName,
-      index,
       req.body.favoriteFlag,
-      req.body.participants[0],
-      req.body.participants[1]
+      req.body.participants,
+      req.tokenData.userId
     );
     res.status(200).send(state);
   } catch (error) {

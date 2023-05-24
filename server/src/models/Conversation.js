@@ -14,14 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "participant1",
         targetKey: "id",
       });
-      Conversation.belongsTo(User, {
-        foreignKey: "participant0",
-        targetKey: "id",
-      });
-      Conversation.belongsTo(User, {
-        foreignKey: "participant1",
-        targetKey: "id",
-      });
       Conversation.hasMany(Message, {
         as: "messages",
         foreignKey: "conversation",
