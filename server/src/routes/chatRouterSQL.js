@@ -5,7 +5,7 @@ const validators = require("../middleware/validators");
 
 const chatRouterSQL = Router();
 
-chatRouterSQL.post("/getPreview", chatController.getPreview);
+chatRouterSQL.get("/getPreview", chatController.getPreview);
 
 chatRouterSQL.post(
   "/newMessage",
@@ -13,19 +13,19 @@ chatRouterSQL.post(
   chatController.addMessage
 );
 
-chatRouterSQL.post(
-  "/getChat",
+chatRouterSQL.get(
+  "/getChat/:interlocutorId",
   validators.validateGetChatData,
   chatController.getChat
 );
 
-chatRouterSQL.post(
+chatRouterSQL.patch(
   "/blackList",
   validators.validateBlackListData,
   chatController.blackList
 );
 
-chatRouterSQL.post(
+chatRouterSQL.patch(
   "/favorite",
   validators.validateFavoriteChatData,
   chatController.favoriteChat
@@ -37,8 +37,8 @@ chatRouterSQL.post(
   chatController.createCatalog
 );
 
-chatRouterSQL.post(
-  "/updateNameCatalog",
+chatRouterSQL.patch(
+  "/updateNameCatalog/:catalogId",
   validators.validateUpdateNameCatalogData,
   chatController.updateNameCatalog
 );
@@ -49,18 +49,18 @@ chatRouterSQL.post(
   chatController.addNewChatToCatalog
 );
 
-chatRouterSQL.post(
+chatRouterSQL.delete(
   "/removeChatFromCatalog",
   validators.validateRemoveChatFromCatalogData,
   chatController.removeChatFromCatalog
 );
 
-chatRouterSQL.post(
-  "/deleteCatalog",
+chatRouterSQL.delete(
+  "/deleteCatalog/:catalogId",
   validators.validateDeleteCatalogData,
   chatController.deleteCatalog
 );
 
-chatRouterSQL.post("/getCatalogs", chatController.getCatalogs);
+chatRouterSQL.get("/getCatalogs", chatController.getCatalogs);
 
 module.exports = chatRouterSQL;

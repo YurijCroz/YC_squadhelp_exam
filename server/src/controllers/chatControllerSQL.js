@@ -10,6 +10,7 @@ const chatQueries = require("./queries/chatQueries.js");
 const controller = require("../socketInit");
 const _ = require("lodash");
 const { logger } = require("../log");
+const { param } = require("../routes/chatRouterSQL");
 
 module.exports.getPreview = async (req, res, next) => {
   try {
@@ -111,7 +112,7 @@ module.exports.addMessage = async (req, res, next) => {
 module.exports.getChat = async (req, res, next) => {
   try {
     const userDataAndChat = await chatQueries.findInterlocutorAndMessages(
-      req.body.interlocutorId,
+      req.params.interlocutorId,
       req.tokenData.userId
     );
     const formatChatResponse = ({ conversation, ...other }) => ({
@@ -191,13 +192,13 @@ module.exports.updateNameCatalog = async (req, res, next) => {
       { catalogName: req.body.catalogName.trim() },
       {
         where: {
-          id: req.body.catalogId,
+          id: req.params.catalogId,
           userId: req.tokenData.userId,
         },
       }
     );
     const catalog = await chatQueries.getCatalog(
-      req.body.catalogId,
+      req.params.catalogId,
       req.tokenData.userId
     );
     res.status(200).send(catalog);
@@ -239,19 +240,19 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
   try {
     //seek and destroy
     const result = await chatQueries.userAuthenticationForCatalog({
-      id: req.body.catalogId,
+      id: req.query.catalogId,
       userId: req.tokenData.userId,
     });
     if (result) {
       await ConversationToCatalog.destroy({
         where: {
-          catalogId: req.body.catalogId,
-          conversationId: req.body.chatId,
+          catalogId: req.query.catalogId,
+          conversationId: req.query.chatId,
         },
       });
     }
     const catalog = await chatQueries.getCatalog(
-      req.body.catalogId,
+      req.query.catalogId,
       req.tokenData.userId
     );
     res.status(200).send(catalog);
@@ -266,20 +267,20 @@ module.exports.deleteCatalog = async (req, res, next) => {
   try {
     //seek and destroy
     const result = await chatQueries.userAuthenticationForCatalog({
-      id: req.body.catalogId,
+      id: req.params.catalogId,
       userId: req.tokenData.userId,
     });
     if (result) {
       await ConversationToCatalog.destroy(
         {
-          where: { catalogId: req.body.catalogId },
+          where: { catalogId: req.params.catalogId },
         },
         { transaction: transaction }
       );
       await Catalog.destroy(
         {
           where: {
-            id: req.body.catalogId,
+            id: req.params.catalogId,
             userId: req.tokenData.userId,
           },
         },

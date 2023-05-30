@@ -2,6 +2,7 @@ import { put, select } from "redux-saga/effects";
 import remove from "lodash/remove";
 import isEqual from "lodash/isEqual";
 import ACTION from "../actions/actionTypes";
+import { objectToQueryString } from "../utils/utils";
 import * as restController from "../api/rest/restController";
 
 export function* previewSaga() {
@@ -140,7 +141,8 @@ export function* deleteCatalog(action) {
 
 export function* removeChatFromCatalogSaga(action) {
   try {
-    const { data } = yield restController.removeChatFromCatalog(action.data);
+    const query = objectToQueryString(action.data);
+    const { data } = yield restController.removeChatFromCatalog(query);
     const { catalogList } = yield select((state) => state.chatStore);
     for (let i = 0; i < catalogList.length; i++) {
       if (catalogList[i].id === data.id) {

@@ -53,7 +53,7 @@ module.exports.validateAddMessageData = async (req, res, next) => {
 };
 
 module.exports.validateGetChatData = async (req, res, next) => {
-  const validationResult = await schemes.getChatScheme.isValid(req.body);
+  const validationResult = await schemes.getChatScheme.isValid(req.params);
   if (!validationResult) {
     return next(new BadRequestError("Invalid data for get chat"));
   } else {
@@ -89,9 +89,10 @@ module.exports.validateCreateCatalogData = async (req, res, next) => {
 };
 
 module.exports.validateUpdateNameCatalogData = async (req, res, next) => {
-  const validationResult = await schemes.updateNameCatalogScheme.isValid(
-    req.body
-  );
+  const validationResult = await schemes.updateNameCatalogScheme.isValid({
+    ...req.body,
+    ...req.params,
+  });
   if (!validationResult) {
     return next(new BadRequestError("Invalid data for update name catalog"));
   } else {
@@ -113,7 +114,7 @@ module.exports.validateAddNewChatToCatalogData = async (req, res, next) => {
 
 module.exports.validateRemoveChatFromCatalogData = async (req, res, next) => {
   const validationResult =
-    await schemes.addAndRemoveChatToCatalogScheme.isValid(req.body);
+    await schemes.addAndRemoveChatToCatalogScheme.isValid(req.query);
   if (!validationResult) {
     return next(
       new BadRequestError("Invalid data for remove chat from catalog")
@@ -124,7 +125,9 @@ module.exports.validateRemoveChatFromCatalogData = async (req, res, next) => {
 };
 
 module.exports.validateDeleteCatalogData = async (req, res, next) => {
-  const validationResult = await schemes.deleteCatalogScheme.isValid(req.body);
+  const validationResult = await schemes.deleteCatalogScheme.isValid(
+    req.params
+  );
   if (!validationResult) {
     return next(new BadRequestError("Invalid data for delete catalog"));
   } else {

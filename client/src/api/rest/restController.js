@@ -8,29 +8,34 @@ const {
   URL_REFRESH_TOKEN,
 } = CONSTANTS;
 
+//AUTH REQUESTS
 export const registerRequest = (data) => http.post(URL_REGISTRATION, data);
 export const loginRequest = (data) => http.post(URL_LOGIN, data);
 export const refreshTokenRequest = () => http.post(URL_REFRESH_TOKEN);
 
-export const getUser = () => http.post('/api/users/getUser');
+//PAYMENT REQUESTS
 export const payMent = (data) => http.post('/api/payment/pay', data.formData);
-export const changeMark = (data) => http.post('/api/users/changeMark', data);
-export const getPreviewChat = () => http.post('/api/chatSQL/getPreview');
-export const getDialog = (data) => http.post('/api/chatSQL/getChat', data);
 export const cashOut = (data) => http.post('/api/payment/cashOut', data);
-export const updateUser = (data) => http.post('/api/users/updateUser', data);
-export const newMessage = (data) => http.post('/api/chatSQL/newMessage', data);
-export const changeChatFavorite = (data) => http.post('/api/chatSQL/favorite', data);
-export const changeChatBlock = (data) => http.post('/api/chatSQL/blackList', data);
-export const getCatalogList = (data) => http.post('/api/chatSQL/getCatalogs', data);
-export const addChatToCatalog = (data) => http.post('/api/chatSQL/addNewChatToCatalog', data);
-export const createCatalog = (data) => http.post('/api/chatSQL/createCatalog', data);
-export const deleteCatalog = (data) => http.post('/api/chatSQL/deleteCatalog', data);
-export const removeChatFromCatalog = (data) => http.post('/api/chatSQL/removeChatFromCatalog', data);
-export const changeCatalogName = (data) => http.post('/api/chatSQL/updateNameCatalog', data);
 
+//USER REQUESTS
+export const getUser = () => http.post('/api/users/getUser');
+export const changeMark = (data) => http.post('/api/users/changeMark', data);
+export const updateUser = (data) => http.post('/api/users/updateUser', data);
 
 //true requests
+//CHAT REQUESTS
+export const newMessage = (data) => http.post('/api/chatSQL/newMessage', data);
+export const addChatToCatalog = (data) => http.post('/api/chatSQL/addNewChatToCatalog', data);
+export const createCatalog = (data) => http.post('/api/chatSQL/createCatalog', data);
+export const getPreviewChat = () => http.get('/api/chatSQL/getPreview');
+export const getDialog = ({interlocutorId}) => http.get(`/api/chatSQL/getChat/${interlocutorId}`);
+export const getCatalogList = () => http.get('/api/chatSQL/getCatalogs');
+export const deleteCatalog = ({catalogId}) => http.delete(`/api/chatSQL/deleteCatalog/${catalogId}`);
+export const removeChatFromCatalog = (query) => http.delete(`/api/chatSQL/removeChatFromCatalog${query}`);
+export const changeCatalogName = ({catalogId, ...other}) => http.patch(`/api/chatSQL/updateNameCatalog/${catalogId}`, {...other});
+export const changeChatFavorite = (data) => http.patch('/api/chatSQL/favorite', data);
+export const changeChatBlock = (data) => http.patch('/api/chatSQL/blackList', data);
+
 //CONTEST REQUESTS
 export const getContestById = ({contestId}) => http.get(`/api/contests/getContestById/${contestId}`);
 export const dataForContest = (query) => http.get(URL_DATA_FOR_CONTEST + query);
