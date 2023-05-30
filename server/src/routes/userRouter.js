@@ -7,16 +7,16 @@ const upload = require("../utils/fileUpload");
 
 const usersRouter = Router();
 
-usersRouter.post("/getUser", checkToken.checkAuth);
+usersRouter.get("/getUser", checkToken.checkAuth);
 
-usersRouter.post(
-  "/changeMark",
+usersRouter.patch(
+  "/changeMark/:creatorId",
   checkToken.checkToken,
   checkRoles.onlyForCustomer,
   userController.changeMark
 );
 
-usersRouter.post(
+usersRouter.patch(
   "/updateUser",
   checkToken.checkToken,
   upload.uploadAvatar,

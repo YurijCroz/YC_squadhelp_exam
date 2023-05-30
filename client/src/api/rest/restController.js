@@ -14,15 +14,14 @@ export const loginRequest = (data) => http.post(URL_LOGIN, data);
 export const refreshTokenRequest = () => http.post(URL_REFRESH_TOKEN);
 
 //PAYMENT REQUESTS
-export const payMent = (data) => http.post('/api/payment/pay', data.formData);
+export const payMent = ({formData}) => http.post('/api/payment/pay', formData);
 export const cashOut = (data) => http.post('/api/payment/cashOut', data);
 
 //USER REQUESTS
-export const getUser = () => http.post('/api/users/getUser');
-export const changeMark = (data) => http.post('/api/users/changeMark', data);
-export const updateUser = (data) => http.post('/api/users/updateUser', data);
+export const getUser = () => http.get('/api/users/getUser');
+export const changeMark = ({creatorId, ...other}) => http.patch(`/api/users/changeMark/${creatorId}`, {...other});
+export const updateUser = (data) => http.patch('/api/users/updateUser', data);
 
-//true requests
 //CHAT REQUESTS
 export const newMessage = (data) => http.post('/api/chatSQL/newMessage', data);
 export const addChatToCatalog = (data) => http.post('/api/chatSQL/addNewChatToCatalog', data);

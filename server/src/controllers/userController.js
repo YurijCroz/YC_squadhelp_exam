@@ -24,7 +24,8 @@ module.exports.changeMark = async (req, res, next) => {
   let sum = 0;
   let avg = 0;
   let transaction;
-  const { isFirst, offerId, mark, creatorId } = req.body;
+  const { isFirst, offerId, mark } = req.body;
+  const { creatorId } = req.params;
   const userId = req.tokenData.userId;
   try {
     transaction = await sequelize.transaction({
@@ -46,10 +47,9 @@ module.exports.changeMark = async (req, res, next) => {
       sum += offersArray[i].dataValues.mark;
     }
     avg = sum / offersArray.length;
-
     await userQueries.updateUser({ rating: avg }, creatorId, transaction);
     transaction.commit();
-    controller.getNotificationController().emitChangeMark(creatorId);
+    controller.getNotificationController().emitChangeMark(Number(creatorId));
     res.send({ userId: creatorId, rating: avg });
   } catch (error) {
     transaction.rollback();
