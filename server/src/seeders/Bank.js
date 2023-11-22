@@ -1,21 +1,23 @@
+const CONSTANTS = require("../constants");
+
 const bankCard = [
   {
-    cardNumber: "4564654564564564",
-    name: "SquadHelp",
-    expiry: "11/23",
-    cvc: "453",
+    cardNumber: CONSTANTS.SQUADHELP_BANK_NUMBER,
+    name: CONSTANTS.SQUADHELP_BANK_NAME,
+    expiry: CONSTANTS.SQUADHELP_BANK_EXPIRY,
+    cvc: CONSTANTS.SQUADHELP_BANK_CVC,
     balance: 2000,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     cardNumber: "4111111111111111",
     name: "yriy",
-    expiry: "09/23",
+    expiry: "09/26",
     cvc: "505",
     balance: 5000,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
 ];
 
