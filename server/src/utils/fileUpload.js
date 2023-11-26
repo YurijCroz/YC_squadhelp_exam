@@ -4,7 +4,7 @@ const path = require("path");
 const multer = require("multer");
 const ServerError = require("../errors/ServerError");
 const env = process.env.NODE_ENV || "development";
-const devFilePath = path.resolve(__dirname, "../../public");
+const devFilePath = path.resolve(__dirname, "../public");
 const { logger } = require("../log");
 const {
   AVATAR_DIR,
@@ -14,28 +14,32 @@ const {
 
 const filePath = devFilePath;
 
-if (!fs.existsSync(filePath)) {
-  fs.mkdirSync(filePath, {
-    recursive: true,
-  });
-}
+try {
+  if (!fs.existsSync(filePath)) {
+    fs.mkdirSync(filePath, {
+      recursive: true,
+    });
+  }
 
-if (!fs.existsSync(`${filePath}/${AVATAR_DIR}`)) {
-  fs.mkdirSync(`${filePath}/${AVATAR_DIR}`, {
-    recursive: true,
-  });
-}
+  if (!fs.existsSync(`${filePath}/${AVATAR_DIR}`)) {
+    fs.mkdirSync(`${filePath}/${AVATAR_DIR}`, {
+      recursive: true,
+    });
+  }
 
-if (!fs.existsSync(`${filePath}/${OFFER_IMAGES_DIR}`)) {
-  fs.mkdirSync(`${filePath}/${OFFER_IMAGES_DIR}`, {
-    recursive: true,
-  });
-}
+  if (!fs.existsSync(`${filePath}/${OFFER_IMAGES_DIR}`)) {
+    fs.mkdirSync(`${filePath}/${OFFER_IMAGES_DIR}`, {
+      recursive: true,
+    });
+  }
 
-if (!fs.existsSync(`${filePath}/${CONTEST_FILE_DIR}`)) {
-  fs.mkdirSync(`${filePath}/${CONTEST_FILE_DIR}`, {
-    recursive: true,
-  });
+  if (!fs.existsSync(`${filePath}/${CONTEST_FILE_DIR}`)) {
+    fs.mkdirSync(`${filePath}/${CONTEST_FILE_DIR}`, {
+      recursive: true,
+    });
+  }
+} catch (error) {
+  console.error(error);
 }
 
 const storageHandler = (req) => {
