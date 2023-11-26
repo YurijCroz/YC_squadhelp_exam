@@ -1,27 +1,27 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "password",
-    "database": "todo-dev",
-    "host": "db-dev",
+    "username": "fake_squadhelp_user",
+    "password": "Ehm1y1jX18cFRb0teD7Egw9yKfpNHwH3",
+    "database": "fake_squadhelp",
+    "host": "dpg-clhgooebbf9s73b15o8g-a",
     "dialect": "postgres",
     "operatorsAliases": "Op",
     "seederStorage": "sequelize"
   },
   "test": {
-    "username": "postgres",
-    "password": "admin",
-    "database": "todo-test",
-    "host": "localhost",
+    "username": "fake_squadhelp_user",
+    "password": "Ehm1y1jX18cFRb0teD7Egw9yKfpNHwH3",
+    "database": "fake_squadhelp",
+    "host": "dpg-clhgooebbf9s73b15o8g-a",
     "dialect": "postgres",
     "operatorsAliases": "Op",
     "seederStorage": "sequelize"
   },
   "production": {
-    "username": "postgres",
-    "password": "password",
-    "database": "todo-prod",
-    "host": "db-prod",
+    "username": "fake_squadhelp_user",
+    "password": "Ehm1y1jX18cFRb0teD7Egw9yKfpNHwH3",
+    "database": "fake_squadhelp",
+    "host": "dpg-clhgooebbf9s73b15o8g-a",
     "dialect": "postgres",
     "operatorsAliases": "Op",
     "seederStorage": "sequelize"

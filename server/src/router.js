@@ -17,9 +17,6 @@ router.use("/moderation", checkToken, onlyForModerator, moderatorRouter);
 const usersRouter = require("./routes/userRouter.js");
 router.use("/users", usersRouter);
 
-const chatRouter = require("./routes/chatRouter.js");
-router.use("/chat", checkToken, chatRouter);
-
 const chatRouterSQL = require("./routes/chatRouterSQL.js");
 router.use("/chatSQL", checkToken, chatRouterSQL);
 

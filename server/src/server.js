@@ -1,14 +1,14 @@
 "use strict";
-const http = require("http");
+// const http = require("http");
 const app = require("./app.js");
 const controller = require("./socketInit");
 const job = require("./cron");
 
 const PORT = process.env.PORT || 3000;
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
-server.listen(PORT, () =>
+const server = app.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`)
 );
 
