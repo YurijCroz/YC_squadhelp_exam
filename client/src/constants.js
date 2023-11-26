@@ -26,7 +26,7 @@ export default Object.freeze({
   OFFER_STATUS_PENDING: "pending",
   STATIC_IMAGES_PATH: "/staticImages/",
   ANONYM_IMAGE_PATH: "/staticImages/anonym.png",
-  BASE_URL: `http://${serverIP}:${serverPort}/`,
+  BASE_URL: `https://fake-squadhelp-server.onrender.com/`,
   ACCESS_TOKEN: "accessToken",
   REFRESH_TOKEN: "refreshToken",
   MIN_LIFE_TIME_TOKEN: 60,
@@ -34,10 +34,7 @@ export default Object.freeze({
   URL_DATA_FOR_CONTEST: "/api/contests/dataForContest",
   URL_REGISTRATION: "/api/auth/registration",
   URL_LOGIN: "/api/auth/login",
-  PUBLIC_URL:
-    env === "production"
-      ? `http://${serverIP}:80/`
-      : `http://${serverIP}:${serverPort}/public/`,
+  PUBLIC_URL: `https://fake-squadhelp-server.onrender.com/public/`,
   NORMAL_PREVIEW_CHAT_MODE: "NORMAL_PREVIEW_CHAT_MODE",
   FAVORITE_PREVIEW_CHAT_MODE: "FAVORITE_PREVIEW_CHAT_MODE",
   BLOCKED_PREVIEW_CHAT_MODE: "BLOCKED_PREVIEW_CHAT_MODE",

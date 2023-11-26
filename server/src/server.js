@@ -4,7 +4,7 @@ const app = require("./app.js");
 const controller = require("./socketInit");
 const job = require("./cron");
 
-const PORT = process.env.PORT || 3000;
+const PORT = 443;
 
 // const server = http.createServer(app);
 
