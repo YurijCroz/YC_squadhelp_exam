@@ -12,7 +12,7 @@ const {
   CONTEST_FILE_DIR,
 } = require("../constants");
 
-const filePath = env === "production" ? "/var/www/html" : devFilePath;
+const filePath = devFilePath;
 
 if (!fs.existsSync(filePath)) {
   fs.mkdirSync(filePath, {
